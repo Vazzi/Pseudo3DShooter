@@ -1,5 +1,7 @@
 #include "Game.hpp"
+
 #include <iostream>
+#include "InputHandler.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -27,7 +29,7 @@ void Game::render(Uint32 deltaTime) {
 }
 
 void Game::update(Uint32 deltaTime) {
-    // emtpy
+    TheInputHandler::Instance()->update();
 }
 
 void Game::handleEvents(Uint32 deltaTime) {
@@ -36,6 +38,9 @@ void Game::handleEvents(Uint32 deltaTime) {
 
 void Game::clean() {
     std::cout << "cleaning game\n";
+
+    TheInputHandler::Instance()->clean();
+
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
     SDL_Quit();
