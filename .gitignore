@@ -1,0 +1,7 @@
+bin/
+*.swp
+CMakeCache.txt
+CMakeFiles/
+Makefile
+cmake_install.cmake
+.syntastic_cpp_config
