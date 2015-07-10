@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "InputHandler.hpp"
+#include "TextureManager.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -21,19 +22,23 @@ bool Game::init() {
         return false;
     }
 
+    m_isRunning = true;
+
     return true;
 }
 
 void Game::render(Uint32 deltaTime) {
-    // emtpy
+    SDL_RenderClear(m_pRenderer);
+
+    SDL_RenderPresent(m_pRenderer);
 }
 
 void Game::update(Uint32 deltaTime) {
-    TheInputHandler::Instance()->update();
+    // emtpy
 }
 
 void Game::handleEvents(Uint32 deltaTime) {
-    // emtpy
+    TheInputHandler::Instance()->update();
 }
 
 void Game::clean() {
