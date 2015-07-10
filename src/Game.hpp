@@ -13,8 +13,7 @@ class Game {
             return s_pInstance;
         }
 
-        bool init(const char* title, int xpos, int ypos, int height,
-                int width, bool fullscreen);
+        bool init();
         void render(Uint32 deltaTime);
         void update(Uint32 deltaTime);
         void handleEvents(Uint32 deltaTime);
@@ -28,6 +27,12 @@ class Game {
         static Game* s_pInstance;
 
         bool m_isRunning;
+        SDL_Window* m_pWindow;
+        SDL_Renderer* m_pRenderer;
+
+        bool initWindow(const char* title, int xpos, int ypos, int height,
+                int width, bool fullscreen);
+        bool initRenderer();
 
 };
 

@@ -31,13 +31,15 @@ void gameLoop() {
         TheGame::Instance()->handleEvents(deltaTime);
         TheGame::Instance()->update(deltaTime);
         TheGame::Instance()->render(deltaTime);
+        g_framePerSeconds++;
+        SDL_Delay(2);
     }
 }
 
 int main(int argc, char *argv[]) {
 
     std::cout << "game init attempt...\n";
-    if (TheGame::Instance()->init("Game", 100, 100, 640, 480, false)) {
+    if (TheGame::Instance()->init()) {
         std::cout << "game init success!\n";
         gameLoop();
     } else {
