@@ -22,6 +22,7 @@ class Game {
         void clean();
         void quit();
         bool running();
+        SDL_Renderer* getRenderer() const { return m_pRenderer; }
         GameStateMachine* getStateMachine();
 
     private:

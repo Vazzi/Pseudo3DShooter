@@ -1,5 +1,6 @@
 #include "MainMenuState.hpp"
 #include "../TextureManager.hpp"
+#include "../FontManager.hpp"
 #include <iostream>
 
 const std::string MainMenuState::s_menuID = "MENU";
@@ -22,11 +23,6 @@ bool MainMenuState::onEnter() {
 }
 
 bool MainMenuState::onExit() {
-    // clear the texture manager
-    for(int i = 0; i < m_textureIDList.size(); i++) {
-        TheTextureManager::Instance()->
-            clearFromTextureMap(m_textureIDList[i]);
-    }
 
     std::cout << "exiting MainMenuState\n";
     return true;

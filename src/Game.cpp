@@ -3,6 +3,7 @@
 #include <iostream>
 #include "InputHandler.hpp"
 #include "TextureManager.hpp"
+#include "FontManager.hpp"
 #include "states/GameStateMachine.hpp"
 #include "states/MainMenuState.hpp"
 
@@ -26,6 +27,10 @@ bool Game::init() {
 
     initStateMachine();
 
+    if (!TheFontManager::Instance()->load(m_pRenderer)) {
+        return false;
+    }
+
     m_isRunning = true;
 
     return true;
@@ -33,12 +38,12 @@ bool Game::init() {
 
 void Game::render(Uint32 deltaTime) {
     SDL_RenderClear(m_pRenderer);
-
+    m_pStateMachine->render();
     SDL_RenderPresent(m_pRenderer);
 }
 
 void Game::update(Uint32 deltaTime) {
-    // emtpy
+    m_pStateMachine->update();
 }
 
 void Game::handleEvents(Uint32 deltaTime) {
