@@ -3,6 +3,8 @@
 
 #include <SDL2/SDL.h>
 
+class GameStateMachine;
+
 class Game {
     public:
         static Game* Instance() {
@@ -20,6 +22,7 @@ class Game {
         void clean();
         void quit();
         bool running();
+        GameStateMachine* getStateMachine();
 
     private:
         Game();
@@ -29,10 +32,12 @@ class Game {
         bool m_isRunning;
         SDL_Window* m_pWindow;
         SDL_Renderer* m_pRenderer;
+        GameStateMachine* m_pStateMachine;
 
         bool initWindow(const char* title, int xpos, int ypos, int height,
                 int width, bool fullscreen);
         bool initRenderer();
+        void initStateMachine();
 
 };
 

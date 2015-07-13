@@ -1,6 +1,14 @@
 #include "GameStateMachine.hpp"
 #include "GameState.hpp"
 
+GameStateMachine::~GameStateMachine() {
+    for (std::vector<GameState *>::iterator it = m_gameStates.begin();
+            it != m_gameStates.end(); ++it) {
+        delete *it;
+    }
+    m_gameStates.clear();
+}
+
 void GameStateMachine::update() {
     if (!m_gameStates.empty()) {
         m_gameStates.back()->update();

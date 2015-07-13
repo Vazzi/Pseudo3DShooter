@@ -3,6 +3,8 @@
 #include <iostream>
 #include "InputHandler.hpp"
 #include "TextureManager.hpp"
+#include "states/GameStateMachine.hpp"
+#include "states/MainMenuState.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -21,6 +23,8 @@ bool Game::init() {
         std::cout << "SDL init fail\n";
         return false;
     }
+
+    initStateMachine();
 
     m_isRunning = true;
 
@@ -45,6 +49,7 @@ void Game::clean() {
     std::cout << "cleaning game\n";
 
     TheInputHandler::Instance()->clean();
+    delete m_pStateMachine;
 
     SDL_DestroyWindow(m_pWindow);
     SDL_DestroyRenderer(m_pRenderer);
@@ -93,5 +98,14 @@ bool Game::initRenderer() {
         return false;
     }
     return true;
+}
+
+GameStateMachine* Game::getStateMachine() {
+    return m_pStateMachine;
+}
+
+void Game::initStateMachine() {
+    m_pStateMachine = new GameStateMachine();
+    m_pStateMachine->pushState(new MainMenuState());
 }
 
