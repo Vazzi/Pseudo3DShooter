@@ -15,12 +15,11 @@ class MainMenuState : public MenuState {
     private:
         static const std::string s_menuID;
 
-        std::vector<GameObject*> m_menuButtons;
-
         static void s_menuToPlay();
         static void s_exitFromMenu();
 
-        virtual void setCallbacks(const std::vector<Callback>& callbacks);
+        void initCallbacks();
+        void initObjects();
 
 };
 #endif
