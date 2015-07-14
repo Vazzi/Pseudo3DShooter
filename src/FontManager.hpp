@@ -62,6 +62,9 @@ class FontManager {
 
         map<string, FontStruct*> m_fontMap;
 
+        SDL_Rect sourceRectangle(int character, const FontParams &params);
+        SDL_Rect destinationRectangle(int charIndex, const FontParams &params);
+
 };
 
 typedef FontManager TheFontManager;
