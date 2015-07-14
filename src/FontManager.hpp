@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
+#include "objects/Vector2D.hpp"
 
 using std::string;
 using std::map;
@@ -22,18 +23,18 @@ struct FontStruct {
 
 class FontParams {
     public:
-        FontParams(string id, int x, int y, int scale = 1, int spacing = 1) 
-        : m_id(id), m_x(x), m_y(y), m_scale(scale), m_spacing(spacing) {};
+        FontParams(string id, Vector2D position, int scale = 1, int spacing = 1) 
+        : m_id(id), m_pos(position), m_scale(scale), m_spacing(spacing) {};
         string getId() const { return m_id; }
-        int getX() const { return m_x; }
-        int getY() const { return m_y; }
+        float getX() const { return m_pos.getX(); }
+        float getY() const { return m_pos.getY(); }
+        Vector2D getPosition() const { return m_pos; }
         int getScale() const { return m_scale; }
         int getSpacing() const { return m_spacing; }
 
     private:
         string m_id;
-        int m_x;
-        int m_y;
+        Vector2D m_pos;
         int m_scale;
         int m_spacing;
 };
