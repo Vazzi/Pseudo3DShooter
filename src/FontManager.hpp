@@ -23,7 +23,7 @@ struct FontStruct {
 
 class FontParams {
     public:
-        FontParams(string id, Vector2D position, int scale = 1, int spacing = 1) 
+        FontParams(string id, Vector2D position, int scale = 1, int spacing = 1)
         : m_id(id), m_pos(position), m_scale(scale), m_spacing(spacing) {};
         string getId() const { return m_id; }
         float getX() const { return m_pos.getX(); }
