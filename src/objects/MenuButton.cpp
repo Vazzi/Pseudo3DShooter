@@ -1,6 +1,9 @@
 #include "MenuButton.hpp"
 
 #include "../InputHandler.hpp"
+#include <SDL2/SDL.h>
+
+#include <iostream>
 
 MenuButton::MenuButton() : TextObject(), m_callbackID(0) {
     // empty
@@ -12,10 +15,10 @@ void MenuButton::render() {
 
 void MenuButton::update() {
     TextObject::update();
-    //if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_KP_ENTER)
-            //&& m_isActive) {
-        //m_callback();
-    //}
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)
+            && m_isActive) {
+        m_callback();
+    }
 }
 
 void MenuButton::clean() {

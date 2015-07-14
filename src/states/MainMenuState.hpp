@@ -15,6 +15,9 @@ class MainMenuState : public MenuState {
     private:
         static const std::string s_menuID;
 
+        static void s_menuToPlay();
+        static void s_exitFromMenu();
+
         virtual void setCallbacks(const std::vector<Callback>& callbacks);
 
 };
