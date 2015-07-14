@@ -27,7 +27,8 @@ bool Game::init() {
 
     initStateMachine();
 
-    if (!TheFontManager::Instance()->load(m_pRenderer)) {
+    if (!TheFontManager::Instance()->load("resources/font.png",
+                "basicFont", 5, 8, m_pRenderer)) {
         return false;
     }
 

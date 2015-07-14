@@ -10,11 +10,7 @@ const string FontManager::s_letters = ""
             "0123456789+-=*:;ÖÅÄå                      "
             "";
 
-const int FONT_WIDTH = 5;
-const int FONT_HEIGHT = 8;
-
-
-FontManager::FontManager() : m_pFontTexture(0) {
+FontManager::FontManager() {
     // empty
 }
 
@@ -22,9 +18,9 @@ FontManager::~FontManager() {
     // empty
 }
 
-
-bool FontManager::load(SDL_Renderer* pRenderer) {
-    SDL_Surface* pTempSurface = IMG_Load("resources/font.png");
+bool FontManager::load(string fileName, string id, int width, int height,
+        SDL_Renderer* pRenderer) {
+    SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
 
     if (pTempSurface == 0) {
         return false;
@@ -35,14 +31,15 @@ bool FontManager::load(SDL_Renderer* pRenderer) {
     SDL_FreeSurface(pTempSurface);
 
     if (pTexture != 0) {
-        m_pFontTexture = pTexture;
+        m_fontMap[id] = new FontStruct(pTexture, width, height);
         return true;
     }
 
     return false;
 }
 
-void FontManager::draw(string text, SDL_Rect rect, SDL_Renderer* pRenderer) {
+void FontManager::draw(string text, const FontParams &params,
+        SDL_Renderer* pRenderer) {
 
     for (int i = 0; i < text.length(); i++){
         char c = text[i];
@@ -54,25 +51,30 @@ void FontManager::draw(string text, SDL_Rect rect, SDL_Renderer* pRenderer) {
         int xOffset = chr % 42;
         int yOffset = chr / 42;
 
+        FontStruct* font = m_fontMap[params.getId()];
+        int spacing = 1;
+
         SDL_Rect srcRect;
         SDL_Rect destRect;
 
-        // TODO: Scale as global or something
-        int scale = 6;
+        srcRect.x = xOffset * (font->width + spacing);
+        srcRect.y = yOffset * font->height;
+        srcRect.w = font->width;
+        srcRect.h = font->height;
+        destRect.w = font->width * params.getScale();
+        destRect.h = font->height * params.getScale();
+        destRect.x = params.getX() + i * (font->width + params.getSpacing())
+            * params.getScale();
+        destRect.y = params.getX();
 
-        srcRect.x = xOffset * (FONT_WIDTH + 1);
-        srcRect.y = yOffset * FONT_HEIGHT;
-        srcRect.w = FONT_WIDTH;
-        srcRect.h = FONT_HEIGHT;
-        destRect.w = FONT_WIDTH * scale;
-        destRect.h = FONT_HEIGHT * scale;
-        destRect.x = rect.x + i * (FONT_WIDTH + 1) * scale;
-        destRect.y = rect.y;
-
-        SDL_RenderCopy(pRenderer, m_pFontTexture, &srcRect,  &destRect);
+        SDL_RenderCopy(pRenderer, font->texture, &srcRect,  &destRect);
 
     }
+}
 
+void FontManager::clearFromFontMap(string id) {
+    delete m_fontMap[id];
+    m_fontMap.erase(id);
 }
 
 

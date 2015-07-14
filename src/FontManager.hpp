@@ -2,9 +2,41 @@
 #define __FONT_MANAGER__
 
 #include <SDL2/SDL.h>
+#include <map>
 #include <string>
 
 using std::string;
+using std::map;
+
+struct FontStruct {
+    SDL_Texture* texture;
+    int width;
+    int height;
+
+    FontStruct(SDL_Texture* tex, int w, int h)
+        : texture(tex), width(w), height(h) {}
+    ~FontStruct() {
+        SDL_DestroyTexture(texture);
+    }
+};
+
+class FontParams {
+    public:
+        FontParams(string id, int x, int y, int scale = 1, int spacing = 1) 
+        : m_id(id), m_x(x), m_y(y), m_scale(scale), m_spacing(spacing) {};
+        string getId() const { return m_id; }
+        int getX() const { return m_x; }
+        int getY() const { return m_y; }
+        int getScale() const { return m_scale; }
+        int getSpacing() const { return m_spacing; }
+
+    private:
+        string m_id;
+        int m_x;
+        int m_y;
+        int m_scale;
+        int m_spacing;
+};
 
 class FontManager {
     public:
@@ -15,8 +47,11 @@ class FontManager {
             return s_pInstance;
         }
 
-        bool load(SDL_Renderer* pRenderer);
-        void draw(string text, SDL_Rect rect, SDL_Renderer* pRenderer);
+        bool load(string fileName, string id, int letterWidth, int letterHeight,
+                SDL_Renderer* pRenderer);
+        void draw(const string text, const FontParams &params,
+                SDL_Renderer* pRenderer);
+        void clearFromFontMap(string id);
 
     private:
         FontManager();
@@ -25,7 +60,7 @@ class FontManager {
         static FontManager* s_pInstance;
         static const std::string s_letters;
 
-        SDL_Texture* m_pFontTexture;
+        map<string, FontStruct*> m_fontMap;
 
 };
 
