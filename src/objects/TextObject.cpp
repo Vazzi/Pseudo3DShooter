@@ -22,7 +22,7 @@ void TextObject::clean() {
 }
 
 void TextObject::load(const LoaderParams* pParams) {
-    m_position = Vector2D(pParams->getX(),pParams->getY());
+    m_position = Vector2D(pParams->getX(), pParams->getY());
     m_width = pParams->getWidth();
     m_height = pParams->getHeight();
     m_fontID = pParams->getTextureID();
