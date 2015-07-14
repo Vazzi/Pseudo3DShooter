@@ -44,6 +44,6 @@ void TextureManager::draw(string id, SDL_Rect rect,  SDL_Renderer* pRenderer,
 }
 
 void TextureManager::clearFromTextureMap(string id) {
+    SDL_DestroyTexture(m_textureMap[id]);
     m_textureMap.erase(id);
-
 }
