@@ -6,7 +6,7 @@
 class LoaderParams {
     public:
         LoaderParams(int x, int y, int width, int height, std::string
-                textureID, int numFrames = 1, int callbackID = 0, int animSpeed = 0) :
+                textureID, int callbackID = 0, int numFrames = 1, int animSpeed = 0) :
             m_x(x),
             m_y(y),
             m_width(width),
