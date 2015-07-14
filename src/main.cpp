@@ -3,9 +3,9 @@
 #include "Game.hpp"
 #include <iostream>
 
-Uint32 g_outputTimer = 0;
-Uint32 g_framePerSeconds = 0;
-Uint32 g_lastTime = 0;
+unsigned int g_outputTimer = 0;
+unsigned int g_framePerSeconds = 0;
+unsigned int g_lastTime = 0;
 
 void printFPS(unsigned int currentTime) {
     if (currentTime > g_outputTimer) {
