@@ -84,7 +84,7 @@ SDL_Rect FontManager::destinationRectangle(int charIndex, const FontParams &para
     destRect.h = font->height * params.getScale();
     destRect.x = params.getX() + charIndex * (font->width + params.getSpacing())
         * params.getScale();
-    destRect.y = params.getX();
+    destRect.y = params.getY();
 
     return destRect;
 }
