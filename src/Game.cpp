@@ -37,17 +37,17 @@ bool Game::init() {
     return true;
 }
 
-void Game::render(Uint32 deltaTime) {
+void Game::render() {
     SDL_RenderClear(m_pRenderer);
     m_pStateMachine->render();
     SDL_RenderPresent(m_pRenderer);
 }
 
-void Game::update(Uint32 deltaTime) {
-    m_pStateMachine->update();
+void Game::update(unsigned int deltaTime) {
+    m_pStateMachine->update(deltaTime);
 }
 
-void Game::handleEvents(Uint32 deltaTime) {
+void Game::handleEvents() {
     TheInputHandler::Instance()->update();
 }
 

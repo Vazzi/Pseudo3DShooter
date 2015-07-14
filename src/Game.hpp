@@ -16,9 +16,9 @@ class Game {
         }
 
         bool init();
-        void render(Uint32 deltaTime);
-        void update(Uint32 deltaTime);
-        void handleEvents(Uint32 deltaTime);
+        void render();
+        void update(unsigned int deltaTime);
+        void handleEvents();
         void clean();
         void quit();
         bool running();

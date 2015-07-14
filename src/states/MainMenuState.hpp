@@ -7,7 +7,7 @@ class GameObject;
 
 class MainMenuState : public MenuState {
     public:
-        virtual void update();
+        virtual void update(unsigned int deltaTime);
         virtual void render();
         virtual bool onEnter();
         virtual bool onExit();

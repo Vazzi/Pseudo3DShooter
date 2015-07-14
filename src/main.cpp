@@ -1,12 +1,13 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include "Game.hpp"
+#include <iostream>
 
 Uint32 g_outputTimer = 0;
 Uint32 g_framePerSeconds = 0;
 Uint32 g_lastTime = 0;
 
-void printFPS(Uint32 currentTime) {
+void printFPS(unsigned int currentTime) {
     if (currentTime > g_outputTimer) {
         std::cout << "FPS: " << g_framePerSeconds << std::endl;
         g_framePerSeconds = 0;
@@ -14,25 +15,25 @@ void printFPS(Uint32 currentTime) {
     }
 }
 
-Uint32 getDeltaTime(Uint32 currentTime) {
-    Uint32 deltaTime = (currentTime - g_lastTime);
+unsigned int getDeltaTime(unsigned int currentTime) {
+    unsigned int deltaTime = (currentTime - g_lastTime);
     g_lastTime = currentTime;
     return deltaTime;
 }
 
 void gameLoop() {
-    Uint32 frameStart;
+    unsigned int currentTime;
 
     while (TheGame::Instance()->running()) {
-        frameStart = SDL_GetTicks();
-        printFPS(frameStart);
+        currentTime = SDL_GetTicks();
+        printFPS(currentTime);
 
-        Uint32 deltaTime = SDL_GetTicks() - frameStart;
-        TheGame::Instance()->handleEvents(deltaTime);
+        unsigned int deltaTime = getDeltaTime(currentTime);
+        TheGame::Instance()->handleEvents();
         TheGame::Instance()->update(deltaTime);
-        TheGame::Instance()->render(deltaTime);
+        TheGame::Instance()->render();
         g_framePerSeconds++;
-        SDL_Delay(2);
+        SDL_Delay(1);
     }
 }
 

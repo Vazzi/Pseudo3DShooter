@@ -9,9 +9,9 @@ GameStateMachine::~GameStateMachine() {
     m_gameStates.clear();
 }
 
-void GameStateMachine::update() {
+void GameStateMachine::update(unsigned int deltaTime) {
     if (!m_gameStates.empty()) {
-        m_gameStates.back()->update();
+        m_gameStates.back()->update(deltaTime);
     }
 }
 

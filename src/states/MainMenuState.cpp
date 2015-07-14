@@ -5,11 +5,42 @@
 #include "../objects/GameObject.hpp"
 #include "../objects/MenuButton.hpp"
 #include "../Game.hpp"
+#include "../InputHandler.hpp"
+#include <cmath>
 
 const std::string MainMenuState::s_menuID = "MENU";
 
-void MainMenuState::update() {
-    GameState::update();
+// TODO: Change this mess
+int activeButton = 0;
+int keyTime = 0;
+const int KEY_WAIT_TIME = 150;
+
+void MainMenuState::update(unsigned int deltaTime) {
+    GameState::update(deltaTime);
+
+    if (keyTime <= 0) {
+        if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {
+            if (activeButton != 0) {
+                activeButton = (activeButton - 1);
+            }
+            keyTime = KEY_WAIT_TIME;
+        } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
+            if (activeButton != 2) { // TODO: Number of buttons
+                activeButton = (activeButton + 1);
+            }
+            keyTime = KEY_WAIT_TIME;
+        }
+        for (int i = 0; i < m_gameObjects.size(); i++) {
+            MenuButton* pButton = dynamic_cast<MenuButton*>(m_gameObjects[i]);
+            if (i == activeButton) {
+                pButton->setActive(true);
+            } else {
+                pButton->setActive(false);
+            }
+        }
+    } else {
+        keyTime -= deltaTime;
+    }
 }
 
 void MainMenuState::render() {
@@ -17,6 +48,8 @@ void MainMenuState::render() {
 }
 
 bool MainMenuState::onEnter() {
+
+    // TODO: clean this mess
     MenuButton* pButton = new MenuButton();
     LoaderParams *params = new LoaderParams(100, 100, 500, 0, "basicFont", 1);
     pButton->load(params);
@@ -24,13 +57,20 @@ bool MainMenuState::onEnter() {
     pButton->setScale(5);
     m_gameObjects.push_back(pButton);
 
+
     MenuButton* pButton2 = new MenuButton();
     LoaderParams *params2 = new LoaderParams(100, 200, 500, 0, "basicFont", 2);
     pButton2->load(params2);
-    pButton2->setText("Quit");
+    pButton2->setText("Something cool");
     pButton2->setScale(5);
-    pButton2->setActive(true);
     m_gameObjects.push_back(pButton2);
+
+    MenuButton* pButton3 = new MenuButton();
+    LoaderParams *params3 = new LoaderParams(100, 300, 500, 0, "basicFont", 2);
+    pButton3->load(params3);
+    pButton3->setText("Quit");
+    pButton3->setScale(5);
+    m_gameObjects.push_back(pButton3);
 
     m_callbacks.push_back(0); // pushback 0 callbackID start from 1
     m_callbacks.push_back(s_menuToPlay);

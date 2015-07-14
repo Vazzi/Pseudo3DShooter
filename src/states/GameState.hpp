@@ -8,7 +8,7 @@ class GameObject;
 
 class GameState {
     public:
-        virtual void update();
+        virtual void update(unsigned int deltaTime);
         virtual void render();
 
         virtual bool onEnter() = 0;

@@ -8,7 +8,7 @@ class GameState;
 class GameStateMachine {
     public:
         ~GameStateMachine();
-        void update();
+        void update(unsigned int deltaTime);
         void render();
         void pushState(GameState* pState);
         void changeState(GameState* pState);
