@@ -3,7 +3,7 @@
 #include "../FontManager.hpp"
 #include <iostream>
 #include "../objects/GameObject.hpp"
-#include "../objects/TextObject.hpp"
+#include "../objects/MenuButton.hpp"
 
 const std::string MainMenuState::s_menuID = "MENU";
 
@@ -20,12 +20,19 @@ bool MainMenuState::onEnter() {
     // set the callbacks for menu items
     setCallbacks(m_callbacks);
 
-    TextObject* pText = new TextObject();
+    MenuButton* pButton = new MenuButton();
     LoaderParams *params = new LoaderParams(100, 100, 500, 0, "basicFont");
-    pText->load(params);
-    pText->setText("This is my game");
-    pText->setScale(5);
-    m_gameObjects.push_back(pText);
+    pButton->load(params);
+    pButton->setText("Play");
+    pButton->setScale(5);
+    m_gameObjects.push_back(pButton);
+
+    MenuButton* pButton2 = new MenuButton();
+    LoaderParams *params2 = new LoaderParams(100, 200, 500, 0, "basicFont");
+    pButton2->load(params2);
+    pButton2->setText("Quit");
+    pButton2->setScale(5);
+    m_gameObjects.push_back(pButton2);
 
     std::cout << "entering MainMenuState\n";
     return true;
