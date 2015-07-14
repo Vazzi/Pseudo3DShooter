@@ -39,9 +39,9 @@ void MenuButton::setActive(bool active) {
     m_isActive = active;
 
     if (active) {
-        m_text = ">" + m_text + "<";
+        m_text = ">" + m_text;
     } else {
-        m_text = m_text.substr(1, m_text.length() - 2);
+        m_text = m_text.substr(1, m_text.length() - 1);
     }
 }
 

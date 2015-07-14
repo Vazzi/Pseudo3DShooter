@@ -30,8 +30,8 @@ void MainMenuState::update(unsigned int deltaTime) {
             }
             keyTime = KEY_WAIT_TIME;
         }
-        for (int i = 0; i < m_gameObjects.size(); i++) {
-            MenuButton* pButton = dynamic_cast<MenuButton*>(m_gameObjects[i]);
+        for (int i = 0; i < m_menuButtons.size(); i++) {
+            MenuButton* pButton = dynamic_cast<MenuButton*>(m_menuButtons[i]);
             if (i == activeButton) {
                 pButton->setActive(true);
             } else {
@@ -49,6 +49,13 @@ void MainMenuState::render() {
 
 bool MainMenuState::onEnter() {
 
+    TextObject* pText = new TextObject();
+    LoaderParams *pTextParams= new LoaderParams(10, 10, 500, 0, "basicFont");
+    pText->load(pTextParams);
+    pText->setScale(6);
+    pText->setText("My super game");
+    m_gameObjects.push_back(pText);
+
     // TODO: clean this mess
     MenuButton* pButton = new MenuButton();
     LoaderParams *params = new LoaderParams(100, 100, 500, 0, "basicFont", 1);
@@ -56,6 +63,7 @@ bool MainMenuState::onEnter() {
     pButton->setText("Play");
     pButton->setScale(5);
     m_gameObjects.push_back(pButton);
+    m_menuButtons.push_back(pButton);
 
 
     MenuButton* pButton2 = new MenuButton();
@@ -64,6 +72,7 @@ bool MainMenuState::onEnter() {
     pButton2->setText("Something cool");
     pButton2->setScale(5);
     m_gameObjects.push_back(pButton2);
+    m_menuButtons.push_back(pButton2);
 
     MenuButton* pButton3 = new MenuButton();
     LoaderParams *params3 = new LoaderParams(100, 300, 500, 0, "basicFont", 2);
@@ -71,6 +80,7 @@ bool MainMenuState::onEnter() {
     pButton3->setText("Quit");
     pButton3->setScale(5);
     m_gameObjects.push_back(pButton3);
+    m_menuButtons.push_back(pButton3);
 
     m_callbacks.push_back(0); // pushback 0 callbackID start from 1
     m_callbacks.push_back(s_menuToPlay);
@@ -93,11 +103,11 @@ bool MainMenuState::onExit() {
 
 
 void MainMenuState::setCallbacks(const std::vector<Callback>& callbacks) {
-    for (int i = 0; i < m_gameObjects.size(); i++) {
+    for (int i = 0; i < m_menuButtons.size(); i++) {
         // if they are of type MenuButton then assign a callback
         // based on the id passed in from the file
-        if (dynamic_cast<MenuButton*>(m_gameObjects[i])) {
-            MenuButton* pButton = dynamic_cast<MenuButton*>(m_gameObjects[i]);
+        if (dynamic_cast<MenuButton*>(m_menuButtons[i])) {
+            MenuButton* pButton = dynamic_cast<MenuButton*>(m_menuButtons[i]);
             pButton->setCallback(callbacks[pButton->getCallbackID()]);
         }
     }
