@@ -1,9 +1,5 @@
 #include "MenuButton.hpp"
-
 #include "../InputHandler.hpp"
-#include <SDL2/SDL.h>
-
-#include <iostream>
 
 MenuButton::MenuButton() : TextObject(), m_callbackID(0) {
     // empty

@@ -6,6 +6,7 @@ InputHandler* InputHandler::s_pInstance = 0;
 InputHandler::InputHandler() : m_keystates(0) {
     // empty
 }
+
 void InputHandler::update() {
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
