@@ -53,6 +53,7 @@ void MainMenuState::initObjects() {
     pText->load(pTextParams);
     pText->setScale(5);
     pText->setColor(255, 0, 0);
+    pText->setColorFlash(150, 0, 0, 500);
     pText->setText("PSEUDO 3D SHOOTER");
     m_gameObjects.push_back(pText);
 

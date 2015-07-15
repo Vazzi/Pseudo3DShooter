@@ -22,7 +22,7 @@ class TextObject : public GameObject {
         void setScale(int scale) { m_scale = scale; }
         void setSpacing(int spacing) { m_spacing = spacing; }
         void setColor(int r, int g, int b);
-        void setFlashToColor(int r, int g, int b);
+        void setColorFlash(int r, int g, int b, unsigned int rate);
 
     protected:
         int m_width;
@@ -34,6 +34,11 @@ class TextObject : public GameObject {
         int m_spacing;
         FontColor m_color;
         FontColor m_flashColor;
+        int m_flashTime;
+        unsigned int m_flashRate;
+        int m_currentColorIndex;
+
+        void renderFontWithColor(FontColor color);
 
 };
 
