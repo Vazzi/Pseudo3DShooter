@@ -8,7 +8,7 @@ class MenuButton : public TextObject {
         MenuButton();
 
         virtual void render();
-        virtual void update();
+        virtual void update(unsigned int deltaTime);
         virtual void clean();
         virtual void load(const LoaderParams* pParams);
 

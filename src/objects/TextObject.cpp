@@ -3,7 +3,7 @@
 #include "../Game.hpp"
 
 TextObject::TextObject() : GameObject(), m_position(Vector2D(0, 0)),
-    m_color(FontColor(255, 255, 255)) {
+    m_color(FontColor(255, 255, 255)), m_flashColor(FontColor(255, 255, 255)) {
     // empty
 }
 
@@ -14,8 +14,8 @@ void TextObject::render() {
             TheGame::Instance()->getRenderer());
 }
 
-void TextObject::update() {
-    // empty
+void TextObject::update(unsigned int deltaTime) {
+
 }
 
 void TextObject::clean() {

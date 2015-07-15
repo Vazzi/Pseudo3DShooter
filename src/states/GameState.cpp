@@ -10,7 +10,7 @@ void GameState::render() {
 
 void GameState::update(unsigned int deltaTime) {
     for (int i = 0; i < m_gameObjects.size(); i++) {
-        m_gameObjects[i]->update();
+        m_gameObjects[i]->update(deltaTime);
     }
 }
 

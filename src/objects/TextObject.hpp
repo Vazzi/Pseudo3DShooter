@@ -11,7 +11,7 @@ class TextObject : public GameObject {
         TextObject();
 
         virtual void render();
-        virtual void update();
+        virtual void update(unsigned int deltaTime);
         virtual void clean();
         virtual void load(const LoaderParams* pParams);
 
@@ -22,6 +22,7 @@ class TextObject : public GameObject {
         void setScale(int scale) { m_scale = scale; }
         void setSpacing(int spacing) { m_spacing = spacing; }
         void setColor(int r, int g, int b);
+        void setFlashToColor(int r, int g, int b);
 
     protected:
         int m_width;
@@ -32,6 +33,7 @@ class TextObject : public GameObject {
         int m_scale;
         int m_spacing;
         FontColor m_color;
+        FontColor m_flashColor;
 
 };
 

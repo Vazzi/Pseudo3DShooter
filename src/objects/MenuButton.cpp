@@ -9,8 +9,8 @@ void MenuButton::render() {
     TextObject::render();
 }
 
-void MenuButton::update() {
-    TextObject::update();
+void MenuButton::update(unsigned int deltaTime) {
+    TextObject::update(deltaTime);
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)
             && m_isActive) {
         m_callback();
