@@ -4,6 +4,7 @@
 #include <string>
 #include "GameObject.hpp"
 #include "Vector2D.hpp"
+#include "../FontManager.hpp"
 
 class TextObject : public GameObject {
     public:
@@ -20,6 +21,7 @@ class TextObject : public GameObject {
         void setText(std::string text) { m_text = text; }
         void setScale(int scale) { m_scale = scale; }
         void setSpacing(int spacing) { m_spacing = spacing; }
+        void setColor(int r, int g, int b);
 
     protected:
         int m_width;
@@ -29,6 +31,7 @@ class TextObject : public GameObject {
         Vector2D m_position;
         int m_scale;
         int m_spacing;
+        FontColor m_color;
 
 };
 

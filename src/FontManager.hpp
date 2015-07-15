@@ -21,20 +21,32 @@ struct FontStruct {
     }
 };
 
+struct FontColor {
+    int r;
+    int g;
+    int b;
+
+    FontColor(int r, int g, int b) : r(r), g(g), b(b) {}
+};
+
 class FontParams {
     public:
-        FontParams(string id, Vector2D position, int scale = 1, int spacing = 1)
-        : m_id(id), m_pos(position), m_scale(scale), m_spacing(spacing) {};
+        FontParams(string id, Vector2D position, FontColor color, int scale = 1,
+                int spacing = 1) : m_id(id), m_pos(position), m_color(color),
+        m_scale(scale), m_spacing(spacing) {};
+
         string getId() const { return m_id; }
         float getX() const { return m_pos.getX(); }
         float getY() const { return m_pos.getY(); }
         Vector2D getPosition() const { return m_pos; }
+        FontColor getColor() const { return m_color; }
         int getScale() const { return m_scale; }
         int getSpacing() const { return m_spacing; }
 
     private:
         string m_id;
         Vector2D m_pos;
+        FontColor m_color;
         int m_scale;
         int m_spacing;
 };

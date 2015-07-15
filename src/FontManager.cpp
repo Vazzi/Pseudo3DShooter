@@ -52,6 +52,7 @@ void FontManager::draw(string text, const FontParams &params,
         SDL_Rect destRect = destinationRectangle(i, params);
         SDL_Texture* pTexture = m_fontMap[params.getId()]->texture;
 
+        SDL_SetTextureColorMod(pTexture, params.getColor().r, params.getColor().g, params.getColor().b);
         SDL_RenderCopy(pRenderer, pTexture, &srcRect,  &destRect);
     }
 }
