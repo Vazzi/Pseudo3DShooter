@@ -1,1 +1,51 @@
-{"name":"jsonData"}
+[
+  {
+    "stateId": "MENU",
+    "textures": [],
+    "objects": [
+      {
+        "type": "TextObject",
+        "x": 60,
+        "y": 50,
+        "width": 500,
+        "height": 0,
+        "textureId": "resources/font.png",
+        "text": "PSEUDO 3D SHOOTER",
+        "scale": 5,
+        "color": {
+          "r": 255,
+          "g": 0,
+          "b": 0
+        },
+        "colorFlash": {
+          "r": 150,
+          "g": 0,
+          "b": 0,
+          "rate": 500
+        }
+      },
+      {
+        "type": "MenuButton",
+        "x": 100,
+        "y": 150,
+        "width": 500,
+        "height": 0,
+        "textureId": "resources/font.png",
+        "callbackId": 1,
+        "text": "Play",
+        "scale": 4
+      },
+      {
+        "type": "MenuButton",
+        "x": 100,
+        "y": 200,
+        "width": 500,
+        "height": 0,
+        "textureId": "resources/font.png",
+        "callbackId": 2,
+        "text": "Quit",
+        "scale": 4
+      }
+    ]
+  }
+]
