@@ -2,6 +2,7 @@
 #include "../objects/MenuButton.hpp"
 #include "../Game.hpp"
 #include <iostream>
+#include "StateParser.hpp"
 
 const std::string MainMenuState::s_menuID = "MENU";
 
@@ -14,6 +15,10 @@ void MainMenuState::render() {
 }
 
 bool MainMenuState::onEnter() {
+    StateParser stateParser;
+    stateParser.parseState("resources/data.json", s_menuID, &m_gameObjects,
+            &m_textureIDList);
+
     initObjects();
     initCallbacks();
 
