@@ -1,6 +1,7 @@
 #include "StateParser.hpp"
 #include <fstream>
 #include <string>
+#include <vector>
 #include <iostream>
 
 bool StateParser::parseState(const char* stateFile, std::string stateID,
@@ -11,6 +12,19 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
     if (root == nullptr) {
         return false;
     }
+
+    std::vector<Json> states = root.array_items();
+    Json *stateNode = nullptr;
+    for (std::vector<Json>::iterator it = states.begin();
+            it != states.end(); ++it) {
+        if ((*it)["stateId"].string_value() == stateID) {
+            stateNode = &(*it);
+            break;
+        }
+    }
+
+    parseTextures(stateNode, pTextureIDs);
+    parseObjects(stateNode, pObjects);
 
     return true;
 
@@ -24,7 +38,7 @@ Json StateParser::getRoot(const char* stateFile) {
         return nullptr;
     }
     std::string content((std::istreambuf_iterator<char>(ifs)),
-                       (std::istreambuf_iterator<char>()));
+            (std::istreambuf_iterator<char>()));
 
     std::string err;
     Json root = Json::parse(content, err);
