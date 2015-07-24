@@ -4,6 +4,9 @@
 #include <vector>
 #include <iostream>
 
+#include "../TextureManager.hpp"
+#include "../Game.hpp"
+
 bool StateParser::parseState(const char* stateFile, std::string stateID,
         std::vector<GameObject*> *pObjects,
         std::vector<std::string> *pTextureIDs) {
@@ -14,17 +17,17 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
     }
 
     std::vector<Json> states = root.array_items();
-    Json *stateNode = nullptr;
+    Json *pStateNode = nullptr;
     for (std::vector<Json>::iterator it = states.begin();
             it != states.end(); ++it) {
         if ((*it)["stateId"].string_value() == stateID) {
-            stateNode = &(*it);
+            pStateNode = &(*it);
             break;
         }
     }
 
-    parseTextures(stateNode, pTextureIDs);
-    parseObjects(stateNode, pObjects);
+    parseTextures(pStateNode, pTextureIDs);
+    parseObjects(pStateNode, pObjects);
 
     return true;
 
@@ -56,5 +59,13 @@ void StateParser::parseObjects(Json* pStateRoot,
 
 void StateParser::parseTextures(Json* pStateRoot,
         std::vector<std::string> *pTextureIDs) {
-
+    std::vector<Json> textures = (*pStateRoot)["textures"].array_items();
+    for (std::vector<Json>::iterator it = textures.begin();
+            it != textures.end(); ++it) {
+        std::string fileName = (*it)["fileName"].string_value();
+        std::string textureId = (*it)["id"].string_value();
+        pTextureIDs->push_back(textureId);
+        TheTextureManager::Instance()->load(fileName, textureId,
+                TheGame::Instance()->getRenderer());
+    }
 }
