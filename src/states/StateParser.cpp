@@ -12,8 +12,9 @@
 #include "../Game.hpp"
 
 bool StateParser::parseState(const char* stateFile, std::string stateID,
-        std::vector<GameObject*> *pObjects,
-        std::vector<std::string> *pTextureIDs) {
+        std::vector<GameObject*>* pObjects,
+        std::vector<std::string>* pTextureIDs,
+        std::vector<std::string>* pFontIDs) {
 
     Json root = getRoot(stateFile);
     if (root == nullptr) {
@@ -30,6 +31,7 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
         }
     }
 
+    parseFonts(pStateNode, pFontIDs);
     parseTextures(pStateNode, pTextureIDs);
     parseObjects(pStateNode, pObjects);
 
@@ -139,5 +141,21 @@ void StateParser::parseTextures(Json* pStateRoot,
         pTextureIDs->push_back(textureId);
         TheTextureManager::Instance()->load(fileName, textureId,
                 TheGame::Instance()->getRenderer());
+    }
+}
+
+void StateParser::parseFonts(Json* pStateRoot,
+        std::vector<std::string> *pFontIDs) {
+    std::vector<Json> fonts = (*pStateRoot)["fonts"].array_items();
+    for (std::vector<Json>::iterator it = fonts.begin();
+            it != fonts.end(); ++it) {
+        std::string fileName = (*it)["fileName"].string_value();
+        std::string fontId = (*it)["id"].string_value();
+        int letterWidth = (*it)["letterWidth"].int_value();
+        int letterHeight = (*it)["letterHeight"].int_value();
+        pFontIDs->push_back(fontId);
+        std::cout << fileName << std::endl;
+        TheFontManager::Instance()->load(fileName, fontId, letterWidth,
+                letterHeight, TheGame::Instance()->getRenderer());
     }
 }

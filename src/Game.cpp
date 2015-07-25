@@ -2,8 +2,6 @@
 
 #include <iostream>
 #include "InputHandler.hpp"
-#include "TextureManager.hpp"
-#include "FontManager.hpp"
 #include "states/GameStateMachine.hpp"
 #include "states/MainMenuState.hpp"
 #include "objects/GameObjectFactory.hpp"
@@ -30,11 +28,6 @@ bool Game::init() {
 
     initGameObjects();
     initStateMachine();
-
-    if (!TheFontManager::Instance()->load("resources/font.png",
-                "basicFont", 5, 8, m_pRenderer)) {
-        return false;
-    }
 
     m_isRunning = true;
 

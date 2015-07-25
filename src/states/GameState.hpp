@@ -20,6 +20,7 @@ class GameState {
 
     protected:
         std::vector<std::string> m_textureIDList;
+        std::vector<std::string> m_fontIDList;
         std::vector<GameObject*> m_gameObjects;
 
 };

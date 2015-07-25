@@ -2,6 +2,14 @@
   {
     "stateId": "MENU",
     "textures": [],
+    "fonts": [
+      {
+        "id": "basicFont",
+        "fileName": "resources/font.png",
+        "letterWidth": 5,
+        "letterHeight": 8
+      }
+    ],
     "objects": [
       {
         "type": "TextObject",

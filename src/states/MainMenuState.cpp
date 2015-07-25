@@ -17,7 +17,7 @@ void MainMenuState::render() {
 bool MainMenuState::onEnter() {
     StateParser stateParser;
     stateParser.parseState("resources/data.json", s_menuID, &m_gameObjects,
-            &m_textureIDList);
+            &m_textureIDList, &m_fontIDList);
 
     if (!MenuState::onEnter()) {
         return false;
