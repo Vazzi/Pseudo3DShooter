@@ -37,7 +37,7 @@ void gameLoop() {
     }
 }
 
-int main(int argc, char *argv[]) {
+int main(int __unused argc, char __unused *argv[]) {
 
     std::cout << "game init attempt...\n";
     if (TheGame::Instance()->init()) {
