@@ -13,9 +13,10 @@ struct FontStruct {
     SDL_Texture* texture;
     int width;
     int height;
+    int refCounter;
 
     FontStruct(SDL_Texture* tex, int w, int h)
-        : texture(tex), width(w), height(h) {}
+        : texture(tex), width(w), height(h), refCounter(1) {}
     ~FontStruct() {
         SDL_DestroyTexture(texture);
     }

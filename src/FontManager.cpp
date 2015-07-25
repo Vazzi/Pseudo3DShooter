@@ -20,6 +20,13 @@ FontManager::~FontManager() {
 
 bool FontManager::load(string fileName, string id, int width, int height,
         SDL_Renderer* pRenderer) {
+
+    // If key already exists just add refcounter and quit
+    if (m_fontMap.find(id) != m_fontMap.end()) {
+        m_fontMap[id]->refCounter++;
+        return true;
+    }
+
     SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
 
     if (pTempSurface == 0) {
@@ -58,8 +65,12 @@ void FontManager::draw(string text, const FontParams &params,
 }
 
 void FontManager::clearFromFontMap(string id) {
-    delete m_fontMap[id];
-    m_fontMap.erase(id);
+    if (m_fontMap[id]->refCounter > 1) {
+        m_fontMap[id]->refCounter--;
+    } else {
+        delete m_fontMap[id];
+        m_fontMap.erase(id);
+    }
 }
 
 SDL_Rect FontManager::sourceRectangle(int character, const FontParams &params) {
