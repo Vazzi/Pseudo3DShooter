@@ -9,7 +9,7 @@ MenuState::MenuState() : m_activeButton(0), m_keyTime(KEY_WAIT_TIME) {
 }
 
 bool MenuState::onEnter() {
-    for (int i = 0; i < m_gameObjects.size(); i++) {
+    for (unsigned long i = 0; i < m_gameObjects.size(); i++) {
         // if they are of type MenuButton then assign t
         // based on the id passed in from the file
         if (dynamic_cast<MenuButton*>(m_gameObjects[i])) {
@@ -31,7 +31,7 @@ void MenuState::update(unsigned int deltaTime) {
             }
             resetKeyTime();
         } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
-            if (m_activeButton != m_menuButtons.size() - 1) {
+            if (m_activeButton != (int)m_menuButtons.size() - 1) {
                 m_activeButton = (m_activeButton + 1);
             }
             m_keyTime = KEY_WAIT_TIME;
@@ -46,7 +46,7 @@ void MenuState::update(unsigned int deltaTime) {
 }
 
 void MenuState::setCallbacks(const std::vector<Callback>& callbacks) {
-    for (int i = 0; i < m_menuButtons.size(); i++) {
+    for (unsigned long i = 0; i < m_menuButtons.size(); i++) {
         // if they are of type MenuButton then assign a callback
         // based on the id passed in from the file
         if (dynamic_cast<MenuButton*>(m_menuButtons[i])) {
@@ -57,9 +57,9 @@ void MenuState::setCallbacks(const std::vector<Callback>& callbacks) {
 }
 
 void MenuState::updateButtons() {
-    for (int i = 0; i < m_menuButtons.size(); i++) {
+    for (unsigned long i = 0; i < m_menuButtons.size(); i++) {
         MenuButton* pButton = dynamic_cast<MenuButton*>(m_menuButtons[i]);
-        if (i == m_activeButton) {
+        if (i == (unsigned long)m_activeButton) {
             pButton->setActive(true);
         } else {
             pButton->setActive(false);

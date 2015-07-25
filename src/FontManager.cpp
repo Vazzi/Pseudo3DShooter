@@ -48,7 +48,7 @@ bool FontManager::load(string fileName, string id, int width, int height,
 void FontManager::draw(string text, const FontParams &params,
         SDL_Renderer* pRenderer) {
 
-    for (int i = 0; i < text.length(); i++) {
+    for (unsigned long i = 0; i < text.length(); i++) {
         char c = text[i];
         int chr = s_letters.find_first_of(c, 0);
         if (chr < 0) {
