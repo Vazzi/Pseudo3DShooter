@@ -81,7 +81,7 @@
     "objects": [
       {
         "type": "TextObject",
-        "x": 150,
+        "x": 60,
         "y": 50,
         "width": 500,
         "height": 0,
@@ -91,33 +91,23 @@
       },
       {
         "type": "TextObject",
-        "x": 60,
-        "y": 100,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "text": "This is a super game that",
-        "scale": 3
-      },
-      {
-        "type": "TextObject",
-        "x": 60,
+        "x": 80,
         "y": 150,
         "width": 500,
         "height": 0,
         "textureId": "basicFont",
-        "text": "will make you cry.",
+        "text": "Created by Jakub Vlasak",
         "scale": 3
       },
       {
         "type": "MenuButton",
-        "x": 150,
-        "y": 300,
+        "x": 100,
+        "y": 250,
         "width": 500,
         "height": 0,
         "textureId": "basicFont",
         "callbackId": 1,
-        "text": "Quit",
+        "text": "Back",
         "scale": 4
       }
     ]
