@@ -2,6 +2,7 @@
 #define __GAME_OBJECT__
 
 #include "LoaderParams.hpp"
+#include "GameObjectFactory.hpp"
 
 class GameObject {
     public:

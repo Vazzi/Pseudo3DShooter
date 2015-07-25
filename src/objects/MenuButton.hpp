@@ -23,5 +23,11 @@ class MenuButton : public TextObject {
         bool m_isActive;
 };
 
+class MenuButtonCreator : public BaseCreator {
+    GameObject* createGameObject() const {
+        return new MenuButton();
+    }
+};
+
 #endif
 

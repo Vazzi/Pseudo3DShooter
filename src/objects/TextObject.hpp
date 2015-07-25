@@ -42,5 +42,11 @@ class TextObject : public GameObject {
 
 };
 
+class TextObjectCreator : public BaseCreator {
+    GameObject* createGameObject() const {
+        return new TextObject();
+    }
+};
+
 #endif
 
