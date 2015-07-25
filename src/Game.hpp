@@ -39,6 +39,7 @@ class Game {
                 int width, bool fullscreen);
         bool initRenderer();
         void initStateMachine();
+        void initGameObjects();
 
 };
 

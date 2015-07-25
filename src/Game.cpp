@@ -6,6 +6,9 @@
 #include "FontManager.hpp"
 #include "states/GameStateMachine.hpp"
 #include "states/MainMenuState.hpp"
+#include "objects/GameObjectFactory.hpp"
+#include "objects/TextObject.hpp"
+#include "objects/MenuButton.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -25,6 +28,7 @@ bool Game::init() {
         return false;
     }
 
+    initGameObjects();
     initStateMachine();
 
     if (!TheFontManager::Instance()->load("resources/font.png",
@@ -113,5 +117,12 @@ GameStateMachine* Game::getStateMachine() {
 void Game::initStateMachine() {
     m_pStateMachine = new GameStateMachine();
     m_pStateMachine->pushState(new MainMenuState());
+}
+
+void Game::initGameObjects() {
+    TheGameObjectFactory::Instance()->registerType("TextObject",
+            new TextObjectCreator());
+    TheGameObjectFactory::Instance()->registerType("MenuButton",
+            new MenuButtonCreator());
 }
 
