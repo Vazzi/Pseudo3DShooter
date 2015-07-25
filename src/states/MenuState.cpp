@@ -4,7 +4,7 @@
 
 const int KEY_WAIT_TIME = 150;
 
-MenuState::MenuState() : m_activeButton(0), m_keyTime(0) {
+MenuState::MenuState() : m_activeButton(0), m_keyTime(KEY_WAIT_TIME) {
     // empty
 }
 
@@ -17,6 +17,7 @@ bool MenuState::onEnter() {
             m_menuButtons.push_back(pButton);
         }
     }
+    updateButtons();
     return true;
 }
 
@@ -28,12 +29,15 @@ void MenuState::update(unsigned int deltaTime) {
             if (m_activeButton != 0) {
                 m_activeButton = (m_activeButton - 1);
             }
-            m_keyTime = KEY_WAIT_TIME;
+            resetKeyTime();
         } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
             if (m_activeButton != m_menuButtons.size() - 1) {
                 m_activeButton = (m_activeButton + 1);
             }
             m_keyTime = KEY_WAIT_TIME;
+        } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
+            resetKeyTime();
+            m_menuButtons[m_activeButton]->click();
         }
         updateButtons();
     } else {
@@ -61,4 +65,8 @@ void MenuState::updateButtons() {
             pButton->setActive(false);
         }
     }
+}
+
+void MenuState::resetKeyTime() {
+    m_keyTime = KEY_WAIT_TIME;
 }

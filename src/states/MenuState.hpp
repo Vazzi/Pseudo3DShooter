@@ -4,6 +4,8 @@
 #include "GameState.hpp"
 #include <vector>
 
+class MenuButton;
+
 class MenuState : public GameState {
     public:
         MenuState();
@@ -14,13 +16,14 @@ class MenuState : public GameState {
         typedef void(*Callback)();
 
         std::vector<Callback> m_callbacks;
-        std::vector<GameObject*> m_menuButtons;
+        std::vector<MenuButton*> m_menuButtons;
         int m_activeButton;
         int m_keyTime;
 
         virtual void setCallbacks(const std::vector<Callback>& callbacks);
 
         void updateButtons();
+        void resetKeyTime();
 
 };
 #endif

@@ -15,6 +15,7 @@ class MenuButton : public TextObject {
         void setCallback(void(*callback)()) { m_callback = callback;}
         int getCallbackID() { return m_callbackID; }
         void setActive(bool active);
+        void click();
 
     private:
         void (*m_callback) ();
