@@ -8,6 +8,7 @@
 #include "../objects/GameObjectFactory.hpp"
 #include "../objects/GameObject.hpp"
 #include "../objects/LoaderParams.hpp"
+#include "../objects/TextObject.hpp"
 #include "../Game.hpp"
 
 bool StateParser::parseState(const char* stateFile, std::string stateID,
@@ -92,11 +93,13 @@ void StateParser::setupObject(Json* pJsonObject, GameObject* pObject) {
 }
 
 void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
-
+    TextObject* pTextObject = (TextObject *)pObject;
+    std::string text = (*pJsonObject)["text"].string_value();
+    pTextObject->setText(text);
 }
 
 void StateParser::setupMenuButton(Json* pJsonObject, GameObject* pObject) {
-
+    setupTextObject(pJsonObject, pObject);
 }
 
 void StateParser::parseTextures(Json* pStateRoot,
