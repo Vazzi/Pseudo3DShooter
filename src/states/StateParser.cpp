@@ -5,6 +5,9 @@
 #include <iostream>
 
 #include "../TextureManager.hpp"
+#include "../objects/GameObjectFactory.hpp"
+#include "../objects/GameObject.hpp"
+#include "../objects/LoaderParams.hpp"
 #include "../Game.hpp"
 
 bool StateParser::parseState(const char* stateFile, std::string stateID,
@@ -17,7 +20,7 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
     }
 
     std::vector<Json> states = root.array_items();
-    Json *pStateNode = nullptr;
+    Json* pStateNode = nullptr;
     for (std::vector<Json>::iterator it = states.begin();
             it != states.end(); ++it) {
         if ((*it)["stateId"].string_value() == stateID) {
@@ -54,6 +57,45 @@ Json StateParser::getRoot(const char* stateFile) {
 
 void StateParser::parseObjects(Json* pStateRoot,
         std::vector<GameObject*> *pObjects) {
+    std::vector<Json> textures = (*pStateRoot)["objects"].array_items();
+    for (std::vector<Json>::iterator it = textures.begin();
+            it != textures.end(); ++it) {
+        GameObject* pObject = createObjectFromJson(&(*it));
+        setupObject(&(*it), pObject);
+        pObjects->push_back(pObject);
+    }
+}
+
+GameObject* StateParser::createObjectFromJson(Json* pJsonObject) {
+    int x = (*pJsonObject)["x"].int_value();
+    int y = (*pJsonObject)["y"].int_value();
+    int width = (*pJsonObject)["width"].int_value();
+    int height = (*pJsonObject)["height"].int_value();
+    int callbackId = (*pJsonObject)["callbackId"].int_value();
+    std::string textureId = (*pJsonObject)["textureId"].string_value();
+    std::string type = (*pJsonObject)["type"].string_value();
+
+    GameObject* pGameObject = TheGameObjectFactory::Instance()->create(type);
+    pGameObject->load(new LoaderParams (x, y, width, height, textureId, callbackId));
+
+    return pGameObject;
+}
+
+void StateParser::setupObject(Json* pJsonObject, GameObject* pObject) {
+    std::string type = (*pJsonObject)["type"].string_value();
+
+    if (type == "TextObject") {
+        setupTextObject(pJsonObject, pObject);
+    } else if (type == "MenuButton") {
+        setupMenuButton(pJsonObject, pObject);
+    }
+}
+
+void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
+
+}
+
+void StateParser::setupMenuButton(Json* pJsonObject, GameObject* pObject) {
 
 }
 

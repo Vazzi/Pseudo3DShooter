@@ -19,6 +19,10 @@ class StateParser {
         void parseTextures(Json* pStateRoot,
                 std::vector<std::string> *pTextureIDs);
         Json getRoot(const char* stateFile);
+        GameObject* createObjectFromJson(Json* pJsonObject);
+        void setupObject(Json* pJsonObject, GameObject* pObject);
+        void setupTextObject(Json* pJsonObject, GameObject* pObject);
+        void setupMenuButton(Json* pJsonObject, GameObject* pObject);
 };
 #endif
 
