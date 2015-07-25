@@ -96,6 +96,33 @@ void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
     TextObject* pTextObject = (TextObject *)pObject;
     std::string text = (*pJsonObject)["text"].string_value();
     pTextObject->setText(text);
+
+    int scale = (*pJsonObject)["scale"].int_value();
+    if (scale) {
+        pTextObject->setScale(scale);
+    }
+    int spacing = (*pJsonObject)["spacing"].int_value();
+    if (spacing) {
+        pTextObject->setSpacing(spacing);
+    }
+    Json colorData = (*pJsonObject)["color"];
+    if (!colorData.is_null())  {
+        Json color = colorData.object_items();
+        int r = color["r"].int_value();
+        int g = color["g"].int_value();
+        int b = color["b"].int_value();
+        pTextObject->setColor(r, g, b);
+    }
+    Json flashColorData = (*pJsonObject)["colorFlash"];
+    if (!flashColorData.is_null())  {
+        Json flashColor = flashColorData.object_items();
+        int r = flashColor["r"].int_value();
+        int g = flashColor["g"].int_value();
+        int b = flashColor["b"].int_value();
+        int rate = flashColor["rate"].int_value();
+        pTextObject->setColorFlash(r, g, b, rate);
+    }
+
 }
 
 void StateParser::setupMenuButton(Json* pJsonObject, GameObject* pObject) {
