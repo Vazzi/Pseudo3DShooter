@@ -19,6 +19,10 @@ bool MainMenuState::onEnter() {
     stateParser.parseState("resources/data.json", s_menuID, &m_gameObjects,
             &m_textureIDList);
 
+    if (!MenuState::onEnter()) {
+        return false;
+    }
+
     initCallbacks();
 
     std::cout << "entering MainMenuState\n";

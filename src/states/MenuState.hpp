@@ -9,6 +9,7 @@ class MenuState : public GameState {
         MenuState();
 
         virtual void update(unsigned int deltaTime);
+        virtual bool onEnter();
     protected:
         typedef void(*Callback)();
 
