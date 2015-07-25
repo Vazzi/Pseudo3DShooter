@@ -51,6 +51,72 @@
         "height": 0,
         "textureId": "basicFont",
         "callbackId": 2,
+        "text": "About",
+        "scale": 4
+      },
+      {
+        "type": "MenuButton",
+        "x": 100,
+        "y": 250,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "callbackId": 3,
+        "text": "Quit",
+        "scale": 4
+      }
+    ]
+  },
+  {
+    "stateId": "ABOUT",
+    "textures": [],
+    "fonts": [
+      {
+        "id": "basicFont",
+        "fileName": "resources/font.png",
+        "letterWidth": 5,
+        "letterHeight": 8
+      }
+    ],
+    "objects": [
+      {
+        "type": "TextObject",
+        "x": 150,
+        "y": 50,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "text": "ABOUT",
+        "scale": 5
+      },
+      {
+        "type": "TextObject",
+        "x": 60,
+        "y": 100,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "text": "This is a super game that",
+        "scale": 3
+      },
+      {
+        "type": "TextObject",
+        "x": 60,
+        "y": 150,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "text": "will make you cry.",
+        "scale": 3
+      },
+      {
+        "type": "MenuButton",
+        "x": 150,
+        "y": 300,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "callbackId": 1,
         "text": "Quit",
         "scale": 4
       }

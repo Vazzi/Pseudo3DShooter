@@ -154,7 +154,6 @@ void StateParser::parseFonts(Json* pStateRoot,
         int letterWidth = (*it)["letterWidth"].int_value();
         int letterHeight = (*it)["letterHeight"].int_value();
         pFontIDs->push_back(fontId);
-        std::cout << fileName << std::endl;
         TheFontManager::Instance()->load(fileName, fontId, letterWidth,
                 letterHeight, TheGame::Instance()->getRenderer());
     }

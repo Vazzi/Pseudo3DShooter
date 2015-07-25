@@ -16,10 +16,10 @@ class MainMenuState : public MenuState {
         static const std::string s_menuID;
 
         static void s_menuToPlay();
+        static void s_menuToAbout();
         static void s_exitFromMenu();
 
         void initCallbacks();
-        void initObjects();
 
 };
 #endif
