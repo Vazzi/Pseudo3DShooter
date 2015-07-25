@@ -9,7 +9,7 @@
         "y": 50,
         "width": 500,
         "height": 0,
-        "textureId": "resources/font.png",
+        "textureId": "basicFont",
         "text": "PSEUDO 3D SHOOTER",
         "scale": 5,
         "color": {
@@ -30,7 +30,7 @@
         "y": 150,
         "width": 500,
         "height": 0,
-        "textureId": "resources/font.png",
+        "textureId": "basicFont",
         "callbackId": 1,
         "text": "Play",
         "scale": 4
@@ -41,7 +41,7 @@
         "y": 200,
         "width": 500,
         "height": 0,
-        "textureId": "resources/font.png",
+        "textureId": "basicFont",
         "callbackId": 2,
         "text": "Quit",
         "scale": 4
