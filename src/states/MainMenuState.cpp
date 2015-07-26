@@ -5,6 +5,7 @@
 #include "StateParser.hpp"
 #include "AboutState.hpp"
 #include "GameStateMachine.hpp"
+#include "PlayState.hpp"
 
 const std::string MainMenuState::s_menuID = "MENU";
 
@@ -41,7 +42,7 @@ bool MainMenuState::onExit() {
 }
 
 void MainMenuState::s_menuToPlay() {
-    // empty
+    TheGame::Instance()->getStateMachine()->pushState(new PlayState());
 }
 
 void MainMenuState::s_menuToAbout() {
