@@ -111,5 +111,68 @@
         "scale": 4
       }
     ]
+  },
+  {
+    "stateId": "PAUSE",
+    "textures": [],
+    "fonts": [
+      {
+        "id": "basicFont",
+        "fileName": "resources/font.png",
+        "letterWidth": 5,
+        "letterHeight": 8
+      }
+    ],
+    "objects": [
+      {
+        "type": "TextObject",
+        "x": 60,
+        "y": 50,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "text": "PAUSE",
+        "scale": 5,
+        "color": {
+          "r": 255,
+          "g": 255,
+          "b": 255
+        },
+        "colorFlash": {
+          "r": 240,
+          "g": 240,
+          "b": 240,
+          "rate": 400
+        }
+      },
+      {
+        "type": "MenuButton",
+        "x": 100,
+        "y": 150,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "callbackId": 1,
+        "text": "Resume",
+        "scale": 4
+      },
+      {
+        "type": "MenuButton",
+        "x": 100,
+        "y": 200,
+        "width": 500,
+        "height": 0,
+        "textureId": "basicFont",
+        "callbackId": 2,
+        "text": "Quit",
+        "scale": 4
+      }
+    ]
+  },
+  {
+    "stateId": "PLAY",
+    "textures": [],
+    "fonts": [],
+    "objects": []
   }
 ]
