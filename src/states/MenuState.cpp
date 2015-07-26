@@ -30,16 +30,17 @@ void MenuState::update(unsigned int deltaTime) {
                 m_activeButton = (m_activeButton - 1);
             }
             resetKeyTime();
+            updateButtons();
         } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
             if (m_activeButton != (int)m_menuButtons.size() - 1) {
                 m_activeButton = (m_activeButton + 1);
             }
-            m_keyTime = KEY_WAIT_TIME;
+            resetKeyTime();
+            updateButtons();
         } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
             resetKeyTime();
             m_menuButtons[m_activeButton]->click();
         }
-        updateButtons();
     } else {
         m_keyTime -= deltaTime;
     }
