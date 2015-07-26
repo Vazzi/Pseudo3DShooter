@@ -66,6 +66,7 @@ class FontManager {
         void draw(const string text, const FontParams &params,
                 SDL_Renderer* pRenderer);
         void clearFromFontMap(string id);
+        int getLetterWidth(std::string fontID, int scale = 1);
 
     private:
         FontManager();

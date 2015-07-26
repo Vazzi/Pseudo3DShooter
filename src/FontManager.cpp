@@ -73,6 +73,10 @@ void FontManager::clearFromFontMap(string id) {
     }
 }
 
+int FontManager::getLetterWidth(std::string fontID, int scale) {
+    return m_fontMap[fontID]->width * scale;
+}
+
 SDL_Rect FontManager::sourceRectangle(int character, const FontParams &params) {
     int xOffset = character % 42;
     int yOffset = character / 42;

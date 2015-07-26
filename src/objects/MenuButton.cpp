@@ -31,13 +31,20 @@ void MenuButton::setActive(bool active) {
     if (active == m_isActive) {
         return;
     }
-
     m_isActive = active;
 
+    std::string pointer = ">";
+
+    int xOffset = TheFontManager::Instance()->getLetterWidth(m_fontID, m_scale)
+        * pointer.size();
+    Vector2D offset = Vector2D(xOffset, 0);
+
     if (active) {
-        m_text = ">" + m_text;
+        m_position -= offset;
+        m_text = pointer + m_text;
     } else {
-        m_text = m_text.substr(1, m_text.length() - 1);
+        m_text = m_text.substr(pointer.size(), m_text.length() - 1);
+        m_position += offset;
     }
 }
 
