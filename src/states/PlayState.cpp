@@ -1,12 +1,15 @@
 #include "PlayState.hpp"
 #include "StateParser.hpp"
 #include "../InputHandler.hpp"
+#include "GameStateMachine.hpp"
+#include "PauseState.hpp"
+#include "../Game.hpp"
 
 const std::string PlayState::s_playID = "PLAY";
 
 void PlayState::update(unsigned int deltaTime) {
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
-        //TheGame::Instance()->getStateMachine()->pushState(new PauseState());
+        TheGame::Instance()->getStateMachine()->pushState(new PauseState());
     }
     GameState::update(deltaTime);
 }
