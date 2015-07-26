@@ -26,10 +26,10 @@
           "b": 0
         },
         "colorFlash": {
-          "r": 150,
+          "r": 200,
           "g": 0,
           "b": 0,
-          "rate": 500
+          "rate": 400
         }
       },
       {
@@ -87,7 +87,18 @@
         "height": 0,
         "textureId": "basicFont",
         "text": "ABOUT",
-        "scale": 5
+        "scale": 5,
+        "color": {
+          "r": 255,
+          "g": 0,
+          "b": 0
+        },
+        "colorFlash": {
+          "r": 200,
+          "g": 0,
+          "b": 0,
+          "rate": 400
+        }
       },
       {
         "type": "TextObject",
@@ -135,13 +146,13 @@
         "scale": 5,
         "color": {
           "r": 255,
-          "g": 255,
-          "b": 255
+          "g": 0,
+          "b": 0
         },
         "colorFlash": {
-          "r": 240,
-          "g": 240,
-          "b": 240,
+          "r": 200,
+          "g": 0,
+          "b": 0,
           "rate": 400
         }
       },
@@ -164,7 +175,7 @@
         "height": 0,
         "textureId": "basicFont",
         "callbackId": 2,
-        "text": "Quit",
+        "text": "To Main Menu",
         "scale": 4
       }
     ]
