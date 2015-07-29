@@ -3,6 +3,9 @@
 
 #include "GameObject.hpp"
 #include "Vector2D.hpp"
+#include <vector>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 class WorldObject : public GameObject {
     public:
@@ -22,6 +25,7 @@ class WorldObject : public GameObject {
         double m_time;
         double m_oldTime;
         int m_keyTime;
+        std::vector<Uint32> texture[8];
 
 };
 
