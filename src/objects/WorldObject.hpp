@@ -24,8 +24,7 @@ class WorldObject : public GameObject {
         double m_planeY;
         double m_time;
         double m_oldTime;
-        int m_keyTime;
-        std::vector<Uint32> texture[8];
+        std::vector<SDL_Surface*> texture;
 
 };
 
