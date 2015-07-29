@@ -13,12 +13,14 @@ Game* Game::s_pInstance = 0;
 Game::Game() : m_isRunning(false) {
     m_pWindow = 0;
     m_pRenderer = 0;
+    m_height = 480;
+    m_width = 640;
 }
 
 bool Game::init() {
     if (SDL_Init(SDL_INIT_VIDEO) >= 0) {
         std::cout << "SDL init success\n";
-        if (!initWindow("Game", 100, 100, 640, 480, false)) {
+        if (!initWindow("Game", 100, 100, m_width, m_height, false)) {
             return false;
         }
     } else {

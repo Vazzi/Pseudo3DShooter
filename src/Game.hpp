@@ -21,6 +21,8 @@ class Game {
         void handleEvents();
         void clean();
         void quit();
+        int getHeight() const { return m_height; }
+        int getWidth() const { return m_width; }
         bool running();
         SDL_Renderer* getRenderer() const { return m_pRenderer; }
         GameStateMachine* getStateMachine();
@@ -31,6 +33,8 @@ class Game {
         static Game* s_pInstance;
 
         bool m_isRunning;
+        int m_width;
+        int m_height;
         SDL_Window* m_pWindow;
         SDL_Renderer* m_pRenderer;
         GameStateMachine* m_pStateMachine;
@@ -40,6 +44,7 @@ class Game {
         bool initRenderer();
         void initStateMachine();
         void initGameObjects();
+
 
 };
 
