@@ -1,4 +1,4 @@
-#include "PlayState.hpp"
+#include "LevelState.hpp"
 #include "StateParser.hpp"
 #include "../InputHandler.hpp"
 #include "GameStateMachine.hpp"
@@ -6,35 +6,35 @@
 #include "../Game.hpp"
 #include "../objects/WorldObject.hpp"
 
-const std::string PlayState::s_playID = "PLAY";
+const std::string LevelState::s_playID = "LEVEL";
 
-void PlayState::update(unsigned int deltaTime) {
+void LevelState::update(unsigned int deltaTime) {
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
         TheGame::Instance()->getStateMachine()->pushState(new PauseState());
     }
     GameState::update(deltaTime);
 }
 
-void PlayState::render() {
+void LevelState::render() {
     GameState::render();
 }
 
-bool PlayState::onEnter() {
+bool LevelState::onEnter() {
     StateParser stateParser;
     stateParser.parseState("resources/data.json", s_playID, &m_gameObjects,
             &m_textureIDList, &m_fontIDList);
 
     m_gameObjects.push_back(new WorldObject());
 
-    std::cout << "entering PlayState\n";
+    std::cout << "entering LevelState\n";
     return true;
 }
 
-bool PlayState::onExit() {
+bool LevelState::onExit() {
     if (!GameState::onExit()) {
         return false;
     }
-    std::cout << "exiting PlayState\n";
+    std::cout << "exiting LevelState\n";
     return true;
 }
 

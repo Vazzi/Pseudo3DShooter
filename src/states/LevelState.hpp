@@ -1,9 +1,9 @@
-#ifndef __PLAY_STATE__
-#define __PLAY_STATE__
+#ifndef __LEVEL_STATE__
+#define __LEVEL_STATE__
 
 #include "GameState.hpp"
 
-class PlayState : public GameState {
+class LevelState : public GameState {
     public:
         virtual void update(unsigned int deltaTime);
         virtual void render();
