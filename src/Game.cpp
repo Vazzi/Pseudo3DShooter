@@ -7,6 +7,8 @@
 #include "objects/GameObjectFactory.hpp"
 #include "objects/TextObject.hpp"
 #include "objects/MenuButton.hpp"
+#include "objects/Player.hpp"
+#include "objects/WorldObject.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -119,5 +121,9 @@ void Game::initGameObjects() {
             new TextObjectCreator());
     TheGameObjectFactory::Instance()->registerType("MenuButton",
             new MenuButtonCreator());
+    TheGameObjectFactory::Instance()->registerType("Player",
+            new PlayerCreator());
+    TheGameObjectFactory::Instance()->registerType("WorldObject",
+            new WorldObjectCreator());
 }
 

@@ -16,7 +16,8 @@ void LevelState::update(unsigned int deltaTime) {
 }
 
 void LevelState::render() {
-    GameState::render();
+// TODO: Uncomment
+    //GameState::render();
 }
 
 bool LevelState::onEnter() {

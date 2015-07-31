@@ -7,6 +7,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+class Map;
+class Player;
+
 class WorldObject : public GameObject {
     public:
         WorldObject();
@@ -15,17 +18,28 @@ class WorldObject : public GameObject {
         virtual void update(unsigned int deltaTime);
         virtual void clean();
         virtual void load(const LoaderParams* pParams);
+        void loadLevelData(std::string fileName);
+
     private:
-        double m_posX;
-        double m_posY;
-        double m_dirX;
-        double m_dirY;
+        Vector2D m_position;
+        int m_height;
+        int m_width;
+
+        Map* m_pMap;
+        Player* m_pPlayer;
+        std::vector<GameObject*> m_gameObjects;
         double m_planeX;
         double m_planeY;
         double m_time;
         double m_oldTime;
-        std::vector<SDL_Surface*> texture;
 
 };
+
+class WorldObjectCreator : public BaseCreator {
+    GameObject* createGameObject() const {
+        return new WorldObject();
+    }
+};
+
 
 #endif

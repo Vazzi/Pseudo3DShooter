@@ -1,189 +1,200 @@
 [
-  {
-    "stateId": "MENU",
-    "textures": [],
-    "fonts": [
-      {
-        "id": "basicFont",
-        "fileName": "resources/font.png",
-        "letterWidth": 5,
-        "letterHeight": 8
-      }
-    ],
-    "objects": [
-      {
-        "type": "TextObject",
-        "x": 60,
-        "y": 50,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "text": "PSEUDO 3D SHOOTER",
-        "scale": 5,
-        "color": {
-          "r": 255,
-          "g": 0,
-          "b": 0
-        },
-        "colorFlash": {
-          "r": 200,
-          "g": 0,
-          "b": 0,
-          "rate": 400
-        }
-      },
-      {
-        "type": "MenuButton",
-        "x": 100,
-        "y": 150,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "callbackId": 1,
-        "text": "Play",
-        "scale": 4
-      },
-      {
-        "type": "MenuButton",
-        "x": 100,
-        "y": 200,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "callbackId": 2,
-        "text": "About",
-        "scale": 4
-      },
-      {
-        "type": "MenuButton",
-        "x": 100,
-        "y": 250,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "callbackId": 3,
-        "text": "Quit",
-        "scale": 4
-      }
-    ]
-  },
-  {
-    "stateId": "ABOUT",
-    "textures": [],
-    "fonts": [
-      {
-        "id": "basicFont",
-        "fileName": "resources/font.png",
-        "letterWidth": 5,
-        "letterHeight": 8
-      }
-    ],
-    "objects": [
-      {
-        "type": "TextObject",
-        "x": 60,
-        "y": 50,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "text": "ABOUT",
-        "scale": 5,
-        "color": {
-          "r": 255,
-          "g": 0,
-          "b": 0
-        },
-        "colorFlash": {
-          "r": 200,
-          "g": 0,
-          "b": 0,
-          "rate": 400
-        }
-      },
-      {
-        "type": "TextObject",
-        "x": 80,
-        "y": 150,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "text": "Created by Jakub Vlasak",
-        "scale": 3
-      },
-      {
-        "type": "MenuButton",
-        "x": 100,
-        "y": 250,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "callbackId": 1,
-        "text": "Back",
-        "scale": 4
-      }
-    ]
-  },
-  {
-    "stateId": "PAUSE",
-    "textures": [],
-    "fonts": [
-      {
-        "id": "basicFont",
-        "fileName": "resources/font.png",
-        "letterWidth": 5,
-        "letterHeight": 8
-      }
-    ],
-    "objects": [
-      {
-        "type": "TextObject",
-        "x": 60,
-        "y": 50,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "text": "PAUSE",
-        "scale": 5,
-        "color": {
-          "r": 255,
-          "g": 0,
-          "b": 0
-        },
-        "colorFlash": {
-          "r": 200,
-          "g": 0,
-          "b": 0,
-          "rate": 400
-        }
-      },
-      {
-        "type": "MenuButton",
-        "x": 100,
-        "y": 150,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "callbackId": 1,
-        "text": "Resume",
-        "scale": 4
-      },
-      {
-        "type": "MenuButton",
-        "x": 100,
-        "y": 200,
-        "width": 500,
-        "height": 0,
-        "textureId": "basicFont",
-        "callbackId": 2,
-        "text": "To Main Menu",
-        "scale": 4
-      }
-    ]
-  },
-  {
-    "stateId": "PLAY",
-    "textures": [],
-    "fonts": [],
-    "objects": []
-  }
+    {
+        "stateId": "MENU",
+        "textures": [],
+        "fonts": [
+            {
+                "id": "basicFont",
+                "fileName": "resources/font.png",
+                "letterWidth": 5,
+                "letterHeight": 8
+            }
+        ],
+        "objects": [
+            {
+                "type": "TextObject",
+                "x": 60,
+                "y": 50,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "text": "PSEUDO 3D SHOOTER",
+                "scale": 5,
+                "color": {
+                    "r": 255,
+                    "g": 0,
+                    "b": 0
+                },
+                "colorFlash": {
+                    "r": 200,
+                    "g": 0,
+                    "b": 0,
+                    "rate": 400
+                }
+            },
+            {
+                "type": "MenuButton",
+                "x": 100,
+                "y": 150,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "callbackId": 1,
+                "text": "Play",
+                "scale": 4
+            },
+            {
+                "type": "MenuButton",
+                "x": 100,
+                "y": 200,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "callbackId": 2,
+                "text": "About",
+                "scale": 4
+            },
+            {
+                "type": "MenuButton",
+                "x": 100,
+                "y": 250,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "callbackId": 3,
+                "text": "Quit",
+                "scale": 4
+            }
+        ]
+    },
+    {
+        "stateId": "ABOUT",
+        "textures": [],
+        "fonts": [
+            {
+                "id": "basicFont",
+                "fileName": "resources/font.png",
+                "letterWidth": 5,
+                "letterHeight": 8
+            }
+        ],
+        "objects": [
+            {
+                "type": "TextObject",
+                "x": 60,
+                "y": 50,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "text": "ABOUT",
+                "scale": 5,
+                "color": {
+                    "r": 255,
+                    "g": 0,
+                    "b": 0
+                },
+                "colorFlash": {
+                    "r": 200,
+                    "g": 0,
+                    "b": 0,
+                    "rate": 400
+                }
+            },
+            {
+                "type": "TextObject",
+                "x": 80,
+                "y": 150,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "text": "Created by Jakub Vlasak",
+                "scale": 3
+            },
+            {
+                "type": "MenuButton",
+                "x": 100,
+                "y": 250,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "callbackId": 1,
+                "text": "Back",
+                "scale": 4
+            }
+        ]
+    },
+    {
+        "stateId": "PAUSE",
+        "textures": [],
+        "fonts": [
+            {
+                "id": "basicFont",
+                "fileName": "resources/font.png",
+                "letterWidth": 5,
+                "letterHeight": 8
+            }
+        ],
+        "objects": [
+            {
+                "type": "TextObject",
+                "x": 60,
+                "y": 50,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "text": "PAUSE",
+                "scale": 5,
+                "color": {
+                    "r": 255,
+                    "g": 0,
+                    "b": 0
+                },
+                "colorFlash": {
+                    "r": 200,
+                    "g": 0,
+                    "b": 0,
+                    "rate": 400
+                }
+            },
+            {
+                "type": "MenuButton",
+                "x": 100,
+                "y": 150,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "callbackId": 1,
+                "text": "Resume",
+                "scale": 4
+            },
+            {
+                "type": "MenuButton",
+                "x": 100,
+                "y": 200,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "callbackId": 2,
+                "text": "To Main Menu",
+                "scale": 4
+            }
+        ]
+    },
+    {
+        "stateId": "LEVEL",
+        "textures": [],
+        "fonts": [],
+        "objects": [
+            {
+                "type": "WorldObject",
+                "x": 0,
+                "y": 0,
+                "width": 640,
+                "height": 480,
+                "sourceFile" : "resources/levels/level1.json"
+            }
+        ]
+    }
+
+
 ]

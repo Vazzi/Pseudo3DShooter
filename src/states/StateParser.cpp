@@ -9,6 +9,9 @@
 #include "../objects/GameObject.hpp"
 #include "../objects/LoaderParams.hpp"
 #include "../objects/TextObject.hpp"
+#include "../objects/WorldObject.hpp"
+#include "../objects/Player.hpp"
+#include "../objects/Map.hpp"
 #include "../Game.hpp"
 
 bool StateParser::parseState(const char* stateFile, std::string stateID,
@@ -39,6 +42,20 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
 
 }
 
+bool StateParser::parseWorld(const char* file, std::vector<GameObject*>* pObjects,
+        Map*& pMap, Player*& pPlayer) {
+    Json root = getRoot(file);
+    if (root == nullptr) {
+        return false;
+    }
+    parseObjects(&root, pObjects);
+    parseMap(&root, pMap);
+    Json playerData = root["player"].object_items();
+    pPlayer = (Player*)createObjectFromJson(&playerData);
+    setupPlayer(&playerData, pPlayer);
+    return true;
+}
+
 Json StateParser::getRoot(const char* stateFile) {
     std::ifstream ifs;
     ifs.open(stateFile, std::ifstream::in);
@@ -58,6 +75,21 @@ Json StateParser::getRoot(const char* stateFile) {
     return root;
 }
 
+void StateParser::parseMap(Json* pRoot, Map*& pMap) {
+    Json mapObject = (*pRoot)["map"].object_items();
+
+    int width = mapObject["width"].int_value();
+    int height = mapObject["height"].int_value();
+    std::vector<Json> data = mapObject["data"].array_items();
+    std::vector<Json> objects = mapObject["objects"].array_items();
+
+    pMap = new Map(width, height);
+    // TODO: load map
+    //pMap->loadWallBitmap();
+    //pMap->loadMap();
+
+}
+
 void StateParser::parseObjects(Json* pStateRoot,
         std::vector<GameObject*> *pObjects) {
     std::vector<Json> textures = (*pStateRoot)["objects"].array_items();
@@ -70,6 +102,7 @@ void StateParser::parseObjects(Json* pStateRoot,
 }
 
 GameObject* StateParser::createObjectFromJson(Json* pJsonObject) {
+    // TODO: x, y as a double not int
     int x = (*pJsonObject)["x"].int_value();
     int y = (*pJsonObject)["y"].int_value();
     int width = (*pJsonObject)["width"].int_value();
@@ -91,7 +124,23 @@ void StateParser::setupObject(Json* pJsonObject, GameObject* pObject) {
         setupTextObject(pJsonObject, pObject);
     } else if (type == "MenuButton") {
         setupMenuButton(pJsonObject, pObject);
+    } else if (type == "WorldObject") {
+        setupWorld(pJsonObject, pObject);
     }
+}
+
+void StateParser::setupWorld(Json* pJsonObject, GameObject* pObject) {
+    WorldObject* pWorld = (WorldObject *)pObject;
+    std::string levelFile = (*pJsonObject)["sourceFile"].string_value();
+    pWorld->loadLevelData(levelFile);
+}
+
+void StateParser::setupPlayer(Json* pJsonObject, GameObject* pObject) {
+    Player* pPlayer = (Player *)pObject;
+    double dirX = (*pJsonObject)["dirX"].number_value();
+    double dirY = (*pJsonObject)["dirY"].number_value();
+    pPlayer->setDirX(dirX);
+    pPlayer->setDirY(dirY);
 }
 
 void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
@@ -124,7 +173,6 @@ void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
         int rate = flashColor["rate"].int_value();
         pTextObject->setColorFlash(r, g, b, rate);
     }
-
 }
 
 void StateParser::setupMenuButton(Json* pJsonObject, GameObject* pObject) {
@@ -158,3 +206,4 @@ void StateParser::parseFonts(Json* pStateRoot,
                 letterHeight, TheGame::Instance()->getRenderer());
     }
 }
+
