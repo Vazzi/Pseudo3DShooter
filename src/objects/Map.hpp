@@ -9,7 +9,7 @@ class Map {
     public:
         Map(const int width , const int height);
         ~Map ();
-        void loadMap(std::vector<int> data);
+        void loadMap(int array[]);
         // TODO: Rename wall to objects
         bool loadWallBitmap(const std::string fileName);
         SDL_Surface* getWall(const unsigned int x, const unsigned int y);

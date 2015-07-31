@@ -83,10 +83,22 @@ void StateParser::parseMap(Json* pRoot, Map*& pMap) {
     std::vector<Json> data = mapObject["data"].array_items();
     std::vector<Json> objects = mapObject["objects"].array_items();
 
+    int mapArray[width * height];
+
+    for (int y = 0; y < height; y++) {
+        std::vector<Json> line = data[y].array_items();
+        for (int x = 0; x < width; x++) {
+            mapArray[x + (y * height)] = line[y].int_value();
+        }
+    }
+
     pMap = new Map(width, height);
-    // TODO: load map
-    //pMap->loadWallBitmap();
-    //pMap->loadMap();
+    pMap->loadMap(mapArray);
+
+    for (unsigned int i = 0; i < objects.size(); i++) {
+        pMap->loadWallBitmap(objects[i].string_value());
+    }
+
 
 }
 

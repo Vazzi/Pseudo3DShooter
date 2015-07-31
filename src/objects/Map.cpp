@@ -14,8 +14,10 @@ Map::~Map() {
     m_walls.clear();
 }
 
-void Map::loadMap(std::vector<int> data) {
-    // TODO: load map
+void Map::loadMap(int array[]) {
+    for (unsigned int i = 0; i < (m_height * m_width); i++) {
+        m_map[i] = array[i];
+    }
 }
 
 bool Map::loadWallBitmap(std::string fileName) {
@@ -32,7 +34,7 @@ SDL_Surface* Map::getWall(const unsigned int x, const unsigned int y) {
     if (x < m_width && y < m_height) {
         int wallIndex = m_map[x + (m_width * y)];
         wallIndex--; // 0 is no object but objects index starts from 0
-        if (wallIndex > 0 && wallIndex < m_walls.size()) {
+        if (wallIndex > 0 && (unsigned int)wallIndex < m_walls.size()) {
             return m_walls[wallIndex];
         }
     }
