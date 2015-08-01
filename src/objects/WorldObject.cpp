@@ -13,9 +13,6 @@ WorldObject::WorldObject() : m_position(Vector2D(0, 0)) {
 
 void WorldObject::render() {
 
-// TODO: texture size
-    int textureWidth = 64;
-    int textureHeight = 64;
     for(int x = 0; x < m_pGameSurface->getWidth(); x++) {
         //calculate ray position and direction
         double cameraX = 2 * x / double(m_pGameSurface->getWidth()) - 1; //x-coordinate in camera space
@@ -103,12 +100,12 @@ void WorldObject::render() {
         wallX -= floor((wallX));
 
         //x coordinate on the texture
-        int texX = int(wallX * double(textureWidth));
-        if (side == 0 && rayDirX > 0) texX = textureWidth - texX - 1;
-        if (side == 1 && rayDirY < 0) texX = textureWidth - texX - 1;
+        int texX = int(wallX * double(pTexture->w));
+        if (side == 0 && rayDirX > 0) texX = pTexture->w - texX - 1;
+        if (side == 1 && rayDirY < 0) texX = pTexture->w - texX - 1;
         for (int y = drawStart; y<drawEnd; y++) {
             int d = y * 256 - m_pGameSurface->getHeight() * 128 + lineHeight * 128;  //256 and 128 factors to avoid floats
-            int texY = ((d * textureHeight) / lineHeight) / 256;
+            int texY = ((d * pTexture->h) / lineHeight) / 256;
             Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
             m_pGameSurface->putPixel(x, y, color);
         }
