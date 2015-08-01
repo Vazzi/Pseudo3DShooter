@@ -10,6 +10,8 @@ public:
 
     static Uint32 getPixelFromSurface(SDL_Surface *pSurface, int x, int y);
 
+    int getWidth() const { return m_width; }
+    int getHeight() const { return m_height; }
     void putPixel(int x, int y, Uint32 pixel);
     void draw(int x, int y, int width, int height);
     void clear();

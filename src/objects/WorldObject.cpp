@@ -16,9 +16,9 @@ void WorldObject::render() {
 // TODO: texture size
     int textureWidth = 64;
     int textureHeight = 64;
-    for(int x = 0; x < m_width; x++) {
+    for(int x = 0; x < m_pGameSurface->getWidth(); x++) {
         //calculate ray position and direction
-        double cameraX = 2 * x / double(m_width) - 1; //x-coordinate in camera space
+        double cameraX = 2 * x / double(m_pGameSurface->getWidth()) - 1; //x-coordinate in camera space
         double rayPosX = m_pPlayer->getPosition().getX();
         double rayPosY = m_pPlayer->getPosition().getY();
         double rayDirX = m_pPlayer->getDirX() + m_planeX * cameraX;
@@ -82,13 +82,13 @@ void WorldObject::render() {
         }
 
         //Calculate height of line to draw on screen
-        int lineHeight = abs(int(m_height / perpWallDist));
+        int lineHeight = abs(int(m_pGameSurface->getHeight() / perpWallDist));
 
         //calculate lowest and highest pixel to fill in current stripe
-        int drawStart = -lineHeight / 2 + m_height / 2;
+        int drawStart = -lineHeight / 2 + m_pGameSurface->getHeight() / 2;
         if(drawStart < 0)drawStart = 0;
-        int drawEnd = lineHeight / 2 + m_height / 2;
-        if(drawEnd >= m_height)drawEnd = m_height - 1;
+        int drawEnd = lineHeight / 2 + m_pGameSurface->getHeight() / 2;
+        if(drawEnd >= m_pGameSurface->getHeight())drawEnd = m_pGameSurface->getHeight() - 1;
 
         //texturing calculations
         SDL_Surface* pTexture = m_pMap->getWall(mapX, mapY);
@@ -107,7 +107,7 @@ void WorldObject::render() {
         if (side == 0 && rayDirX > 0) texX = textureWidth - texX - 1;
         if (side == 1 && rayDirY < 0) texX = textureWidth - texX - 1;
         for (int y = drawStart; y<drawEnd; y++) {
-            int d = y * 256 - m_height * 128 + lineHeight * 128;  //256 and 128 factors to avoid floats
+            int d = y * 256 - m_pGameSurface->getHeight() * 128 + lineHeight * 128;  //256 and 128 factors to avoid floats
             int texY = ((d * textureHeight) / lineHeight) / 256;
             Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
             m_pGameSurface->putPixel(x, y, color);
@@ -187,7 +187,8 @@ void WorldObject::load(const LoaderParams* pParams) {
     m_planeY = 0.66;
     m_time = 0;
     m_oldTime = 0;
-    m_pGameSurface = new GameSurface(m_width, m_height);
+    float scale = 1;
+    m_pGameSurface = new GameSurface(m_width * scale, m_height * scale);
 }
 
 void WorldObject::loadLevelData(std::string fileName) {
