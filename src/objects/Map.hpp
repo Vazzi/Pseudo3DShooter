@@ -10,7 +10,6 @@ class Map {
         Map(const int width , const int height);
         ~Map ();
         void loadMap(int array[]);
-        // TODO: Rename wall to objects
         bool loadWallBitmap(const std::string fileName);
         bool loadObjectBitmap(const std::string fileName);
         bool loadFloorBitmap(const std::string fileName);
