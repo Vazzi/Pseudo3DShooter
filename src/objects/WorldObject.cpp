@@ -224,8 +224,8 @@ void WorldObject::update(unsigned int deltaTime) {
     double moveSpeed = 5.0 * (deltaTime / 1000.0); //the constant value is in squares/second
     double rotSpeed = 3.0 * (deltaTime / 1000.0); //the constant value is in radians/second
 
-    int posX = m_pPlayer->getPosition().getX();
-    int posY = m_pPlayer->getPosition().getY();
+    double posX = m_pPlayer->getPosition().getX();
+    double posY = m_pPlayer->getPosition().getY();
 
     //move forward if no wall in front of you
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {

@@ -33,7 +33,7 @@ bool Map::loadWallBitmap(std::string fileName) {
 SDL_Surface* Map::getWall(const unsigned int x, const unsigned int y) {
     if (x < m_width && y < m_height) {
         int wallIndex = m_map[x + (m_width * y)];
-        if (wallIndex > 0 && (unsigned int)wallIndex < m_walls.size()) {
+        if (wallIndex > 0 && (unsigned int)wallIndex <= m_walls.size()) {
             wallIndex--; // 0 is no object but objects index starts from 0
             return m_walls[wallIndex];
         }
