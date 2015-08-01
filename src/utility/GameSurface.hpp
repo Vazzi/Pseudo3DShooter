@@ -16,6 +16,8 @@ public:
     void draw(int x, int y, int width, int height);
     void clear();
 
+    void setFormatBySurface(SDL_Surface* pSurface);
+
 private:
     SDL_Surface* m_pSurface;
     Uint32* m_pBuffer;

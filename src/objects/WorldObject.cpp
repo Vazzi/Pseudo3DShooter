@@ -66,6 +66,7 @@ void WorldObject::load(const LoaderParams* pParams) {
 void WorldObject::loadLevelData(std::string fileName) {
     StateParser parser;
     parser.parseWorld(fileName.c_str(), &m_gameObjects, &m_pMap, &m_pPlayer);
+    m_pGameSurface->setFormatBySurface(m_pMap->getFloor());
 }
 
 void WorldObject::renderSurface() {

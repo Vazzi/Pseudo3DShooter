@@ -10,6 +10,11 @@ GameSurface::GameSurface(unsigned int width, unsigned int height) {
     m_pBuffer = new Uint32[width * height];
 }
 
+void GameSurface::setFormatBySurface(SDL_Surface* pSurface) {
+    m_pSurface->format = pSurface->format;
+}
+
+
 GameSurface::~GameSurface() {
     SDL_FreeSurface(m_pSurface);
     delete m_pBuffer;
@@ -100,7 +105,7 @@ void GameSurface::unlock() {
 
 void GameSurface::putPixelToSurface(int x, int y, Uint32 pixel) {
     int bpp = m_pSurface->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to set */
+    // Here p is the address to the pixel we want to set 
     Uint8 *p = (Uint8 *)m_pSurface->pixels + y * m_pSurface->pitch + x * bpp;
 
     switch (bpp) {
