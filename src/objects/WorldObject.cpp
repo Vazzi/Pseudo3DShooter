@@ -17,8 +17,9 @@ void WorldObject::render() {
 }
 
 void WorldObject::update(unsigned int deltaTime) {
+    m_pPlayer->update(deltaTime);
+    
     //speed modifiers
-    double moveSpeed = 5.0 * (deltaTime / 1000.0); //the constant value is in squares/second
     double rotSpeed = 3.0 * (deltaTime / 1000.0); //the constant value is in radians/second
 
     double posX = m_pPlayer->getPosition().getX();
@@ -26,25 +27,20 @@ void WorldObject::update(unsigned int deltaTime) {
 
     //move forward if no wall in front of you
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {
-        // TODO: m_pPlayer->nextStepX();
-        if (m_pMap->isEmpty(posX + m_pPlayer->getDirX() * moveSpeed, posY)) {
-            // TODO: m_pPlayer->moveX();
-            m_pPlayer->alterPosition(m_pPlayer->getDirX() * moveSpeed, 0);
+        if (m_pMap->isEmpty(m_pPlayer->nextStepX(false), posY)) {
+            m_pPlayer->moveSteps(1,0);
         }
-        // TODO: m_pPlayer->nextStepY();
-        if(m_pMap->isEmpty(posX, posY + m_pPlayer->getDirY() * moveSpeed)) {
-            // TODO: m_pPlayer->moveY();
-            m_pPlayer->alterPosition(0, m_pPlayer->getDirY() * moveSpeed);
+        if(m_pMap->isEmpty(posX, m_pPlayer->nextStepY(false))) {
+            m_pPlayer->moveSteps(0,1);
         }
     }
-    // TODO: implement the rest
     //move backwards if no wall behind you
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
-        if (m_pMap->isEmpty(int(posX - m_pPlayer->getDirX() * moveSpeed), posY)) {
-            m_pPlayer->alterPosition((m_pPlayer->getDirX() * moveSpeed * -1), 0);
+        if (m_pMap->isEmpty(m_pPlayer->nextStepX(true), posY)) {
+            m_pPlayer->moveSteps(-1,0);
         }
-        if (m_pMap->isEmpty(int(posX), int(posY - m_pPlayer->getDirY() * moveSpeed))) {
-            m_pPlayer->alterPosition(0, -1 * m_pPlayer->getDirY() * moveSpeed);
+        if (m_pMap->isEmpty(posX, m_pPlayer->nextStepY(true))) {
+            m_pPlayer->moveSteps(0,-1);
         }
     }
     //rotate to the right
