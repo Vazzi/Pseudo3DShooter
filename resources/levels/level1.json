@@ -41,7 +41,7 @@
     },
     "player" : {
         "type": "Player",
-        "x": 11,
+        "x": 11.5,
         "y": 22.5,
         "dirX": -1,
         "dirY": 0

@@ -5,87 +5,7 @@
 #include "Map.hpp"
 #include "../states/StateParser.hpp"
 #include <fstream>
-
-SDL_Surface* scr;
-Uint32 buffer[640][480];
-
-void putpixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
-{
-    int bpp = surface->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to set */
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    switch (bpp) {
-    case 1:
-        *p = pixel;
-        break;
-
-    case 2:
-        *(Uint16 *)p = pixel;
-        break;
-
-    case 3:
-        if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-            p[0] = (pixel >> 16) & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = pixel & 0xff;
-        }
-        else {
-            p[0] = pixel & 0xff;
-            p[1] = (pixel >> 8) & 0xff;
-            p[2] = (pixel >> 16) & 0xff;
-        }
-        break;
-
-    case 4:
-        *(Uint32 *)p = pixel;
-        break;
-
-   default:
-        break;           /* shouldn't happen, but avoids warnings */
-    } // switch
-}
-
-Uint32 getpixel(SDL_Surface *surface, int x, int y) {
-    int bpp = surface->format->BytesPerPixel;
-    /* Here p is the address to the pixel we want to retrieve */
-    Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
-
-    switch (bpp) {
-    case 1:
-        return *p;
-
-    case 2:
-        return *(Uint16 *)p;
-
-    case 3:
-        if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-            return p[0] << 16 | p[1] << 8 | p[2];
-        else
-            return p[0] | p[1] << 8 | p[2] << 16;
-
-    case 4:
-        return *(Uint32 *)p;
-
-    default:
-        return 0;       /* shouldn't happen, but avoids warnings */
-    } // switch
-}
-
-void redraw() {
-    SDL_Texture* pTexture = SDL_CreateTextureFromSurface(TheGame::Instance()->getRenderer(), scr);
-
-    SDL_Rect srcRect;
-    SDL_Rect destRect;
-
-    destRect.x = srcRect.x = 0;
-    destRect.y = srcRect.y = 0;
-    // TODO: Height and width
-    srcRect.w = destRect.w = 640;
-    srcRect.h = destRect.h = 480;
-
-    SDL_RenderCopy(TheGame::Instance()->getRenderer(), pTexture, &srcRect, &destRect);
-}
+#include "../utility/GameSurface.hpp"
 
 WorldObject::WorldObject() : m_position(Vector2D(0, 0)) {
     // empty
@@ -189,31 +109,13 @@ void WorldObject::render() {
         for (int y = drawStart; y<drawEnd; y++) {
             int d = y * 256 - m_height * 128 + lineHeight * 128;  //256 and 128 factors to avoid floats
             int texY = ((d * textureHeight) / lineHeight) / 256;
-            Uint32 color = getpixel(pTexture, texX, texY);
-            buffer[x][y] = color;
-        }
-
-    }
-
-    if ( SDL_MUSTLOCK(scr) ) {
-        if ( SDL_LockSurface(scr) < 0 ) {
-            fprintf(stderr, "Can't lock screen: %s\n", SDL_GetError());
-            return;
+            Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
+            m_pGameSurface->putPixel(x, y, color);
         }
     }
 
-    for (int y = 0; y < m_height; y++) {
-        for (int x = 0; x < m_width; x++) {
-            putpixel(scr, x, y, buffer[x][y]);
-        }
-    }
-
-    if ( SDL_MUSTLOCK(scr) ) {
-        SDL_UnlockSurface(scr);
-    }
-    redraw();
-    for(int x = 0; x < m_width; x++) for(int y = 0; y < m_height; y++) buffer[x][y] = 0;
-
+    m_pGameSurface->draw(m_position.getX(), m_position.getY(), m_width, m_height);
+    m_pGameSurface->clear();
 }
 
 void WorldObject::update(unsigned int deltaTime) {
@@ -271,7 +173,10 @@ void WorldObject::update(unsigned int deltaTime) {
 }
 
 void WorldObject::clean() {
-    // empty
+    delete m_pGameSurface;
+    delete m_pPlayer;
+    delete m_pMap;
+    // TODO: Delete everything
 }
 
 void WorldObject::load(const LoaderParams* pParams) {
@@ -282,12 +187,8 @@ void WorldObject::load(const LoaderParams* pParams) {
     m_planeY = 0.66;
     m_time = 0;
     m_oldTime = 0;
-
-    int colorDepth = 32;
-    SDL_Surface *surface;
-    scr = SDL_CreateRGBSurface(0, m_width, m_height, colorDepth, 0, 0, 0, 0);
+    m_pGameSurface = new GameSurface(m_width, m_height);
 }
-
 
 void WorldObject::loadLevelData(std::string fileName) {
     StateParser parser;

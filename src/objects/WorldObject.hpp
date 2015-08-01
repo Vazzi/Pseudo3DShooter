@@ -9,6 +9,7 @@
 
 class Map;
 class Player;
+class GameSurface;
 
 class WorldObject : public GameObject {
     public:
@@ -28,6 +29,7 @@ class WorldObject : public GameObject {
         Map* m_pMap;
         Player* m_pPlayer;
         std::vector<GameObject*> m_gameObjects;
+        GameSurface* m_pGameSurface;
         double m_planeX;
         double m_planeY;
         double m_time;
