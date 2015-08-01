@@ -190,9 +190,6 @@ void WorldObject::render() {
             int d = y * 256 - m_height * 128 + lineHeight * 128;  //256 and 128 factors to avoid floats
             int texY = ((d * textureHeight) / lineHeight) / 256;
             Uint32 color = getpixel(pTexture, texX, texY);
-            //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
-            // TODO: Darker color
-            //if(side == 1) color = (color >> 1) & 8355711;
             buffer[x][y] = color;
         }
 
