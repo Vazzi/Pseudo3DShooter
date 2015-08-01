@@ -113,9 +113,8 @@ void StateParser::parseObjects(Json* pStateRoot,
 }
 
 GameObject* StateParser::createObjectFromJson(Json* pJsonObject) {
-    // TODO: x, y as a double not int
-    int x = (*pJsonObject)["x"].int_value();
-    int y = (*pJsonObject)["y"].int_value();
+    double x = (*pJsonObject)["x"].number_value();
+    double y = (*pJsonObject)["y"].number_value();
     int width = (*pJsonObject)["width"].int_value();
     int height = (*pJsonObject)["height"].int_value();
     int callbackId = (*pJsonObject)["callbackId"].int_value();
@@ -123,7 +122,7 @@ GameObject* StateParser::createObjectFromJson(Json* pJsonObject) {
     std::string type = (*pJsonObject)["type"].string_value();
 
     GameObject* pGameObject = TheGameObjectFactory::Instance()->create(type);
-    pGameObject->load(new LoaderParams (x, y, width, height, textureId, callbackId));
+    pGameObject->load(new LoaderParams(x, y, width, height, textureId, callbackId));
 
     return pGameObject;
 }
