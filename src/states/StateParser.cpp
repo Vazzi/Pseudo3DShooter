@@ -43,7 +43,7 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
 }
 
 bool StateParser::parseWorld(const char* file, std::vector<GameObject*>* pObjects,
-        Map*& pMap, Player*& pPlayer) {
+        Map** pMap, Player** pPlayer) {
     Json root = getRoot(file);
     if (root == nullptr) {
         return false;
@@ -51,8 +51,8 @@ bool StateParser::parseWorld(const char* file, std::vector<GameObject*>* pObject
     parseObjects(&root, pObjects);
     parseMap(&root, pMap);
     Json playerData = root["player"].object_items();
-    pPlayer = (Player*)createObjectFromJson(&playerData);
-    setupPlayer(&playerData, pPlayer);
+    *pPlayer = (Player*)createObjectFromJson(&playerData);
+    setupPlayer(&playerData, *pPlayer);
     return true;
 }
 
@@ -75,7 +75,7 @@ Json StateParser::getRoot(const char* stateFile) {
     return root;
 }
 
-void StateParser::parseMap(Json* pRoot, Map*& pMap) {
+void StateParser::parseMap(Json* pRoot, Map** pMap) {
     Json mapObject = (*pRoot)["map"].object_items();
 
     int width = mapObject["width"].int_value();
@@ -88,17 +88,16 @@ void StateParser::parseMap(Json* pRoot, Map*& pMap) {
     for (int y = 0; y < height; y++) {
         std::vector<Json> line = data[y].array_items();
         for (int x = 0; x < width; x++) {
-            mapArray[x + (y * height)] = line[y].int_value();
+            mapArray[x + (y * width)] = line[x].int_value();
         }
     }
 
-    pMap = new Map(width, height);
-    pMap->loadMap(mapArray);
+    *pMap = new Map(width, height);
+    (*pMap)->loadMap(mapArray);
 
     for (unsigned int i = 0; i < objects.size(); i++) {
-        pMap->loadWallBitmap(objects[i].string_value());
+        (*pMap)->loadWallBitmap(objects[i].string_value());
     }
-
 
 }
 

@@ -16,16 +16,13 @@ void LevelState::update(unsigned int deltaTime) {
 }
 
 void LevelState::render() {
-// TODO: Uncomment
-    //GameState::render();
+    GameState::render();
 }
 
 bool LevelState::onEnter() {
     StateParser stateParser;
     stateParser.parseState("resources/data.json", s_playID, &m_gameObjects,
             &m_textureIDList, &m_fontIDList);
-
-    m_gameObjects.push_back(new WorldObject());
 
     std::cout << "entering LevelState\n";
     return true;

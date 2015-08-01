@@ -81,6 +81,7 @@ void redraw() {
 
     destRect.x = srcRect.x = 0;
     destRect.y = srcRect.y = 0;
+    // TODO: Height and width
     srcRect.w = destRect.w = 640;
     srcRect.h = destRect.h = 480;
 
@@ -92,9 +93,13 @@ WorldObject::WorldObject() : m_position(Vector2D(0, 0)) {
 }
 
 void WorldObject::render() {
+
+// TODO: texture size
+    int textureWidth = 64;
+    int textureHeight = 64;
     for(int x = 0; x < m_width; x++) {
         //calculate ray position and direction
-        double cameraX = 2 * x / m_width - 1; //x-coordinate in camera space
+        double cameraX = 2 * x / double(m_width) - 1; //x-coordinate in camera space
         double rayPosX = m_pPlayer->getPosition().getX();
         double rayPosY = m_pPlayer->getPosition().getY();
         double rayDirX = m_pPlayer->getDirX() + m_planeX * cameraX;
@@ -146,7 +151,7 @@ void WorldObject::render() {
                 side = 1;
             }
             //Check if ray has hit a wall
-            if (m_pMap->isEmpty(mapX, mapY)) {
+            if (m_pMap->isWall(mapX, mapY)) {
                 hit = 1;
             }
         }
@@ -179,12 +184,12 @@ void WorldObject::render() {
         wallX -= floor((wallX));
 
         //x coordinate on the texture
-        int texX = int(wallX * double(pTexture->w));
-        if (side == 0 && rayDirX > 0) texX = pTexture->w - texX - 1;
-        if (side == 1 && rayDirY < 0) texX = pTexture->w - texX - 1;
+        int texX = int(wallX * double(textureWidth));
+        if (side == 0 && rayDirX > 0) texX = textureWidth - texX - 1;
+        if (side == 1 && rayDirY < 0) texX = textureWidth - texX - 1;
         for (int y = drawStart; y<drawEnd; y++) {
             int d = y * 256 - m_height * 128 + lineHeight * 128;  //256 and 128 factors to avoid floats
-            int texY = ((d * pTexture->h) / lineHeight) / 256;
+            int texY = ((d * textureHeight) / lineHeight) / 256;
             Uint32 color = getpixel(pTexture, texX, texY);
             //make color darker for y-sides: R, G and B byte each divided through two with a "shift" and an "and"
             // TODO: Darker color
@@ -217,52 +222,55 @@ void WorldObject::render() {
 
 void WorldObject::update(unsigned int deltaTime) {
     //speed modifiers
-    //double moveSpeed = 5.0 * (deltaTime / 1000.0); //the constant value is in squares/second
-    //double rotSpeed = 3.0 * (deltaTime / 1000.0); //the constant value is in radians/second
+    double moveSpeed = 5.0 * (deltaTime / 1000.0); //the constant value is in squares/second
+    double rotSpeed = 3.0 * (deltaTime / 1000.0); //the constant value is in radians/second
 
-    //int posX = m_pPlayer->getPosition().getX();
-    //int posY = m_pPlayer->getPosition().getY();
+    int posX = m_pPlayer->getPosition().getX();
+    int posY = m_pPlayer->getPosition().getY();
 
-
-    ////move forward if no wall in front of you
-    //if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {
-        //// TODO: m_pPlayer->nextStepX();
-        //if (!m_pMap->isEmpty(posX + m_pPlayer->getDirX() * moveSpeed, posY)) {
-            //// TODO: m_pPlayer->moveX();
-            //m_pPlayer->alterPosition(m_pPlayer->getDirX() * moveSpeed, 0);
-        //}
-        //// TODO: m_pPlayer->nextStepY();
-        //if(!m_pMap->isEmpty(posX, posY + m_pPlayer->getDirY() * moveSpeed)) {
-            //// TODO: m_pPlayer->moveY();
-            //m_pPlayer->alterPosition(0, m_pPlayer->getDirY() * moveSpeed);
-        //}
-    //}
+    //move forward if no wall in front of you
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {
+        // TODO: m_pPlayer->nextStepX();
+        if (m_pMap->isEmpty(posX + m_pPlayer->getDirX() * moveSpeed, posY)) {
+            // TODO: m_pPlayer->moveX();
+            m_pPlayer->alterPosition(m_pPlayer->getDirX() * moveSpeed, 0);
+        }
+        // TODO: m_pPlayer->nextStepY();
+        if(m_pMap->isEmpty(posX, posY + m_pPlayer->getDirY() * moveSpeed)) {
+            // TODO: m_pPlayer->moveY();
+            m_pPlayer->alterPosition(0, m_pPlayer->getDirY() * moveSpeed);
+        }
+    }
     // TODO: implement the rest
-    ////move backwards if no wall behind you
-    //if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
-    //if(worldMap[int(m_posX - m_dirX * moveSpeed)][int(m_posY)] == false) m_posX -= m_dirX * moveSpeed;
-    //if(worldMap[int(m_posX)][int(m_posY - m_dirY * moveSpeed)] == false) m_posY -= m_dirY * moveSpeed;
-    //}
-    ////rotate to the right
-    //if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
-    ////both camera m_direction and camera m_plane must be rotated
-    //double oldm_dirX = m_dirX;
-    //m_dirX = m_dirX * cos(-rotSpeed) - m_dirY * sin(-rotSpeed);
-    //m_dirY = oldm_dirX * sin(-rotSpeed) + m_dirY * cos(-rotSpeed);
-    //double oldm_planeX = m_planeX;
-    //m_planeX = m_planeX * cos(-rotSpeed) - m_planeY * sin(-rotSpeed);
-    //m_planeY = oldm_planeX * sin(-rotSpeed) + m_planeY * cos(-rotSpeed);
-    //}
-    ////rotate to the left
-    //if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
-    ////both camera m_direction and camera m_plane must be rotated
-    //double oldm_dirX = m_dirX;
-    //m_dirX = m_dirX * cos(rotSpeed) - m_dirY * sin(rotSpeed);
-    //m_dirY = oldm_dirX * sin(rotSpeed) + m_dirY * cos(rotSpeed);
-    //double oldm_planeX = m_planeX;
-    //m_planeX = m_planeX * cos(rotSpeed) - m_planeY * sin(rotSpeed);
-    //m_planeY = oldm_planeX * sin(rotSpeed) + m_planeY * cos(rotSpeed);
-    //}
+    //move backwards if no wall behind you
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
+        if (m_pMap->isEmpty(int(posX - m_pPlayer->getDirX() * moveSpeed), posY)) {
+            m_pPlayer->alterPosition((m_pPlayer->getDirX() * moveSpeed * -1), 0);
+        }
+        if (m_pMap->isEmpty(int(posX), int(posY - m_pPlayer->getDirY() * moveSpeed))) {
+            m_pPlayer->alterPosition(0, -1 * m_pPlayer->getDirY() * moveSpeed);
+        }
+    }
+    //rotate to the right
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
+        //both camera m_direction and camera m_plane must be rotated
+        double oldm_dirX = m_pPlayer->getDirX();
+        m_pPlayer->setDirX(m_pPlayer->getDirX() * cos(-rotSpeed) - m_pPlayer->getDirY() * sin(-rotSpeed));
+        m_pPlayer->setDirY(oldm_dirX * sin(-rotSpeed) + m_pPlayer->getDirY() * cos(-rotSpeed));
+        double oldm_planeX = m_planeX;
+        m_planeX = m_planeX * cos(-rotSpeed) - m_planeY * sin(-rotSpeed);
+        m_planeY = oldm_planeX * sin(-rotSpeed) + m_planeY * cos(-rotSpeed);
+    }
+    //rotate to the left
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
+        //both camera m_direction and camera m_plane must be rotated
+        double oldm_dirX = m_pPlayer->getDirX();
+        m_pPlayer->setDirX(m_pPlayer->getDirX() * cos(rotSpeed) - m_pPlayer->getDirY() * sin(rotSpeed));
+        m_pPlayer->setDirY(oldm_dirX * sin(rotSpeed) + m_pPlayer->getDirY() * cos(rotSpeed));
+        double oldm_planeX = m_planeX;
+        m_planeX = m_planeX * cos(rotSpeed) - m_planeY * sin(rotSpeed);
+        m_planeY = oldm_planeX * sin(rotSpeed) + m_planeY * cos(rotSpeed);
+    }
 
 }
 
@@ -284,9 +292,10 @@ void WorldObject::load(const LoaderParams* pParams) {
     scr = SDL_CreateRGBSurface(0, m_width, m_height, colorDepth, 0, 0, 0, 0);
 }
 
+
 void WorldObject::loadLevelData(std::string fileName) {
     StateParser parser;
-    parser.parseWorld(fileName.c_str(), &m_gameObjects, m_pMap, m_pPlayer);
+    parser.parseWorld(fileName.c_str(), &m_gameObjects, &m_pMap, &m_pPlayer);
 }
 
 

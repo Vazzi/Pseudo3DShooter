@@ -7,6 +7,7 @@
 class Player : public GameObject {
     public:
         Player();
+        ~Player();
 
         virtual void render() {};
         virtual void update(unsigned int deltaTime);

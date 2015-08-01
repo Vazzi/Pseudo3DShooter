@@ -5,6 +5,10 @@ Player::Player() : m_position(Vector2D(0, 0)) {
     // empty
 }
 
+Player::~Player() {
+    std::cout << "Destruction\n";
+}
+
 void Player::update(unsigned int deltaTime) {
 }
 
