@@ -23,15 +23,18 @@ class Player : public GameObject {
         void moveSteps(int x, int y);
         double nextStepX(bool back = false);
         double nextStepY(bool back = false);
+        void rotateLeft();
+        void rotateRight();
 
     protected:
-
         double m_dirX;
         double m_dirY;
         double m_moveSpeed;
         double m_rotSpeed;
 
         Vector2D m_position;
+
+        void rotate(int sign = 1);
 };
 
 class PlayerCreator : public BaseCreator {

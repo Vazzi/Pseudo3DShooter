@@ -47,3 +47,19 @@ double Player::nextStepY(bool back) {
     return futurePos.getY();
 }
 
+void Player::rotateLeft() {
+    rotate(-1);
+}
+
+void Player::rotateRight() {
+    rotate(1);
+}
+
+void Player::rotate(int sign) {
+    double oldm_dirX = m_dirX;
+    m_dirX = m_dirX * cos(sign * m_rotSpeed) - m_dirY * sin(sign * m_rotSpeed);
+    m_dirY = oldm_dirX * sin(sign * m_rotSpeed) + m_dirY * cos(sign * m_rotSpeed);
+}
+
+
+

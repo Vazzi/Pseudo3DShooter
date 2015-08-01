@@ -25,7 +25,6 @@ void WorldObject::update(unsigned int deltaTime) {
     double posX = m_pPlayer->getPosition().getX();
     double posY = m_pPlayer->getPosition().getY();
 
-    //move forward if no wall in front of you
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {
         if (m_pMap->isEmpty(m_pPlayer->nextStepX(false), posY)) {
             m_pPlayer->moveSteps(1,0);
@@ -34,7 +33,6 @@ void WorldObject::update(unsigned int deltaTime) {
             m_pPlayer->moveSteps(0,1);
         }
     }
-    //move backwards if no wall behind you
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
         if (m_pMap->isEmpty(m_pPlayer->nextStepX(true), posY)) {
             m_pPlayer->moveSteps(-1,0);
@@ -43,22 +41,15 @@ void WorldObject::update(unsigned int deltaTime) {
             m_pPlayer->moveSteps(0,-1);
         }
     }
-    //rotate to the right
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
+        m_pPlayer->rotateLeft();
         //both camera m_direction and camera m_plane must be rotated
-        double oldm_dirX = m_pPlayer->getDirX();
-        m_pPlayer->setDirX(m_pPlayer->getDirX() * cos(-rotSpeed) - m_pPlayer->getDirY() * sin(-rotSpeed));
-        m_pPlayer->setDirY(oldm_dirX * sin(-rotSpeed) + m_pPlayer->getDirY() * cos(-rotSpeed));
         double oldm_planeX = m_planeX;
         m_planeX = m_planeX * cos(-rotSpeed) - m_planeY * sin(-rotSpeed);
         m_planeY = oldm_planeX * sin(-rotSpeed) + m_planeY * cos(-rotSpeed);
     }
-    //rotate to the left
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
-        //both camera m_direction and camera m_plane must be rotated
-        double oldm_dirX = m_pPlayer->getDirX();
-        m_pPlayer->setDirX(m_pPlayer->getDirX() * cos(rotSpeed) - m_pPlayer->getDirY() * sin(rotSpeed));
-        m_pPlayer->setDirY(oldm_dirX * sin(rotSpeed) + m_pPlayer->getDirY() * cos(rotSpeed));
+        m_pPlayer->rotateRight();
         double oldm_planeX = m_planeX;
         m_planeX = m_planeX * cos(rotSpeed) - m_planeY * sin(rotSpeed);
         m_planeY = oldm_planeX * sin(rotSpeed) + m_planeY * cos(rotSpeed);
