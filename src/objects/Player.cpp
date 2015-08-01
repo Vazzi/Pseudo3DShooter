@@ -12,6 +12,12 @@ Player::~Player() {
 void Player::update(unsigned int deltaTime) {
     m_moveSpeed = 5.0 * (deltaTime / 1000.0);
     m_rotSpeed = 3.0 * (deltaTime / 1000.0);
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
+        rotateLeft();
+    }
+    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
+        rotateRight();
+    }
 }
 
 void Player::clean() {
@@ -24,6 +30,8 @@ void Player::load(const LoaderParams* pParams) {
     m_dirY = 1;
     m_moveSpeed = 0;
     m_rotSpeed = 0;
+    m_planeX = 0;
+    m_planeY = 0.66;
 }
 
 void Player::alterPosition(const double x, const double y) {
@@ -59,6 +67,9 @@ void Player::rotate(int sign) {
     double oldm_dirX = m_dirX;
     m_dirX = m_dirX * cos(sign * m_rotSpeed) - m_dirY * sin(sign * m_rotSpeed);
     m_dirY = oldm_dirX * sin(sign * m_rotSpeed) + m_dirY * cos(sign * m_rotSpeed);
+    double oldm_planeX = m_planeX;
+    m_planeX = m_planeX * cos(sign * m_rotSpeed) - m_planeY * sin(sign * m_rotSpeed);
+    m_planeY = oldm_planeX * sin(sign * m_rotSpeed) + m_planeY * cos(sign * m_rotSpeed);
 }
 
 

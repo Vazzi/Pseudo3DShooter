@@ -17,6 +17,8 @@ class Player : public GameObject {
         Vector2D getPosition() const { return m_position; }
         double getDirX() const { return m_dirX; }
         double getDirY() const { return m_dirY; }
+        double getPlaneX() const { return m_planeX; }
+        double getPlaneY() const { return m_planeY; }
         void alterPosition(const double x, const double y);
         void setDirX(const double dir) { m_dirX = dir; }
         void setDirY(const double dir) { m_dirY = dir; }
@@ -31,6 +33,8 @@ class Player : public GameObject {
         double m_dirY;
         double m_moveSpeed;
         double m_rotSpeed;
+        double m_planeX;
+        double m_planeY;
 
         Vector2D m_position;
 

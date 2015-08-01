@@ -30,8 +30,6 @@ class WorldObject : public GameObject {
         Player* m_pPlayer;
         std::vector<GameObject*> m_gameObjects;
         GameSurface* m_pGameSurface;
-        double m_planeX;
-        double m_planeY;
         double m_time;
         double m_oldTime;
 

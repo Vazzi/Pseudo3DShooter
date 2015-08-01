@@ -18,9 +18,6 @@ void WorldObject::render() {
 
 void WorldObject::update(unsigned int deltaTime) {
     m_pPlayer->update(deltaTime);
-    
-    //speed modifiers
-    double rotSpeed = 3.0 * (deltaTime / 1000.0); //the constant value is in radians/second
 
     double posX = m_pPlayer->getPosition().getX();
     double posY = m_pPlayer->getPosition().getY();
@@ -41,20 +38,6 @@ void WorldObject::update(unsigned int deltaTime) {
             m_pPlayer->moveSteps(0,-1);
         }
     }
-    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT)) {
-        m_pPlayer->rotateLeft();
-        //both camera m_direction and camera m_plane must be rotated
-        double oldm_planeX = m_planeX;
-        m_planeX = m_planeX * cos(-rotSpeed) - m_planeY * sin(-rotSpeed);
-        m_planeY = oldm_planeX * sin(-rotSpeed) + m_planeY * cos(-rotSpeed);
-    }
-    if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT)) {
-        m_pPlayer->rotateRight();
-        double oldm_planeX = m_planeX;
-        m_planeX = m_planeX * cos(rotSpeed) - m_planeY * sin(rotSpeed);
-        m_planeY = oldm_planeX * sin(rotSpeed) + m_planeY * cos(rotSpeed);
-    }
-
 }
 
 void WorldObject::clean() {
@@ -74,8 +57,6 @@ void WorldObject::load(const LoaderParams* pParams) {
     m_position = Vector2D(pParams->getX(), pParams->getY());
     m_height = pParams->getHeight();
     m_width = pParams->getWidth();
-    m_planeX = 0;
-    m_planeY = 0.66;
     m_time = 0;
     m_oldTime = 0;
     float scale = 1;
@@ -98,8 +79,8 @@ void WorldObject::drawWalls() {
         // calculate ray position and direction
         double rayPosX = m_pPlayer->getPosition().getX();
         double rayPosY = m_pPlayer->getPosition().getY();
-        double rayDirX = m_pPlayer->getDirX() + m_planeX * cameraX;
-        double rayDirY = m_pPlayer->getDirY() + m_planeY * cameraX;
+        double rayDirX = m_pPlayer->getDirX() + m_pPlayer->getPlaneX() * cameraX;
+        double rayDirY = m_pPlayer->getDirY() + m_pPlayer->getPlaneY() * cameraX;
         // Where is player
         int mapX = int(rayPosX);
         int mapY = int(rayPosY);
