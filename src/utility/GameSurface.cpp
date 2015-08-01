@@ -39,9 +39,11 @@ Uint32 GameSurface::getPixelFromSurface(SDL_Surface *pSurface, int x, int y) {
 }
 
 void GameSurface::putPixel(int x, int y, Uint32 pixel) {
+    lock();
     if (x < m_width && y < m_height) {
         m_pBuffer[x + (y * m_width)] = pixel;
     }
+    unlock();
 }
 
 void GameSurface::draw(int x, int y, int width, int height) {
