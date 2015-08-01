@@ -35,6 +35,9 @@ class WorldObject : public GameObject {
         double m_time;
         double m_oldTime;
 
+        void renderSurface();
+        void drawWalls();
+
 };
 
 class WorldObjectCreator : public BaseCreator {
