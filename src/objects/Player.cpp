@@ -6,14 +6,15 @@ Player::Player() : m_position(Vector2D(0, 0)) {
 }
 
 Player::~Player() {
-    std::cout << "Destruction\n";
+    // empty
 }
 
 void Player::update(unsigned int deltaTime) {
+    // empty
 }
 
 void Player::clean() {
-
+    // empty
 }
 
 void Player::load(const LoaderParams* pParams) {

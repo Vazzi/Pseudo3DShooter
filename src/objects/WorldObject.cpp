@@ -174,9 +174,15 @@ void WorldObject::update(unsigned int deltaTime) {
 
 void WorldObject::clean() {
     delete m_pGameSurface;
+    m_pPlayer->clean();
     delete m_pPlayer;
     delete m_pMap;
-    // TODO: Delete everything
+
+    for (unsigned long i = 0; i < m_gameObjects.size(); i++) {
+        m_gameObjects[i]->clean();
+    }
+    m_gameObjects.clear();
+
 }
 
 void WorldObject::load(const LoaderParams* pParams) {
