@@ -2,7 +2,7 @@
 #define __PLAYER__
 
 #include "GameObject.hpp"
-#include "Vector2D.hpp"
+#include "../utility/Vector2D.hpp"
 
 class Player : public GameObject {
     public:

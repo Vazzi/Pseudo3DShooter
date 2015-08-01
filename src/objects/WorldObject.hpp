@@ -2,7 +2,7 @@
 #define __WORLD_OBJECT__
 
 #include "GameObject.hpp"
-#include "Vector2D.hpp"
+#include "../utility/Vector2D.hpp"
 #include <vector>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

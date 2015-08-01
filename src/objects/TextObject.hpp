@@ -3,7 +3,7 @@
 
 #include <string>
 #include "GameObject.hpp"
-#include "Vector2D.hpp"
+#include "../utility/Vector2D.hpp"
 #include "../FontManager.hpp"
 
 class TextObject : public GameObject {

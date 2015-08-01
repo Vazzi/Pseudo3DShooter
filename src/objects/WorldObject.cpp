@@ -3,7 +3,6 @@
 #include "../InputHandler.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
-#include "Vector2D.hpp"
 #include "../states/StateParser.hpp"
 #include <fstream>
 
