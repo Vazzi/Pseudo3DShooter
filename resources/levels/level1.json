@@ -28,7 +28,7 @@
             [4,0,0,0,0,0,0,0,4,0,0,0,0,2,0,0,0,0,0,2,0,0,0,2],
             [4,4,4,4,4,4,4,4,4,4,1,1,1,2,2,2,2,2,2,3,3,3,3,3]
         ],
-        "objects": [
+        "walls": [
             "resources/textures/eagle.png",
             "resources/textures/redbrick.png",
             "resources/textures/purplestone.png",
@@ -37,7 +37,14 @@
             "resources/textures/mossy.png",
             "resources/textures/wood.png",
             "resources/textures/colorstone.png"
-        ]
+        ],
+        "objects": [
+            "resources/textures/barrel.png",
+            "resources/textures/greenlight.png",
+            "resources/textures/pillar.png"
+        ],
+        "floor" : "resources/textures/greystone.png",
+        "ceiling" : "resources/textures/wood.png"
     },
     "player" : {
         "type": "Player",
