@@ -82,7 +82,6 @@ void StateParser::parseMap(Json* pRoot, Map** pMap) {
     int height = mapObject["height"].int_value();
     std::vector<Json> data = mapObject["data"].array_items();
     std::vector<Json> walls = mapObject["walls"].array_items();
-    std::vector<Json> objects = mapObject["objects"].array_items();
     std::string ceiling = mapObject["ceiling"].string_value();
     std::string floor = mapObject["floor"].string_value();
 
@@ -99,9 +98,6 @@ void StateParser::parseMap(Json* pRoot, Map** pMap) {
     (*pMap)->loadMap(mapArray);
     (*pMap)->loadFloorBitmap(floor);
     (*pMap)->loadCeilingBitmap(ceiling);
-    for (unsigned int i = 0; i < objects.size(); i++) {
-        (*pMap)->loadObjectBitmap(objects[i].string_value());
-    }
     for (unsigned int i = 0; i < walls.size(); i++) {
         (*pMap)->loadWallBitmap(walls[i].string_value());
     }
