@@ -88,15 +88,11 @@ void StateParser::parseMap(Json* pRoot, Map** pMap) {
 
     int mapArray[width * height];
 
-    std::cout << width << " " << height << "/n";
     for (int y = 0; y < height; y++) {
-        std::cout << "y: " << y << "=";
         std::vector<Json> line = data[y].array_items();
         for (int x = 0; x < width; x++) {
-            std::cout << x << " ";
             mapArray[x + (y * width)] = line[x].int_value();
         }
-        std::cout << "\n";
     }
 
     *pMap = new Map(width, height);
