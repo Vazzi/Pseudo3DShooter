@@ -4,6 +4,10 @@
 
 SurfaceManager* SurfaceManager::s_pInstance = 0;
 
+SurfaceManager::SurfaceManager() {
+    // empty
+}
+
 bool SurfaceManager::load(string fileName, string id) {
     SDL_Surface* pSurface = IMG_Load(fileName.c_str());
 
