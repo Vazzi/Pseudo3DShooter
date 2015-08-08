@@ -186,7 +186,7 @@
         "fonts": [],
         "objects": [
             {
-                "type": "WorldObject",
+                "type": "World",
                 "x": 0,
                 "y": 0,
                 "width": 640,

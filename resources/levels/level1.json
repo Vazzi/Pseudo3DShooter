@@ -45,7 +45,7 @@
     },
     "objects" : [
         {
-            "type": "StaticObject",
+            "type": "Sprite",
             "x": 16,
             "y": 16,
             "width": 1,
