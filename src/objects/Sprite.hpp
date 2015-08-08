@@ -1,14 +1,14 @@
-#ifndef __STATIC_OBJECT__
-#define __STATIC_OBJECT__
+#ifndef __SPRITE__
+#define __SPRITE__
 
 #include "GameObject.hpp"
 #include "../utility/Vector2D.hpp"
 #include <string>
 
-class StaticObject : public GameObject {
+class Sprite : public GameObject {
     public:
-        StaticObject();
-        virtual ~StaticObject();
+        Sprite();
+        virtual ~Sprite();
         virtual void render();
         virtual void update(unsigned int deltaTime);
         virtual void clean();
@@ -26,9 +26,9 @@ class StaticObject : public GameObject {
 
 };
 
-class StaticObjectCreator : public BaseCreator {
+class SpriteCreator : public BaseCreator {
     GameObject* createGameObject() const {
-        return new StaticObject();
+        return new Sprite();
     }
 };
 

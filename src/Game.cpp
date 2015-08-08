@@ -9,7 +9,7 @@
 #include "objects/MenuButton.hpp"
 #include "objects/Player.hpp"
 #include "objects/World.hpp"
-#include "objects/StaticObject.hpp"
+#include "objects/Sprite.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -126,7 +126,7 @@ void Game::initGameObjects() {
             new PlayerCreator());
     TheGameObjectFactory::Instance()->registerType("World",
             new WorldCreator());
-    TheGameObjectFactory::Instance()->registerType("StaticObject",
-            new StaticObjectCreator());
+    TheGameObjectFactory::Instance()->registerType("Sprite",
+            new SpriteCreator());
 }
 
