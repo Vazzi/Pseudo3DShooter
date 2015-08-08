@@ -82,6 +82,11 @@ void World::renderSurface() {
 }
 
 void World::drawWalls() {
+    SDL_Surface* pCeiling = TheSurfaceManager::Instance()->getSurface(
+                    m_pMap->getCeilingTextureID());
+    SDL_Surface* pFloor = TheSurfaceManager::Instance()->getSurface(
+                    m_pMap->getFloorTextureID());
+
     for (int x = 0; x < m_pGameSurface->getWidth(); x++) {
         double cameraX = 2 * x / double(m_pGameSurface->getWidth()) - 1;
         // calculate ray position and direction
@@ -228,18 +233,14 @@ void World::drawWalls() {
             double currentFloorY = weight * floorYWall + (1.0 - weight) * m_pPlayer->getPosition().getY();
 
             int floorTexX, floorTexY;
-            floorTexX = int(currentFloorX * pTexture->w) % pTexture->w;
-            floorTexY = int(currentFloorY * pTexture->h) % pTexture->h;
+            floorTexX = int(currentFloorX * pFloor->w) % pFloor->w;
+            floorTexY = int(currentFloorY * pFloor->h) % pFloor->h;
 
-            pTexture = TheSurfaceManager::Instance()->getSurface(
-                    m_pMap->getFloorTextureID());
-            Uint32 color = GameSurface::getPixelFromSurface(pTexture, floorTexX, floorTexY);
+            Uint32 color = GameSurface::getPixelFromSurface(pFloor, floorTexX, floorTexY);
             color = (color >> 1) & 8355711;
             m_pGameSurface->putPixel(x, y, color);
 
-            pTexture = TheSurfaceManager::Instance()->getSurface(
-                    m_pMap->getCeilingTextureID());
-            color = GameSurface::getPixelFromSurface(pTexture, floorTexX, floorTexY);
+            color = GameSurface::getPixelFromSurface(pCeiling, floorTexX, floorTexY);
             color = (color >> 1) & 8355711;
             m_pGameSurface->putPixel(x, m_height-y, color);
         }
