@@ -11,7 +11,7 @@ class Map {
         Map(const int width , const int height);
         ~Map ();
         void loadMap(int array[]);
-        void setWallID(const string id) { m_walls.push_back(id); };
+        void addWall(const string id) { m_walls.push_back(id); };
         void setFloorID(const string id) { m_floorID = id; };
         void setCeilingID(const string id) { m_ceilingID = id; };
         string getWallTextureID(const unsigned int x, const unsigned int y) const;
