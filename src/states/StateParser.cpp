@@ -96,10 +96,10 @@ void StateParser::parseMap(Json* pRoot, Map** pMap) {
 
     *pMap = new Map(width, height);
     (*pMap)->loadMap(mapArray);
-    (*pMap)->loadFloorBitmap(floor);
-    (*pMap)->loadCeilingBitmap(ceiling);
+    (*pMap)->setFloorID(floor);
+    (*pMap)->setCeilingID(ceiling);
     for (unsigned int i = 0; i < walls.size(); i++) {
-        (*pMap)->loadWallBitmap(walls[i].string_value());
+        (*pMap)->addWall(walls[i].string_value());
     }
 
 }
