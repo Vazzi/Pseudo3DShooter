@@ -43,6 +43,8 @@ class Ray {
         // If wall was hit on X(NS) or Y(WE) side
         int m_side;
 
+        double m_wallDist;
+
         void setStepAndSideDist();
 
 };

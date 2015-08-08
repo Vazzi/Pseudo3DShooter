@@ -16,6 +16,8 @@ Ray::Ray(int x, double width, Player* pPlayer) {
     m_deltaDistX = sqrt(1 + (m_dirY * m_dirY) / (m_dirX * m_dirX));
     m_deltaDistY = sqrt(1 + (m_dirX * m_dirX) / (m_dirY * m_dirY));
 
+    m_wallDist = -1;
+
 }
 
 void Ray::performDDA(Map* pMap) {
@@ -43,6 +45,10 @@ void Ray::performDDA(Map* pMap) {
 }
 
 double Ray::getWallDist() const {
+    // If wall is already computed
+    if (m_wallDist != -1) {
+        return m_wallDist;
+    }
     // Calculate distance projected on camera direction
     // (oblique distance will give fisheye effect!)
     if (m_side == 0) {

@@ -90,10 +90,9 @@ void World::drawWalls() {
     for (int x = 0; x < m_pGameSurface->getWidth(); x++) {
         Ray ray = Ray(x, m_pGameSurface->getWidth(), m_pPlayer);
         ray.performDDA(m_pMap);
-        double perpWallDist = ray.getWallDist();
 
         // Calculate height of line to draw on screen
-        int lineHeight = abs(int(m_pGameSurface->getHeight() / perpWallDist));
+        int lineHeight = abs(int(m_pGameSurface->getHeight() / ray.getWallDist()));
 
         // Calculate lowest and highest pixel to fill in current stripe
         int drawStart = -lineHeight / 2 + m_pGameSurface->getHeight() / 2;
@@ -147,7 +146,7 @@ void World::drawWalls() {
 
         double distWall, distPlayer, currentDist;
 
-        distWall = perpWallDist;
+        distWall = ray.getWallDist();
         distPlayer = 0.0;
 
         if (drawEnd < 0) {
