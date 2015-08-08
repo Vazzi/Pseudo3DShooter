@@ -19,6 +19,7 @@ class SurfaceManager {
 
         bool load(string fileName, string id);
         SDL_Surface* getSurface(string id);
+        SDL_Surface* getFirstSurface();
         void clearFromSurfaceMap(string id);
 
     private:

@@ -23,6 +23,13 @@ SDL_Surface* SurfaceManager::getSurface(string id) {
     return m_surfaceMap[id];
 }
 
+SDL_Surface* SurfaceManager::getFirstSurface() {
+    if (m_surfaceMap.empty()) {
+        return NULL;
+    }
+    return m_surfaceMap.begin()->second;
+}
+
 void SurfaceManager::clearFromSurfaceMap(string id) {
     SDL_FreeSurface(m_surfaceMap[id]);
     m_surfaceMap.erase(id);

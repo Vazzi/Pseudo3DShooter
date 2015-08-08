@@ -26,7 +26,8 @@ RayCast::~RayCast() {
 
 void RayCast::setSurface(int width, int height, int scale) {
     m_pGameSurface = new GameSurface(width * scale, height * scale);
-    m_pGameSurface->setFormatBySurface(m_pCeilingTexture);
+    m_pGameSurface->setFormatBySurface(
+            TheSurfaceManager::Instance()->getFirstSurface());
 }
 
 void RayCast::render(int x, int y, int width, int height) {
