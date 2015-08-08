@@ -173,7 +173,8 @@ void World::drawWalls() {
         wallX -= floor((wallX));
 
         // Get texture calculations
-        SDL_Surface* pTexture = m_pMap->getWall(mapX, mapY);
+        std::string textureID = m_pMap->getWallTextureID(mapX, mapY);
+        SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
 
         //x coordinate on the texture
         int texX = int(wallX * double(pTexture->w));
@@ -230,12 +231,14 @@ void World::drawWalls() {
             floorTexX = int(currentFloorX * pTexture->w) % pTexture->w;
             floorTexY = int(currentFloorY * pTexture->h) % pTexture->h;
 
-            pTexture = m_pMap->getFloor();
+            pTexture = TheSurfaceManager::Instance()->getSurface(
+                    m_pMap->getFloorTextureID());
             Uint32 color = GameSurface::getPixelFromSurface(pTexture, floorTexX, floorTexY);
             color = (color >> 1) & 8355711;
             m_pGameSurface->putPixel(x, y, color);
 
-            pTexture = m_pMap->getCeiling();
+            pTexture = TheSurfaceManager::Instance()->getSurface(
+                    m_pMap->getCeilingTextureID());
             color = GameSurface::getPixelFromSurface(pTexture, floorTexX, floorTexY);
             color = (color >> 1) & 8355711;
             m_pGameSurface->putPixel(x, m_height-y, color);
