@@ -18,12 +18,13 @@ class StateParser {
                 std::vector<std::string>* pFontIDs);
         bool parseWorld(const char* file,
                 std::vector<GameObject*>* pObjects,
-                Map** pMap, Player** pPlayer);
+                Map** pMap, Player** pPlayer,
+                std::vector<std::string>* pSurfaces);
     private:
         void parseObjects(Json* pStateRoot,
                 std::vector<GameObject*> *pObjects);
         void parseTextures(Json* pStateRoot,
-                std::vector<std::string> *pTextureIDs);
+                std::vector<std::string> *pTextureIDs, bool bSurface = false);
         void parseFonts(Json* pStateRoot,
                 std::vector<std::string> *pFontIDs);
         Json getRoot(const char* stateFile);

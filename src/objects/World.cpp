@@ -1,6 +1,7 @@
 #include "World.hpp"
 #include "../Game.hpp"
 #include "../InputHandler.hpp"
+#include "../SurfaceManager.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
 #include "../states/StateParser.hpp"
@@ -49,7 +50,11 @@ void World::clean() {
     for (unsigned long i = 0; i < m_gameObjects.size(); i++) {
         m_gameObjects[i]->clean();
     }
+    for (unsigned long i = 0; i < m_textureIDs.size(); i++) {
+        TheSurfaceManager::Instance()->clearFromSurfaceMap(m_textureIDs[i]);
+    }
     m_gameObjects.clear();
+    m_textureIDs.clear();
 
 }
 
@@ -65,8 +70,10 @@ void World::load(const LoaderParams* pParams) {
 
 void World::loadLevelData(std::string fileName) {
     StateParser parser;
-    parser.parseWorld(fileName.c_str(), &m_gameObjects, &m_pMap, &m_pPlayer);
-    m_pGameSurface->setFormatBySurface(m_pMap->getFloor());
+    parser.parseWorld(fileName.c_str(), &m_gameObjects, &m_pMap, &m_pPlayer,
+            &m_textureIDs);
+    m_pGameSurface->setFormatBySurface(
+            TheSurfaceManager::Instance()->getSurface(m_textureIDs[0]));
 }
 
 void World::renderSurface() {

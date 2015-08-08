@@ -29,6 +29,7 @@ class World : public GameObject {
         Map* m_pMap;
         Player* m_pPlayer;
         std::vector<GameObject*> m_gameObjects;
+        std::vector<std::string> m_textureIDs;
         GameSurface* m_pGameSurface;
         double m_time;
         double m_oldTime;

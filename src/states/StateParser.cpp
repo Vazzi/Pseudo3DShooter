@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include "../TextureManager.hpp"
+#include "../SurfaceManager.hpp"
 #include "../objects/GameObjectFactory.hpp"
 #include "../objects/GameObject.hpp"
 #include "../objects/LoaderParams.hpp"
@@ -43,13 +44,14 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
 }
 
 bool StateParser::parseWorld(const char* file, std::vector<GameObject*>* pObjects,
-        Map** pMap, Player** pPlayer) {
+        Map** pMap, Player** pPlayer, std::vector<std::string>* pSurfaces) {
     Json root = getRoot(file);
     if (root == nullptr) {
         return false;
     }
     parseObjects(&root, pObjects);
     parseMap(&root, pMap);
+    parseTextures(&root, pSurfaces, true);
     Json playerData = root["player"].object_items();
     *pPlayer = (Player*)createObjectFromJson(&playerData);
     setupPlayer(&playerData, *pPlayer);
@@ -193,15 +195,20 @@ void StateParser::setupMenuButton(Json* pJsonObject, GameObject* pObject) {
 }
 
 void StateParser::parseTextures(Json* pStateRoot,
-        std::vector<std::string> *pTextureIDs) {
+        std::vector<std::string> *pTextureIDs, bool bSurface) {
     std::vector<Json> textures = (*pStateRoot)["textures"].array_items();
     for (std::vector<Json>::iterator it = textures.begin();
             it != textures.end(); ++it) {
         std::string fileName = (*it)["fileName"].string_value();
         std::string textureId = (*it)["id"].string_value();
         pTextureIDs->push_back(textureId);
-        TheTextureManager::Instance()->load(fileName, textureId,
-                TheGame::Instance()->getRenderer());
+        if (bSurface) {
+            TheSurfaceManager::Instance()->load(fileName, textureId);
+
+        } else {
+            TheTextureManager::Instance()->load(fileName, textureId,
+                    TheGame::Instance()->getRenderer());
+        }
     }
 }
 
