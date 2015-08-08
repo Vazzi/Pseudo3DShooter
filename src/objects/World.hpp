@@ -3,10 +3,8 @@
 
 #include "GameObject.hpp"
 #include "../utility/Vector2D.hpp"
-#include "../utility/Ray.hpp"
+#include "../utility/RayCast.hpp"
 #include <vector>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 class Map;
 class Player;
@@ -26,22 +24,11 @@ class World : public GameObject {
         Vector2D m_position;
         int m_height;
         int m_width;
-        int m_drawEnd;
-
+        RayCast* m_pRayCast;
         Map* m_pMap;
         Player* m_pPlayer;
         std::vector<GameObject*> m_gameObjects;
         std::vector<std::string> m_textureIDs;
-        GameSurface* m_pGameSurface;
-        double m_time;
-        double m_oldTime;
-
-        void renderSurface();
-        void drawWorld();
-        void drawWalls(int x, Ray &ray);
-        void drawFloorAndCeiling(int x, Ray &ray, SDL_Surface* pFloor,
-                SDL_Surface *pCeiling);
-        void drawSprites(int x, Ray &ray);
 
 };
 
