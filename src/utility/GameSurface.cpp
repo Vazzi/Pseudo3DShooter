@@ -1,5 +1,6 @@
 #include "GameSurface.hpp"
 #include "../Game.hpp"
+#include <algorithm>
 
 GameSurface::GameSurface(unsigned int width, unsigned int height) {
     m_width = width;
@@ -73,6 +74,7 @@ void GameSurface::drawSurface(int x, int y, int width, int height) {
 }
 
 void GameSurface::clear() {
+    std::fill(m_pBuffer, m_pBuffer + (m_width * m_height), 0);
     SDL_FillRect(m_pSurface, NULL, 0);
 }
 
