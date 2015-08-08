@@ -5,8 +5,8 @@
 #include "Player.hpp"
 #include "Map.hpp"
 #include "../states/StateParser.hpp"
-#include <fstream>
 #include "../utility/GameSurface.hpp"
+#include "../utility/Ray.hpp"
 
 World::World() : m_position(Vector2D(0, 0)) {
     // empty
@@ -88,72 +88,9 @@ void World::drawWalls() {
                     m_pMap->getFloorTextureID());
 
     for (int x = 0; x < m_pGameSurface->getWidth(); x++) {
-        double cameraX = 2 * x / double(m_pGameSurface->getWidth()) - 1;
-        // calculate ray position and direction
-        double rayPosX = m_pPlayer->getPosition().getX();
-        double rayPosY = m_pPlayer->getPosition().getY();
-        double rayDirX = m_pPlayer->getDirX() + m_pPlayer->getPlaneX() * cameraX;
-        double rayDirY = m_pPlayer->getDirY() + m_pPlayer->getPlaneY() * cameraX;
-        // Where is player
-        int mapX = int(rayPosX);
-        int mapY = int(rayPosY);
-
-        // Length of ray from current position to next x or y-side
-        double sideDistX;
-        double sideDistY;
-
-        // Length of ray from one x or y-side to next x or y-side
-        double deltaDistX = sqrt(1 + (rayDirY * rayDirY) / (rayDirX * rayDirX));
-        double deltaDistY = sqrt(1 + (rayDirX * rayDirX) / (rayDirY * rayDirY));
-        double perpWallDist;
-
-        // What direction to step in x or y-direction (either +1 or -1)
-        int stepX;
-        int stepY;
-
-        int hit = 0; // was there a wall hit?
-        int side; // was a NS or a EW wall hit?
-        // Calculate step and initial sideDist
-        if (rayDirX < 0) {
-            stepX = -1;
-            sideDistX = (rayPosX - mapX) * deltaDistX;
-        } else {
-            stepX = 1;
-            sideDistX = (mapX + 1.0 - rayPosX) * deltaDistX;
-        }
-        if (rayDirY < 0) {
-            stepY = -1;
-            sideDistY = (rayPosY - mapY) * deltaDistY;
-        } else {
-            stepY = 1;
-            sideDistY = (mapY + 1.0 - rayPosY) * deltaDistY;
-        }
-
-        // Perform DDA
-        while (hit == 0) {
-            // Jump to next map square, OR in x-direction, OR in y-direction
-            if (sideDistX < sideDistY) {
-                sideDistX += deltaDistX;
-                mapX += stepX;
-                side = 0;
-            } else {
-                sideDistY += deltaDistY;
-                mapY += stepY;
-                side = 1;
-            }
-            //Check if ray has hit a wall
-            if (m_pMap->isWall(mapX, mapY)) {
-                hit = 1;
-            }
-        }
-
-        // Calculate distance projected on camera direction 
-        // (oblique distance will give fisheye effect!)
-        if (side == 0) {
-            perpWallDist = fabs((mapX - rayPosX + (1 - stepX) / 2) / rayDirX);
-        } else {
-            perpWallDist = fabs((mapY - rayPosY + (1 - stepY) / 2) / rayDirY);
-        }
+        Ray ray = Ray(x, m_pGameSurface->getWidth(), m_pPlayer);
+        ray.performDDA(m_pMap);
+        double perpWallDist = ray.getWallDist();
 
         // Calculate height of line to draw on screen
         int lineHeight = abs(int(m_pGameSurface->getHeight() / perpWallDist));
@@ -168,28 +105,21 @@ void World::drawWalls() {
             drawEnd = m_pGameSurface->getHeight() - 1;
         }
 
-        // Calculate value of wallX
-        double wallX; //where exactly the wall was hit
-        if (side == 1) {
-            wallX = rayPosX + ((mapY - rayPosY + (1 - stepY) / 2) / rayDirY) * rayDirX;
-        } else {
-            wallX = rayPosY + ((mapX - rayPosX + (1 - stepX) / 2) / rayDirX) * rayDirY;
-        }
-        wallX -= floor((wallX));
+        double wallX = ray.getWallX();
 
         // Get texture calculations
-        std::string textureID = m_pMap->getWallTextureID(mapX, mapY);
+        std::string textureID = m_pMap->getWallTextureID(ray.getMapX(), ray.getMapY());
         SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
 
         //x coordinate on the texture
         int texX = int(wallX * double(pTexture->w));
-        if (side == 0 && rayDirX > 0) {
+        if (ray.getSide() == 0 && ray.getDirX() > 0) {
             texX = pTexture->w - texX - 1;
         }
-        if (side == 1 && rayDirY < 0) {
+        if (ray.getSide() == 1 && ray.getDirY() < 0) {
             texX = pTexture->w - texX - 1;
         }
-        for (int y = drawStart; y<drawEnd; y++) {
+        for (int y = drawStart; y < drawEnd; y++) {
             //256 and 128 factors to avoid floats
             int d = y * 256 - m_pGameSurface->getHeight() * 128 + lineHeight * 128;
             int texY = ((d * pTexture->h) / lineHeight) / 256;
@@ -201,18 +131,18 @@ void World::drawWalls() {
         double floorXWall, floorYWall;
 
         // 4 different wall directions possible
-        if(side == 0 && rayDirX > 0) {
-            floorXWall = mapX;
-            floorYWall = mapY + wallX;
-        } else if(side == 0 && rayDirX < 0) {
-            floorXWall = mapX + 1.0;
-            floorYWall = mapY + wallX;
-        } else if(side == 1 && rayDirY > 0) {
-            floorXWall = mapX + wallX;
-            floorYWall = mapY;
+        if(ray.getSide() == 0 && ray.getDirX() > 0) {
+            floorXWall = ray.getMapX();
+            floorYWall = ray.getMapY() + wallX;
+        } else if(ray.getSide() == 0 && ray.getDirX() < 0) {
+            floorXWall = ray.getMapX() + 1.0;
+            floorYWall = ray.getMapY() + wallX;
+        } else if(ray.getSide() == 1 && ray.getDirY() > 0) {
+            floorXWall = ray.getMapX() + wallX;
+            floorYWall = ray.getMapY();
         } else {
-            floorXWall = mapX + wallX;
-            floorYWall = mapY + 1.0;
+            floorXWall = ray.getMapX() + wallX;
+            floorYWall = ray.getMapY() + 1.0;
         }
 
         double distWall, distPlayer, currentDist;
