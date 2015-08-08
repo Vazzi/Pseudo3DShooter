@@ -11,9 +11,7 @@ Sprite::~Sprite() {
 }
 
 void Sprite::render() {
-    TheTextureManager::Instance()->draw(m_textureID, m_position.getX(),
-            m_position.getY(), m_width, m_height,
-            TheGame::Instance()->getRenderer());
+    // empty
 }
 
 void Sprite::update(unsigned int deltaTime) {
@@ -26,8 +24,6 @@ void Sprite::clean() {
 
 void Sprite::load(const LoaderParams *pParams) {
     m_position = Vector2D(pParams->getX(), pParams->getY());
-    m_width = pParams->getWidth();
-    m_height = pParams->getHeight();
     m_textureID = pParams->getTextureID();
 }
 
