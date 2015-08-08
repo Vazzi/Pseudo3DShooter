@@ -26,9 +26,6 @@ private:
 
     void drawSurface(int x, int y, int width, int height);
     void bufferToSurface();
-    void lock();
-    void unlock();
-    void putPixelToSurface(int x, int y, Uint32 pixel);
 };
 
 #endif
