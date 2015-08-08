@@ -1,30 +1,30 @@
 #ifndef __MAP__
 #define __MAP__
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <vector>
 #include <string>
+
+using std::string;
 
 class Map {
     public:
         Map(const int width , const int height);
         ~Map ();
         void loadMap(int array[]);
-        bool loadWallBitmap(const std::string fileName);
-        bool loadFloorBitmap(const std::string fileName);
-        bool loadCeilingBitmap(const std::string fileName);
-        SDL_Surface* getWall(const unsigned int x, const unsigned int y);
-        SDL_Surface* getFloor() { return m_pFloor; };
-        SDL_Surface* getCeiling() { return m_pCeiling; };
+        void setWallID(const string id) { m_walls.push_back(id); };
+        void setFloorID(const string id) { m_floorID = id; };
+        void setCeilingID(const string id) { m_ceilingID = id; };
+        string getWallTextureID(const unsigned int x, const unsigned int y) const;
+        string getFloorTextureID() const { return m_floorID; };
+        string getCeilingTextureID() const { return m_ceilingID; };
         bool isEmpty(const unsigned int x, const unsigned int y);
         bool isWall(const unsigned int x, const unsigned int y);
 
     private:
         int* m_map;
-        std::vector<SDL_Surface*> m_walls;
-        SDL_Surface* m_pFloor;
-        SDL_Surface* m_pCeiling;
+        std::vector<string> m_walls;
+        string m_floorID;
+        string m_ceilingID;
         unsigned int m_width;
         unsigned int m_height;
 };

@@ -8,12 +8,7 @@ Map::Map(const int height, const int width) {
 }
 
 Map::~Map() {
-    for (unsigned int i = 0; i < m_walls.size(); i++) {
-        SDL_FreeSurface(m_walls[i]);
-    }
     m_walls.clear();
-    SDL_FreeSurface(m_pFloor);
-    SDL_FreeSurface(m_pCeiling);
 }
 
 void Map::loadMap(int array[]) {
@@ -22,36 +17,7 @@ void Map::loadMap(int array[]) {
     }
 }
 
-bool Map::loadWallBitmap(std::string fileName) {
-    SDL_Surface* pTempSurface = IMG_Load(fileName.c_str());
-    if (pTempSurface == 0) {
-        std::cerr << "File " << fileName << " was not found.\n";
-        return false;
-    }
-    m_walls.push_back(pTempSurface);
-    return true;
-}
-
-bool Map::loadFloorBitmap(std::string fileName) {
-    m_pFloor = IMG_Load(fileName.c_str());
-    if (m_pFloor == 0) {
-        std::cerr << "File " << fileName << " was not found.\n";
-        return false;
-    }
-    return true;
-}
-
-bool Map::loadCeilingBitmap(std::string fileName) {
-    m_pCeiling = IMG_Load(fileName.c_str());
-    if (m_pCeiling == 0) {
-        std::cerr << "File " << fileName << " was not found.\n";
-        return false;
-    }
-    return true;
-}
-
-
-SDL_Surface* Map::getWall(const unsigned int x, const unsigned int y) {
+string Map::getWallTextureID(const unsigned int x, const unsigned int y) const {
     if (x < m_width && y < m_height) {
         int wallIndex = m_map[x + (m_width * y)];
         if (wallIndex > 0 && (unsigned int)wallIndex <= m_walls.size()) {
@@ -59,7 +25,7 @@ SDL_Surface* Map::getWall(const unsigned int x, const unsigned int y) {
             return m_walls[wallIndex];
         }
     }
-    return NULL;
+    return "";
 }
 
 bool Map::isEmpty(const unsigned int x, const unsigned int y) {
