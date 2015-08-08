@@ -20,16 +20,11 @@ bool SurfaceManager::load(string fileName, string id) {
 }
 
 SDL_Surface* SurfaceManager::getSurface(string id) {
-    if (m_surfaceMap.find(id) != m_surfaceMap.end()) {
-        return m_surfaceMap[id];
-    }
-    return NULL;
+    return m_surfaceMap[id];
 }
 
 void SurfaceManager::clearFromSurfaceMap(string id) {
-    if (m_surfaceMap.find(id) != m_surfaceMap.end()) {
-        SDL_FreeSurface(m_surfaceMap[id]);
-        m_surfaceMap.erase(id);
-    }
+    SDL_FreeSurface(m_surfaceMap[id]);
+    m_surfaceMap.erase(id);
 }
 
