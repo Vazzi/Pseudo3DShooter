@@ -2,7 +2,7 @@
     "textures" : [
         {
             "id" : "barrel",
-            "filename" : "resources/textures/barrel.png"
+            "fileName" : "resources/textures/barrel.png"
         },
         {
             "id" : "bucket",
