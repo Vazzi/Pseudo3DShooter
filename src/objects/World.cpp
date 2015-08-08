@@ -6,14 +6,13 @@
 #include "Map.hpp"
 #include "../states/StateParser.hpp"
 #include "../utility/GameSurface.hpp"
-#include "../utility/Ray.hpp"
 
 World::World() : m_position(Vector2D(0, 0)) {
     // empty
 }
 
 void World::render() {
-    drawWalls();
+    drawWorld();
     renderSurface();
 }
 
@@ -81,7 +80,7 @@ void World::renderSurface() {
     m_pGameSurface->clear();
 }
 
-void World::drawWalls() {
+void World::drawWorld() {
     SDL_Surface* pCeiling = TheSurfaceManager::Instance()->getSurface(
                     m_pMap->getCeilingTextureID());
     SDL_Surface* pFloor = TheSurfaceManager::Instance()->getSurface(
@@ -90,90 +89,104 @@ void World::drawWalls() {
     for (int x = 0; x < m_pGameSurface->getWidth(); x++) {
         Ray ray = Ray(x, m_pGameSurface->getWidth(), m_pPlayer);
         ray.performDDA(m_pMap);
-
-        // Calculate height of line to draw on screen
-        int lineHeight = abs(int(m_pGameSurface->getHeight() / ray.getWallDist()));
-
-        // Calculate lowest and highest pixel to fill in current stripe
-        int drawStart = -lineHeight / 2 + m_pGameSurface->getHeight() / 2;
-        if (drawStart < 0) {
-            drawStart = 0;
-        }
-        int drawEnd = lineHeight / 2 + m_pGameSurface->getHeight() / 2;
-        if (drawEnd >= m_pGameSurface->getHeight()) {
-            drawEnd = m_pGameSurface->getHeight() - 1;
-        }
-
-        double wallX = ray.getWallX();
-
-        // Get texture calculations
-        std::string textureID = m_pMap->getWallTextureID(ray.getMapX(), ray.getMapY());
-        SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
-
-        //x coordinate on the texture
-        int texX = int(wallX * double(pTexture->w));
-        if (ray.getSide() == 0 && ray.getDirX() > 0) {
-            texX = pTexture->w - texX - 1;
-        }
-        if (ray.getSide() == 1 && ray.getDirY() < 0) {
-            texX = pTexture->w - texX - 1;
-        }
-        for (int y = drawStart; y < drawEnd; y++) {
-            //256 and 128 factors to avoid floats
-            int d = y * 256 - m_pGameSurface->getHeight() * 128 + lineHeight * 128;
-            int texY = ((d * pTexture->h) / lineHeight) / 256;
-            Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
-            m_pGameSurface->putPixel(x, y, color);
-        }
-
-        // FLOOR CASTING
-        double floorXWall, floorYWall;
-
-        // 4 different wall directions possible
-        if(ray.getSide() == 0 && ray.getDirX() > 0) {
-            floorXWall = ray.getMapX();
-            floorYWall = ray.getMapY() + wallX;
-        } else if(ray.getSide() == 0 && ray.getDirX() < 0) {
-            floorXWall = ray.getMapX() + 1.0;
-            floorYWall = ray.getMapY() + wallX;
-        } else if(ray.getSide() == 1 && ray.getDirY() > 0) {
-            floorXWall = ray.getMapX() + wallX;
-            floorYWall = ray.getMapY();
-        } else {
-            floorXWall = ray.getMapX() + wallX;
-            floorYWall = ray.getMapY() + 1.0;
-        }
-
-        double distWall, distPlayer, currentDist;
-
-        distWall = ray.getWallDist();
-        distPlayer = 0.0;
-
-        if (drawEnd < 0) {
-            drawEnd = m_pGameSurface->getHeight(); //becomes < 0 when the integer overflows
-        }
-
-        for(int y = drawEnd + 1; y < m_pGameSurface->getHeight(); y++) {
-            currentDist = m_pGameSurface->getHeight() / (2.0 * y - m_pGameSurface->getHeight());
-
-            double weight = (currentDist - distPlayer) / (distWall - distPlayer);
-
-            double currentFloorX = weight * floorXWall + (1.0 - weight) * m_pPlayer->getPosition().getX();
-            double currentFloorY = weight * floorYWall + (1.0 - weight) * m_pPlayer->getPosition().getY();
-
-            int floorTexX, floorTexY;
-            floorTexX = int(currentFloorX * pFloor->w) % pFloor->w;
-            floorTexY = int(currentFloorY * pFloor->h) % pFloor->h;
-
-            Uint32 color = GameSurface::getPixelFromSurface(pFloor, floorTexX, floorTexY);
-            color = (color >> 1) & 8355711;
-            m_pGameSurface->putPixel(x, y, color);
-
-            color = GameSurface::getPixelFromSurface(pCeiling, floorTexX, floorTexY);
-            color = (color >> 1) & 8355711;
-            m_pGameSurface->putPixel(x, m_height-y, color);
-        }
+        drawWalls(x, ray);
+        drawFloorAndCeiling(x, ray, pFloor, pCeiling);
+        drawSprites(x, ray);
     }
+}
+
+void World::drawWalls(int x, Ray &ray) {
+
+    // Calculate height of line to draw on screen
+    int lineHeight = abs(int(m_pGameSurface->getHeight() / ray.getWallDist()));
+
+    // Calculate lowest and highest pixel to fill in current stripe
+    int drawStart = -lineHeight / 2 + m_pGameSurface->getHeight() / 2;
+    if (drawStart < 0) {
+        drawStart = 0;
+    }
+    m_drawEnd = lineHeight / 2 + m_pGameSurface->getHeight() / 2;
+    if (m_drawEnd >= m_pGameSurface->getHeight()) {
+        m_drawEnd = m_pGameSurface->getHeight() - 1;
+    }
+
+    double wallX = ray.getWallX();
+
+    // Get texture calculations
+    std::string textureID = m_pMap->getWallTextureID(ray.getMapX(), ray.getMapY());
+    SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
+
+    //x coordinate on the texture
+    int texX = int(wallX * double(pTexture->w));
+    if (ray.getSide() == 0 && ray.getDirX() > 0) {
+        texX = pTexture->w - texX - 1;
+    }
+    if (ray.getSide() == 1 && ray.getDirY() < 0) {
+        texX = pTexture->w - texX - 1;
+    }
+
+    for (int y = drawStart; y < m_drawEnd; y++) {
+        //256 and 128 factors to avoid floats
+        int d = y * 256 - m_pGameSurface->getHeight() * 128 + lineHeight * 128;
+        int texY = ((d * pTexture->h) / lineHeight) / 256;
+        Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
+        m_pGameSurface->putPixel(x, y, color);
+    }
+}
+
+void World::drawFloorAndCeiling(int x, Ray &ray, SDL_Surface* pFloor,
+        SDL_Surface* pCeiling) {
+
+    double floorXWall, floorYWall;
+    double wallX = ray.getWallX();
+
+    // 4 different wall directions possible
+    if(ray.getSide() == 0 && ray.getDirX() > 0) {
+        floorXWall = ray.getMapX();
+        floorYWall = ray.getMapY() + wallX;
+    } else if(ray.getSide() == 0 && ray.getDirX() < 0) {
+        floorXWall = ray.getMapX() + 1.0;
+        floorYWall = ray.getMapY() + wallX;
+    } else if(ray.getSide() == 1 && ray.getDirY() > 0) {
+        floorXWall = ray.getMapX() + wallX;
+        floorYWall = ray.getMapY();
+    } else {
+        floorXWall = ray.getMapX() + wallX;
+        floorYWall = ray.getMapY() + 1.0;
+    }
+
+    double distWall, distPlayer, currentDist;
+
+    distWall = ray.getWallDist();
+    distPlayer = 0.0;
+
+    if (m_drawEnd < 0) {
+        m_drawEnd = m_pGameSurface->getHeight(); //becomes < 0 when the integer overflows
+    }
+
+    for(int y = m_drawEnd + 1; y < m_pGameSurface->getHeight(); y++) {
+        currentDist = m_pGameSurface->getHeight() / (2.0 * y - m_pGameSurface->getHeight());
+
+        double weight = (currentDist - distPlayer) / (distWall - distPlayer);
+
+        double currentFloorX = weight * floorXWall + (1.0 - weight) * m_pPlayer->getPosition().getX();
+        double currentFloorY = weight * floorYWall + (1.0 - weight) * m_pPlayer->getPosition().getY();
+
+        int floorTexX, floorTexY;
+        floorTexX = int(currentFloorX * pFloor->w) % pFloor->w;
+        floorTexY = int(currentFloorY * pFloor->h) % pFloor->h;
+
+        Uint32 color = GameSurface::getPixelFromSurface(pFloor, floorTexX, floorTexY);
+        color = (color >> 1) & 8355711;
+        m_pGameSurface->putPixel(x, y, color);
+
+        color = GameSurface::getPixelFromSurface(pCeiling, floorTexX, floorTexY);
+        color = (color >> 1) & 8355711;
+        m_pGameSurface->putPixel(x, m_height-y, color);
+    }
+}
+
+void World::drawSprites(int x, Ray &ray) {
 
 }
 
