@@ -1,5 +1,5 @@
-#ifndef __WORLD_OBJECT__
-#define __WORLD_OBJECT__
+#ifndef __WORLD__
+#define __WORLD__
 
 #include "GameObject.hpp"
 #include "../utility/Vector2D.hpp"
@@ -11,9 +11,9 @@ class Map;
 class Player;
 class GameSurface;
 
-class WorldObject : public GameObject {
+class World : public GameObject {
     public:
-        WorldObject();
+        World();
 
         virtual void render();
         virtual void update(unsigned int deltaTime);
@@ -38,9 +38,9 @@ class WorldObject : public GameObject {
 
 };
 
-class WorldObjectCreator : public BaseCreator {
+class WorldCreator : public BaseCreator {
     GameObject* createGameObject() const {
-        return new WorldObject();
+        return new World();
     }
 };
 

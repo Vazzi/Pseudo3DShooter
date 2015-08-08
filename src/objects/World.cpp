@@ -1,4 +1,4 @@
-#include "WorldObject.hpp"
+#include "World.hpp"
 #include "../Game.hpp"
 #include "../InputHandler.hpp"
 #include "Player.hpp"
@@ -7,16 +7,16 @@
 #include <fstream>
 #include "../utility/GameSurface.hpp"
 
-WorldObject::WorldObject() : m_position(Vector2D(0, 0)) {
+World::World() : m_position(Vector2D(0, 0)) {
     // empty
 }
 
-void WorldObject::render() {
+void World::render() {
     drawWalls();
     renderSurface();
 }
 
-void WorldObject::update(unsigned int deltaTime) {
+void World::update(unsigned int deltaTime) {
     m_pPlayer->update(deltaTime);
 
     double posX = m_pPlayer->getPosition().getX();
@@ -40,7 +40,7 @@ void WorldObject::update(unsigned int deltaTime) {
     }
 }
 
-void WorldObject::clean() {
+void World::clean() {
     delete m_pGameSurface;
     m_pPlayer->clean();
     delete m_pPlayer;
@@ -53,7 +53,7 @@ void WorldObject::clean() {
 
 }
 
-void WorldObject::load(const LoaderParams* pParams) {
+void World::load(const LoaderParams* pParams) {
     m_position = Vector2D(pParams->getX(), pParams->getY());
     m_height = pParams->getHeight();
     m_width = pParams->getWidth();
@@ -63,18 +63,18 @@ void WorldObject::load(const LoaderParams* pParams) {
     m_pGameSurface = new GameSurface(m_width * scale, m_height * scale);
 }
 
-void WorldObject::loadLevelData(std::string fileName) {
+void World::loadLevelData(std::string fileName) {
     StateParser parser;
     parser.parseWorld(fileName.c_str(), &m_gameObjects, &m_pMap, &m_pPlayer);
     m_pGameSurface->setFormatBySurface(m_pMap->getFloor());
 }
 
-void WorldObject::renderSurface() {
+void World::renderSurface() {
     m_pGameSurface->draw(m_position.getX(), m_position.getY(), m_width, m_height);
     m_pGameSurface->clear();
 }
 
-void WorldObject::drawWalls() {
+void World::drawWalls() {
     for (int x = 0; x < m_pGameSurface->getWidth(); x++) {
         double cameraX = 2 * x / double(m_pGameSurface->getWidth()) - 1;
         // calculate ray position and direction

@@ -9,7 +9,7 @@
 #include "../objects/GameObject.hpp"
 #include "../objects/LoaderParams.hpp"
 #include "../objects/TextObject.hpp"
-#include "../objects/WorldObject.hpp"
+#include "../objects/World.hpp"
 #include "../objects/Player.hpp"
 #include "../objects/Map.hpp"
 #include "../Game.hpp"
@@ -137,13 +137,13 @@ void StateParser::setupObject(Json* pJsonObject, GameObject* pObject) {
         setupTextObject(pJsonObject, pObject);
     } else if (type == "MenuButton") {
         setupMenuButton(pJsonObject, pObject);
-    } else if (type == "WorldObject") {
+    } else if (type == "World") {
         setupWorld(pJsonObject, pObject);
     }
 }
 
 void StateParser::setupWorld(Json* pJsonObject, GameObject* pObject) {
-    WorldObject* pWorld = (WorldObject *)pObject;
+    World* pWorld = (World *)pObject;
     std::string levelFile = (*pJsonObject)["sourceFile"].string_value();
     pWorld->loadLevelData(levelFile);
 }

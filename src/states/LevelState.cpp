@@ -4,7 +4,7 @@
 #include "GameStateMachine.hpp"
 #include "PauseState.hpp"
 #include "../Game.hpp"
-#include "../objects/WorldObject.hpp"
+#include "../objects/World.hpp"
 
 const std::string LevelState::s_playID = "LEVEL";
 
