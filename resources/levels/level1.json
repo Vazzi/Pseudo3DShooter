@@ -1,4 +1,34 @@
 {
+    "textures" : [
+        {
+            "id" : "barrel",
+            "filename" : "resources/textures/barrel.png"
+        },
+        {
+            "id" : "bucket",
+            "fileName" : "resources/textures/bucket.png"
+        },
+        {
+            "id" : "brickWall",
+            "fileName" : "resources/textures/brickWall.png"
+        },
+        {
+            "id" : "woodBrickWall",
+            "fileName" : "resources/textures/woodBrickWall.png"
+        },
+        {
+            "id" : "bookShelfWall",
+            "fileName" : "resources/textures/bookShelfWall.png"
+        },
+        {
+            "id" : "floor",
+            "fileName" : "resources/textures/floor.png"
+        },
+        {
+            "id" : "ceiling",
+            "fileName" : "resources/textures/ceiling.png"
+        }
+    ],
     "map": {
         "width": 24,
         "height": 24,
@@ -29,12 +59,12 @@
             [1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,3,2,3,2]
         ],
         "walls": [
-            "resources/textures/brickWall.png",
-            "resources/textures/woodBrickWall.png",
-            "resources/textures/bookShelfWall.png"
+            "brickWall",
+            "woodBrickWall",
+            "bookShelfWall"
         ],
-        "floor" : "resources/textures/floor.png",
-        "ceiling" : "resources/textures/ceiling.png"
+        "floor" : "floor",
+        "ceiling" : "ceiling"
     },
     "player" : {
         "type": "Player",
