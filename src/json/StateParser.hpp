@@ -1,36 +1,24 @@
 #ifndef __STATE_PARSER__
 #define __STATE_PARSER__
 
-#include <iostream>
-#include <vector>
-#include "json11.hpp"
+#include "Parser.hpp"
 
-class GameObject;
 class Map;
 class Player;
-using json11::Json;
 
-class StateParser {
+class StateParser : public Parser {
     public:
-        bool parseState(const char* stateFile, std::string stateID,
-                std::vector<GameObject*>* pObjects,
-                std::vector<std::string>* pTextureIDs,
-                std::vector<std::string>* pFontIDs);
+        bool parseState(const char* stateFile, string stateID,
+                vector<GameObject*>* pObjects,
+                vector<string>* pTextureIDs,
+                vector<string>* pFontIDs);
         bool parseWorld(const char* file,
-                std::vector<GameObject*>* pObjects,
+                vector<GameObject*>* pObjects,
                 Map** pMap, Player** pPlayer,
-                std::vector<std::string>* pSurfaces);
+                vector<string>* pSurfaces);
     private:
-        void parseObjects(Json* pStateRoot,
-                std::vector<GameObject*> *pObjects);
-        void parseTextures(Json* pStateRoot,
-                std::vector<std::string> *pTextureIDs, bool bSurface = false);
-        void parseFonts(Json* pStateRoot,
-                std::vector<std::string> *pFontIDs);
-        Json getRoot(const char* stateFile);
         void parseMap(Json* pRoot, Map** pMap);
-        GameObject* createObjectFromJson(Json* pJsonObject);
-        void setupObject(Json* pJsonObject, GameObject* pObject);
+        virtual void setupObject(Json* pJsonObject, GameObject* pObject);
         void setupTextObject(Json* pJsonObject, GameObject* pObject);
         void setupMenuButton(Json* pJsonObject, GameObject* pObject);
         void setupPlayer(Json* pJsonObject, GameObject* pObject);

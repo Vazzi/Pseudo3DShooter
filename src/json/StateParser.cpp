@@ -1,5 +1,4 @@
 #include "StateParser.hpp"
-#include <fstream>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -15,19 +14,19 @@
 #include "../objects/Map.hpp"
 #include "../Game.hpp"
 
-bool StateParser::parseState(const char* stateFile, std::string stateID,
-        std::vector<GameObject*>* pObjects,
-        std::vector<std::string>* pTextureIDs,
-        std::vector<std::string>* pFontIDs) {
+bool StateParser::parseState(const char* stateFile, string stateID,
+        vector<GameObject*>* pObjects,
+        vector<string>* pTextureIDs,
+        vector<string>* pFontIDs) {
 
     Json root = getRoot(stateFile);
     if (root == nullptr) {
         return false;
     }
 
-    std::vector<Json> states = root.array_items();
+    vector<Json> states = root.array_items();
     Json* pStateNode = nullptr;
-    for (std::vector<Json>::iterator it = states.begin();
+    for (vector<Json>::iterator it = states.begin();
             it != states.end(); ++it) {
         if ((*it)["stateId"].string_value() == stateID) {
             pStateNode = &(*it);
@@ -43,8 +42,8 @@ bool StateParser::parseState(const char* stateFile, std::string stateID,
 
 }
 
-bool StateParser::parseWorld(const char* file, std::vector<GameObject*>* pObjects,
-        Map** pMap, Player** pPlayer, std::vector<std::string>* pSurfaces) {
+bool StateParser::parseWorld(const char* file, vector<GameObject*>* pObjects,
+        Map** pMap, Player** pPlayer, vector<string>* pSurfaces) {
     Json root = getRoot(file);
     if (root == nullptr) {
         return false;
@@ -58,39 +57,21 @@ bool StateParser::parseWorld(const char* file, std::vector<GameObject*>* pObject
     return true;
 }
 
-Json StateParser::getRoot(const char* stateFile) {
-    std::ifstream ifs;
-    ifs.open(stateFile, std::ifstream::in);
-    if (ifs.fail()) {
-        std::cerr << "Error: " << strerror(errno);
-        return nullptr;
-    }
-    std::string content((std::istreambuf_iterator<char>(ifs)),
-            (std::istreambuf_iterator<char>()));
-
-    std::string err;
-    Json root = Json::parse(content, err);
-    if (root == nullptr) {
-        std::cerr << err;
-    }
-
-    return root;
-}
 
 void StateParser::parseMap(Json* pRoot, Map** pMap) {
     Json mapObject = (*pRoot)["map"].object_items();
 
     int width = mapObject["width"].int_value();
     int height = mapObject["height"].int_value();
-    std::vector<Json> data = mapObject["data"].array_items();
-    std::vector<Json> walls = mapObject["walls"].array_items();
-    std::string ceiling = mapObject["ceiling"].string_value();
-    std::string floor = mapObject["floor"].string_value();
+    vector<Json> data = mapObject["data"].array_items();
+    vector<Json> walls = mapObject["walls"].array_items();
+    string ceiling = mapObject["ceiling"].string_value();
+    string floor = mapObject["floor"].string_value();
 
     int mapArray[width * height];
 
     for (int y = 0; y < height; y++) {
-        std::vector<Json> line = data[y].array_items();
+        vector<Json> line = data[y].array_items();
         for (int x = 0; x < width; x++) {
             mapArray[x + (y * width)] = line[x].int_value();
         }
@@ -106,34 +87,8 @@ void StateParser::parseMap(Json* pRoot, Map** pMap) {
 
 }
 
-void StateParser::parseObjects(Json* pStateRoot,
-        std::vector<GameObject*> *pObjects) {
-    std::vector<Json> textures = (*pStateRoot)["objects"].array_items();
-    for (std::vector<Json>::iterator it = textures.begin();
-            it != textures.end(); ++it) {
-        GameObject* pObject = createObjectFromJson(&(*it));
-        setupObject(&(*it), pObject);
-        pObjects->push_back(pObject);
-    }
-}
-
-GameObject* StateParser::createObjectFromJson(Json* pJsonObject) {
-    double x = (*pJsonObject)["x"].number_value();
-    double y = (*pJsonObject)["y"].number_value();
-    int width = (*pJsonObject)["width"].int_value();
-    int height = (*pJsonObject)["height"].int_value();
-    int callbackId = (*pJsonObject)["callbackId"].int_value();
-    std::string textureId = (*pJsonObject)["textureId"].string_value();
-    std::string type = (*pJsonObject)["type"].string_value();
-
-    GameObject* pGameObject = TheGameObjectFactory::Instance()->create(type);
-    pGameObject->load(new LoaderParams(x, y, width, height, textureId, callbackId));
-
-    return pGameObject;
-}
-
 void StateParser::setupObject(Json* pJsonObject, GameObject* pObject) {
-    std::string type = (*pJsonObject)["type"].string_value();
+    string type = (*pJsonObject)["type"].string_value();
 
     if (type == "TextObject") {
         setupTextObject(pJsonObject, pObject);
@@ -146,7 +101,7 @@ void StateParser::setupObject(Json* pJsonObject, GameObject* pObject) {
 
 void StateParser::setupWorld(Json* pJsonObject, GameObject* pObject) {
     World* pWorld = (World *)pObject;
-    std::string levelFile = (*pJsonObject)["sourceFile"].string_value();
+    string levelFile = (*pJsonObject)["sourceFile"].string_value();
     pWorld->loadLevelData(levelFile);
 }
 
@@ -160,7 +115,7 @@ void StateParser::setupPlayer(Json* pJsonObject, GameObject* pObject) {
 
 void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
     TextObject* pTextObject = (TextObject *)pObject;
-    std::string text = (*pJsonObject)["text"].string_value();
+    string text = (*pJsonObject)["text"].string_value();
     pTextObject->setText(text);
 
     int scale = (*pJsonObject)["scale"].int_value();
@@ -193,37 +148,3 @@ void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
 void StateParser::setupMenuButton(Json* pJsonObject, GameObject* pObject) {
     setupTextObject(pJsonObject, pObject);
 }
-
-void StateParser::parseTextures(Json* pStateRoot,
-        std::vector<std::string> *pTextureIDs, bool bSurface) {
-    std::vector<Json> textures = (*pStateRoot)["textures"].array_items();
-    for (std::vector<Json>::iterator it = textures.begin();
-            it != textures.end(); ++it) {
-        std::string fileName = (*it)["fileName"].string_value();
-        std::string textureId = (*it)["id"].string_value();
-        pTextureIDs->push_back(textureId);
-        if (bSurface) {
-            TheSurfaceManager::Instance()->load(fileName, textureId);
-
-        } else {
-            TheTextureManager::Instance()->load(fileName, textureId,
-                    TheGame::Instance()->getRenderer());
-        }
-    }
-}
-
-void StateParser::parseFonts(Json* pStateRoot,
-        std::vector<std::string> *pFontIDs) {
-    std::vector<Json> fonts = (*pStateRoot)["fonts"].array_items();
-    for (std::vector<Json>::iterator it = fonts.begin();
-            it != fonts.end(); ++it) {
-        std::string fileName = (*it)["fileName"].string_value();
-        std::string fontId = (*it)["id"].string_value();
-        int letterWidth = (*it)["letterWidth"].int_value();
-        int letterHeight = (*it)["letterHeight"].int_value();
-        pFontIDs->push_back(fontId);
-        TheFontManager::Instance()->load(fileName, fontId, letterWidth,
-                letterHeight, TheGame::Instance()->getRenderer());
-    }
-}
-
