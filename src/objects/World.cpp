@@ -3,7 +3,7 @@
 #include "../SurfaceManager.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
-#include "../states/StateParser.hpp"
+#include "../json/StateParser.hpp"
 
 World::World() : m_position(Vector2D(0, 0)) {
     // empty

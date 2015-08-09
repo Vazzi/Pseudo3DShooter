@@ -1,5 +1,5 @@
 #include "PauseState.hpp"
-#include "StateParser.hpp"
+#include "../json/StateParser.hpp"
 #include "MainMenuState.hpp"
 #include "GameStateMachine.hpp"
 #include "../Game.hpp"
