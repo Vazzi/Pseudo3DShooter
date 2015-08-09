@@ -1,9 +1,9 @@
 #include "Parser.hpp"
 
 #include <fstream>
-#include "../TextureManager.hpp"
-#include "../SurfaceManager.hpp"
-#include "../FontManager.hpp"
+#include "../managers/TextureManager.hpp"
+#include "../managers/SurfaceManager.hpp"
+#include "../managers/FontManager.hpp"
 #include "../objects/GameObject.hpp"
 #include "../Game.hpp"
 

@@ -1,5 +1,4 @@
 #include "Sprite.hpp"
-#include "../TextureManager.hpp"
 #include "../Game.hpp"
 
 Sprite::Sprite() : m_position(Vector2D(0, 0)) {

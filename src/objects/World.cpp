@@ -1,8 +1,8 @@
 #include "World.hpp"
-#include "../InputHandler.hpp"
-#include "../SurfaceManager.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
+#include "../InputHandler.hpp"
+#include "../managers/SurfaceManager.hpp"
 #include "../json/WorldParser.hpp"
 
 World::World() : m_position(Vector2D(0, 0)) {

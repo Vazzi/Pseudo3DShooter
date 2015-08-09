@@ -1,8 +1,8 @@
 #include "GameState.hpp"
 
 #include "../objects/GameObject.hpp"
-#include "../FontManager.hpp"
-#include "../TextureManager.hpp"
+#include "../managers/FontManager.hpp"
+#include "../managers/TextureManager.hpp"
 
 void GameState::render() {
     for (unsigned long i = 0; i < m_gameObjects.size(); i++) {

@@ -2,7 +2,7 @@
 #include "../objects/Map.hpp"
 #include "../objects/Player.hpp"
 #include "../objects/GameObject.hpp"
-#include "../SurfaceManager.hpp"
+#include "../managers/SurfaceManager.hpp"
 #include "../utility/GameSurface.hpp"
 
 RayCast::RayCast(Map *pMap, Player* pPlayer, vector<GameObject*>* pGameObjects) {
