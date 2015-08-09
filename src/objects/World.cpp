@@ -3,7 +3,7 @@
 #include "../SurfaceManager.hpp"
 #include "Player.hpp"
 #include "Map.hpp"
-#include "../json/StateParser.hpp"
+#include "../json/WorldParser.hpp"
 
 World::World() : m_position(Vector2D(0, 0)) {
     // empty
@@ -61,7 +61,7 @@ void World::load(const LoaderParams* pParams) {
 }
 
 void World::loadLevelData(std::string fileName) {
-    StateParser parser;
+    WorldParser parser;
     parser.parseWorld(fileName.c_str(), &m_gameObjects, &m_pMap, &m_pPlayer,
             &m_textureIDs);
     m_pRayCast = new RayCast(m_pMap, m_pPlayer, &m_gameObjects);
