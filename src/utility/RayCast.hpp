@@ -34,7 +34,7 @@ class RayCast {
 
         void drawWalls(int x, Ray &ray);
         void drawFloorAndCeiling(int x, Ray &ray);
-        void drawSprites(int x, Ray &ray);
+        void drawSprites();
 
         void combSort(int* pOrder, double* pDist, int amount);
 };

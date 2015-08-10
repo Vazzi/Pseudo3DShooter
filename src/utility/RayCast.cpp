@@ -50,7 +50,7 @@ void RayCast::drawWorld() {
         drawWalls(x, ray);
         m_pZBuffer[x] = ray.getWallDist();
         drawFloorAndCeiling(x, ray);
-        drawSprites(x, ray);
+        drawSprites();
     }
 }
 
@@ -144,7 +144,7 @@ void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
     }
 }
 
-void RayCast::drawSprites(int x, Ray& ray) {
+void RayCast::drawSprites() {
 
     int numSprites = int(m_pGameObjects->size());
 
@@ -161,11 +161,15 @@ void RayCast::drawSprites(int x, Ray& ray) {
 
     //after sorting the sprites, do the projection and draw them
     for (int i = 0; i < numSprites; i++) {
+        Sprite* pSprite = (Sprite*)(*m_pGameObjects)[m_pSpriteOrder[i]];
+        std::string textureID = pSprite->getTextureID();
+        SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
+        int texWidth = pTexture->w;
+        int texHeight = pTexture->h;
+
         //translate sprite position to relative to camera
-        double spriteX = ((Sprite*)(*m_pGameObjects)[m_pSpriteOrder[i]])
-            ->getPosition().getX() - m_pPlayer->getPosition().getX();
-        double spriteY = ((Sprite*)(*m_pGameObjects)[m_pSpriteOrder[i]])
-            ->getPosition().getY() - m_pPlayer->getPosition().getY();
+        double spriteX = pSprite->getPosition().getX() - m_pPlayer->getPosition().getX();
+        double spriteY = pSprite->getPosition().getY() - m_pPlayer->getPosition().getY();
 
         double invDet = 1.0 / (m_pPlayer->getPlaneX() * m_pPlayer->getDirY() -
                 m_pPlayer->getDirX() * m_pPlayer->getPlaneY());
@@ -194,11 +198,6 @@ void RayCast::drawSprites(int x, Ray& ray) {
         int drawEndX = spriteWidth / 2 + spriteScreenX;
         if (drawEndX >= w) drawEndX = w - 1;
 
-        std::string textureID = ((Sprite*)((*m_pGameObjects)[m_pSpriteOrder[i]]))
-            ->getTextureID();
-        SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
-        int texWidth = pTexture->w;
-        int texHeight = pTexture->h;
 
         for (int stripe = drawStartX; stripe < drawEndX; stripe++) {
             int texX = int(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) *
@@ -212,7 +211,7 @@ void RayCast::drawSprites(int x, Ray& ray) {
                             texX, texY);
                     //paint pixel if it isn't black, black is the invisible color
                     if ((color & 0x00FFFFFF) != 0) {
-                        m_pGameSurface->putPixel(x, y, color);
+                        m_pGameSurface->putPixel(stripe, y, color);
                     }
                 }
             }
