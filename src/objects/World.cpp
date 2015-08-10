@@ -66,6 +66,6 @@ void World::loadLevelData(std::string fileName) {
             &m_textureIDs);
     m_pRayCast = new RayCast(m_pMap, m_pPlayer, &m_gameObjects);
 
-    m_pRayCast->setSurface(m_width, m_height, 1);
+    m_pRayCast->setSurface(m_width, m_height, 0.5);
 }
 

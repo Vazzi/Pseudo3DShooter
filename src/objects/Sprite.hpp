@@ -15,6 +15,7 @@ class Sprite : public GameObject {
         virtual void load(const LoaderParams *pParams);
 
         Vector2D& getPosition() { return m_position; }
+        std::string getTextureID() const { return m_textureID; };
 
     private:
         Vector2D m_position;

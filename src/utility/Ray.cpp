@@ -70,7 +70,6 @@ double Ray::getWallX() const {
     return wallX;
 }
 
-
 void Ray::setStepAndSideDist() {
     // Calculate step and initial sideDist
     if (m_dirX < 0) {

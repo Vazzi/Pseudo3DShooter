@@ -24,7 +24,6 @@ class Ray {
         double getWallDist() const;
         double getWallX() const;
 
-
     private:
         double m_posX;
         double m_posY;

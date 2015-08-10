@@ -16,7 +16,7 @@ class RayCast {
     public:
         RayCast(Map* pMap, Player* pPlayer, vector<GameObject*>* pGameObjects);
         ~RayCast();
-        void setSurface(int width, int height, int scale);
+        void setSurface(int width, int height, float scale);
         void drawWorld();
         void render(int x, int y, int width, int height);
 
@@ -28,10 +28,15 @@ class RayCast {
         SDL_Surface* m_pCeilingTexture;
         GameSurface* m_pGameSurface;
         int m_drawEnd;
+        double* m_pZBuffer;
+        int* m_pSpriteOrder;
+        double* m_pSpriteDistance;
 
         void drawWalls(int x, Ray &ray);
         void drawFloorAndCeiling(int x, Ray &ray);
         void drawSprites(int x, Ray &ray);
+
+        void combSort(int* pOrder, double* pDist, int amount);
 };
 
 #endif

@@ -76,10 +76,8 @@
     "objects" : [
         {
             "type": "Sprite",
-            "x": 16,
-            "y": 16,
-            "width": 1,
-            "height": 1,
+            "x": 16.5,
+            "y": 16.5,
             "textureId": "barrel"
         }
     ]
