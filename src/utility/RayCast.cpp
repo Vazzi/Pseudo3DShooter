@@ -50,8 +50,8 @@ void RayCast::drawWorld() {
         drawWalls(x, ray);
         m_pZBuffer[x] = ray.getWallDist();
         drawFloorAndCeiling(x, ray);
-        drawSprites();
     }
+    drawSprites();
 }
 
 void RayCast::drawWalls(int x, Ray& ray) {
@@ -91,6 +91,7 @@ void RayCast::drawWalls(int x, Ray& ray) {
         Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
         m_pGameSurface->putPixel(x, y, color);
     }
+
 }
 
 void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
