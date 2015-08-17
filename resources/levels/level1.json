@@ -5,8 +5,20 @@
             "fileName" : "resources/textures/barrel.png"
         },
         {
-            "id" : "bucket",
-            "fileName" : "resources/textures/bucket.png"
+            "id" : "pillar",
+            "fileName" : "resources/textures/pillar.png"
+        },
+        {
+            "id" : "statute",
+            "fileName" : "resources/textures/statute.png"
+        },
+        {
+            "id" : "net",
+            "fileName" : "resources/textures/net.png"
+        },
+        {
+            "id" : "net2",
+            "fileName" : "resources/textures/net2.png"
         },
         {
             "id" : "brickWall",
@@ -76,9 +88,33 @@
     "objects" : [
         {
             "type": "Sprite",
+            "x": 17.5,
+            "y": 16.5,
+            "textureId": "statute"
+        },
+        {
+            "type": "Sprite",
+            "x": 16.5,
+            "y": 17.5,
+            "textureId": "net"
+        },
+        {
+            "type": "Sprite",
             "x": 16.5,
             "y": 16.5,
+            "textureId": "pillar"
+        },
+        {
+            "type": "Sprite",
+            "x": 15.5,
+            "y": 16.5,
             "textureId": "barrel"
+        },
+        {
+            "type": "Sprite",
+            "x": 18.5,
+            "y": 16.5,
+            "textureId": "net2"
         }
     ]
 }
