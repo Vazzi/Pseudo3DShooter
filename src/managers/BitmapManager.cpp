@@ -1,14 +1,14 @@
-#include "SurfaceManager.hpp"
+#include "BitmapManager.hpp"
 
 #include <SDL2/SDL_image.h>
 
-SurfaceManager* SurfaceManager::s_pInstance = 0;
+BitmapManager* BitmapManager::s_pInstance = 0;
 
-SurfaceManager::SurfaceManager() {
+BitmapManager::BitmapManager() {
     // empty
 }
 
-bool SurfaceManager::load(string fileName, string id) {
+bool BitmapManager::load(string fileName, string id) {
     SDL_Surface* pSurface = IMG_Load(fileName.c_str());
 
     if (pSurface == 0) {
@@ -19,18 +19,18 @@ bool SurfaceManager::load(string fileName, string id) {
     return true;
 }
 
-SDL_Surface* SurfaceManager::getSurface(string id) {
+SDL_Surface* BitmapManager::getSurface(string id) {
     return m_surfaceMap[id];
 }
 
-SDL_Surface* SurfaceManager::getFirstSurface() {
+SDL_Surface* BitmapManager::getFirstSurface() {
     if (m_surfaceMap.empty()) {
         return NULL;
     }
     return m_surfaceMap.begin()->second;
 }
 
-void SurfaceManager::clearFromSurfaceMap(string id) {
+void BitmapManager::clearFromSurfaceMap(string id) {
     SDL_FreeSurface(m_surfaceMap[id]);
     m_surfaceMap.erase(id);
 }

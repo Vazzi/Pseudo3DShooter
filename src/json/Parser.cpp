@@ -2,7 +2,7 @@
 
 #include <fstream>
 #include "../managers/TextureManager.hpp"
-#include "../managers/SurfaceManager.hpp"
+#include "../managers/BitmapManager.hpp"
 #include "../managers/FontManager.hpp"
 #include "../objects/GameObject.hpp"
 #include "../Game.hpp"
@@ -46,7 +46,7 @@ void Parser::parseTextures(Json* pRoot, vector<string> *pTextureIDs,
 
         pTextureIDs->push_back(textureId);
         if (bSurface) {
-            TheSurfaceManager::Instance()->load(fileName, textureId);
+            TheBitmapManager::Instance()->load(fileName, textureId);
         } else {
             TheTextureManager::Instance()->load(fileName, textureId,
                     TheGame::Instance()->getRenderer());

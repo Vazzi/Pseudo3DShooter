@@ -2,7 +2,7 @@
 #include "Player.hpp"
 #include "Map.hpp"
 #include "../InputHandler.hpp"
-#include "../managers/SurfaceManager.hpp"
+#include "../managers/BitmapManager.hpp"
 #include "../json/WorldParser.hpp"
 
 World::World() : m_position(Vector2D(0, 0)) {
@@ -47,7 +47,7 @@ void World::clean() {
         m_gameObjects[i]->clean();
     }
     for (unsigned long i = 0; i < m_textureIDs.size(); i++) {
-        TheSurfaceManager::Instance()->clearFromSurfaceMap(m_textureIDs[i]);
+        TheBitmapManager::Instance()->clearFromSurfaceMap(m_textureIDs[i]);
     }
     m_gameObjects.clear();
     m_textureIDs.clear();

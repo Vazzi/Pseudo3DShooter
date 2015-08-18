@@ -1,5 +1,5 @@
-#ifndef __SURFACE_MANAGER__
-#define __SURFACE_MANAGER__
+#ifndef __BITMAP_MANAGER__
+#define __BITMAP_MANAGER__
 
 #include <SDL2/SDL.h>
 #include <map>
@@ -8,11 +8,11 @@
 using std::map;
 using std::string;
 
-class SurfaceManager {
+class BitmapManager {
     public:
-        static SurfaceManager* Instance() {
+        static BitmapManager* Instance() {
             if (s_pInstance == 0) {
-                s_pInstance = new SurfaceManager();
+                s_pInstance = new BitmapManager();
             }
             return s_pInstance;
         }
@@ -23,13 +23,13 @@ class SurfaceManager {
         void clearFromSurfaceMap(string id);
 
     private:
-        SurfaceManager();
+        BitmapManager();
 
-        static SurfaceManager* s_pInstance;
+        static BitmapManager* s_pInstance;
 
         map<string, SDL_Surface*> m_surfaceMap;
 };
 
-typedef SurfaceManager TheSurfaceManager;
+typedef BitmapManager TheBitmapManager;
 
 #endif

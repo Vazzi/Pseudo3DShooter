@@ -3,16 +3,16 @@
 #include "../objects/Player.hpp"
 #include "../objects/GameObject.hpp"
 #include "../objects/Sprite.hpp"
-#include "../managers/SurfaceManager.hpp"
+#include "../managers/BitmapManager.hpp"
 #include "../utility/GameSurface.hpp"
 
 RayCast::RayCast(Map *pMap, Player* pPlayer, vector<GameObject*>* pGameObjects) {
     m_pMap = pMap;
     m_pPlayer = pPlayer;
     m_pGameObjects = pGameObjects;
-    m_pFloorTexture = TheSurfaceManager::Instance()->getSurface(
+    m_pFloorTexture = TheBitmapManager::Instance()->getSurface(
             pMap->getFloorTextureID());
-    m_pCeilingTexture = TheSurfaceManager::Instance()->getSurface(
+    m_pCeilingTexture = TheBitmapManager::Instance()->getSurface(
             pMap->getCeilingTextureID());
     m_pSpriteOrder = new int[pGameObjects->size()];
     m_pSpriteDistance = new double[pGameObjects->size()];
@@ -33,7 +33,7 @@ RayCast::~RayCast() {
 void RayCast::setSurface(int width, int height, float scale) {
     m_pGameSurface = new GameSurface(width * scale, height * scale);
     m_pGameSurface->setFormatBySurface(
-            TheSurfaceManager::Instance()->getFirstSurface());
+            TheBitmapManager::Instance()->getFirstSurface());
 
     m_pZBuffer = new double[width];
 }
@@ -73,7 +73,7 @@ void RayCast::drawWalls(int x, Ray& ray) {
 
     // Get texture calculations
     std::string textureID = m_pMap->getWallTextureID(ray.getMapX(), ray.getMapY());
-    SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
+    SDL_Surface* pTexture = TheBitmapManager::Instance()->getSurface(textureID);
 
     //x coordinate on the texture
     int texX = int(wallX * double(pTexture->w));
@@ -164,7 +164,7 @@ void RayCast::drawSprites() {
     for (int i = 0; i < numSprites; i++) {
         Sprite* pSprite = (Sprite*)(*m_pGameObjects)[m_pSpriteOrder[i]];
         std::string textureID = pSprite->getTextureID();
-        SDL_Surface* pTexture = TheSurfaceManager::Instance()->getSurface(textureID);
+        SDL_Surface* pTexture = TheBitmapManager::Instance()->getSurface(textureID);
         int texWidth = pTexture->w;
         int texHeight = pTexture->h;
 
