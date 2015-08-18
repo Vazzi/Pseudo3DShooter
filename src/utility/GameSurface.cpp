@@ -20,28 +20,6 @@ GameSurface::~GameSurface() {
     delete m_pBuffer;
 }
 
-Uint32 GameSurface::getPixelFromSurface(SDL_Surface *pSurface, int x, int y) {
-    int bpp = pSurface->format->BytesPerPixel;
-    Uint8 *p = (Uint8 *)pSurface->pixels + y * pSurface->pitch + x * bpp;
-
-    switch (bpp) {
-        case 1:
-            return *p;
-        case 2:
-            return *(Uint16 *)p;
-        case 3:
-            if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-                return p[0] << 16 | p[1] << 8 | p[2];
-            } else {
-                return p[0] | p[1] << 8 | p[2] << 16;
-            }
-        case 4:
-            return *(Uint32 *)p;
-        default:
-            return 0;
-    }
-}
-
 void GameSurface::putPixel(int x, int y, Uint32 pixel) {
     if (x < m_width && y < m_height) {
         m_pBuffer[x + (y * m_width)] = pixel;

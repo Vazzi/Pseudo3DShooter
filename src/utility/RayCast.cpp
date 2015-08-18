@@ -10,10 +10,6 @@ RayCast::RayCast(Map *pMap, Player* pPlayer, vector<GameObject*>* pGameObjects) 
     m_pMap = pMap;
     m_pPlayer = pPlayer;
     m_pGameObjects = pGameObjects;
-    m_pFloorTexture = TheBitmapManager::Instance()->getSurface(
-            pMap->getFloorTextureID());
-    m_pCeilingTexture = TheBitmapManager::Instance()->getSurface(
-            pMap->getCeilingTextureID());
     m_pSpriteOrder = new int[pGameObjects->size()];
     m_pSpriteDistance = new double[pGameObjects->size()];
 }
@@ -22,8 +18,6 @@ RayCast::~RayCast() {
     m_pMap = NULL;
     m_pPlayer = NULL;
     m_pGameObjects = NULL;
-    m_pFloorTexture = NULL;
-    m_pCeilingTexture = NULL;
     delete m_pGameSurface;
     delete m_pZBuffer;
     delete m_pSpriteOrder;
@@ -32,8 +26,6 @@ RayCast::~RayCast() {
 
 void RayCast::setSurface(int width, int height, float scale) {
     m_pGameSurface = new GameSurface(width * scale, height * scale);
-    m_pGameSurface->setFormatBySurface(
-            TheBitmapManager::Instance()->getFirstSurface());
 
     m_pZBuffer = new double[width];
 }
@@ -73,22 +65,23 @@ void RayCast::drawWalls(int x, Ray& ray) {
 
     // Get texture calculations
     std::string textureID = m_pMap->getWallTextureID(ray.getMapX(), ray.getMapY());
-    SDL_Surface* pTexture = TheBitmapManager::Instance()->getSurface(textureID);
-
+    Uint32* pTexture = TheBitmapManager::Instance()->getBitmap(textureID);
+    int texWidth = 64;
+    int texHeight= 64;
     //x coordinate on the texture
-    int texX = int(wallX * double(pTexture->w));
+    int texX = int(wallX * double(texWidth));
     if (ray.getSide() == 0 && ray.getDirX() > 0) {
-        texX = pTexture->w - texX - 1;
+        texX = texWidth - texX - 1;
     }
     if (ray.getSide() == 1 && ray.getDirY() < 0) {
-        texX = pTexture->w - texX - 1;
+        texX = texWidth - texX - 1;
     }
 
     for (int y = drawStart; y < m_drawEnd; y++) {
         //256 and 128 factors to avoid floats
         int d = y * 256 - m_pGameSurface->getHeight() * 128 + lineHeight * 128;
-        int texY = ((d * pTexture->h) / lineHeight) / 256;
-        Uint32 color = GameSurface::getPixelFromSurface(pTexture, texX, texY);
+        int texY = ((d * texHeight) / lineHeight) / 256;
+        Uint32 color = pTexture[texX + (texY * texHeight)];
         m_pGameSurface->putPixel(x, y, color);
     }
 
@@ -98,6 +91,10 @@ void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
 
     double floorXWall, floorYWall;
     double wallX = ray.getWallX();
+    Uint32* pFloorTexture = TheBitmapManager::Instance()
+        ->getBitmap(m_pMap->getFloorTextureID());
+    Uint32* pCeilingTexture = TheBitmapManager::Instance()
+        ->getBitmap(m_pMap->getCeilingTextureID());
 
     // 4 different wall directions possible
     if(ray.getSide() == 0 && ray.getDirX() > 0) {
@@ -123,6 +120,9 @@ void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
         m_drawEnd = m_pGameSurface->getHeight(); //becomes < 0 when the integer overflows
     }
 
+    int texHeight = 64;
+    int texWidth = 64;
+
     for(int y = m_drawEnd + 1; y < m_pGameSurface->getHeight(); y++) {
         currentDist = m_pGameSurface->getHeight() / (2.0 * y - m_pGameSurface->getHeight());
 
@@ -132,14 +132,14 @@ void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
         double currentFloorY = weight * floorYWall + (1.0 - weight) * m_pPlayer->getPosition().getY();
 
         int floorTexX, floorTexY;
-        floorTexX = int(currentFloorX * m_pFloorTexture->w) % m_pFloorTexture->w;
-        floorTexY = int(currentFloorY * m_pFloorTexture->h) % m_pFloorTexture->h;
+        floorTexX = int(currentFloorX * texWidth) % texWidth;
+        floorTexY = int(currentFloorY * texHeight) % texHeight;
 
-        Uint32 color = GameSurface::getPixelFromSurface(m_pFloorTexture, floorTexX, floorTexY);
+        Uint32 color = pFloorTexture[floorTexX + (floorTexY * texHeight)];
         color = (color >> 1) & 8355711;
         m_pGameSurface->putPixel(x, y, color);
 
-        color = GameSurface::getPixelFromSurface(m_pCeilingTexture, floorTexX, floorTexY);
+        color = pCeilingTexture[floorTexX + (floorTexY * texHeight)];
         color = (color >> 1) & 8355711;
         m_pGameSurface->putPixel(x, m_pGameSurface->getHeight() - y, color);
     }
@@ -164,9 +164,9 @@ void RayCast::drawSprites() {
     for (int i = 0; i < numSprites; i++) {
         Sprite* pSprite = (Sprite*)(*m_pGameObjects)[m_pSpriteOrder[i]];
         std::string textureID = pSprite->getTextureID();
-        SDL_Surface* pTexture = TheBitmapManager::Instance()->getSurface(textureID);
-        int texWidth = pTexture->w;
-        int texHeight = pTexture->h;
+        Uint32* pTexture = TheBitmapManager::Instance()->getBitmap(textureID);
+        int texWidth = 64;
+        int texHeight = 64;
 
         //translate sprite position to relative to camera
         double spriteX = pSprite->getPosition().getX() - m_pPlayer->getPosition().getX();
@@ -208,8 +208,7 @@ void RayCast::drawSprites() {
                 for (int y = drawStartY; y < drawEndY; y++) {
                     int d = (y) * 256 - h * 128 + spriteHeight * 128;
                     int texY = ((d * texHeight) / spriteHeight) / 256;
-                    Uint32 color = GameSurface::getPixelFromSurface(pTexture,
-                            texX, texY);
+                    Uint32 color = pTexture[texX + (texY * texHeight)];
                     //paint pixel if it isn't black, black is the invisible color
                     if ((color & 0x00FFFFFF) != 0) {
                         m_pGameSurface->putPixel(stripe, y, color);

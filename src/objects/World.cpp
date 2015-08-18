@@ -47,7 +47,7 @@ void World::clean() {
         m_gameObjects[i]->clean();
     }
     for (unsigned long i = 0; i < m_textureIDs.size(); i++) {
-        TheBitmapManager::Instance()->clearFromSurfaceMap(m_textureIDs[i]);
+        TheBitmapManager::Instance()->clearFromBitmapMap(m_textureIDs[i]);
     }
     m_gameObjects.clear();
     m_textureIDs.clear();

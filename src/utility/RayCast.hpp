@@ -24,8 +24,6 @@ class RayCast {
         vector<GameObject*>* m_pGameObjects;
         Map* m_pMap;
         Player* m_pPlayer;
-        SDL_Surface* m_pFloorTexture;
-        SDL_Surface* m_pCeilingTexture;
         GameSurface* m_pGameSurface;
         int m_drawEnd;
         double* m_pZBuffer;

@@ -4,9 +4,11 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
+#include <vector>
 
 using std::map;
 using std::string;
+using std::vector;
 
 class BitmapManager {
     public:
@@ -18,16 +20,18 @@ class BitmapManager {
         }
 
         bool load(string fileName, string id);
-        SDL_Surface* getSurface(string id);
-        SDL_Surface* getFirstSurface();
-        void clearFromSurfaceMap(string id);
+        Uint32* getBitmap(string id);
+        void clearFromBitmapMap(string id);
 
     private:
         BitmapManager();
 
         static BitmapManager* s_pInstance;
 
-        map<string, SDL_Surface*> m_surfaceMap;
+        map<string, Uint32*> m_bitmapMap;
+
+        vector<Uint32> getPixelsFromSurface(SDL_Surface *pSurface);
+        Uint32 convertPixel(Uint8* p, int bpp);
 };
 
 typedef BitmapManager TheBitmapManager;
