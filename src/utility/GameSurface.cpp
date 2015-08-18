@@ -6,7 +6,21 @@ GameSurface::GameSurface(unsigned int width, unsigned int height) {
     m_width = width;
     m_height = height;
     int colorDepth = 32;
-    m_pSurface = SDL_CreateRGBSurface(0, width, height, colorDepth, 0, 0, 0, 0);
+
+    Uint32 rmask, gmask, bmask, amask;
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+    rmask = 0xff000000;
+    gmask = 0x00ff0000;
+    bmask = 0x0000ff00;
+    amask = 0x000000ff;
+#else
+    rmask = 0x000000ff;
+    gmask = 0x0000ff00;
+    bmask = 0x00ff0000;
+    amask = 0xff000000;
+#endif
+
+    m_pSurface = SDL_CreateRGBSurface(0, width, height, colorDepth, rmask, gmask, bmask, amask);
 
     m_pBuffer = new Uint32[width * height];
 }
