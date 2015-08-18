@@ -21,6 +21,8 @@ class BitmapManager {
 
         bool load(string fileName, string id);
         Uint32* getBitmap(string id);
+        void setPixelFormat(string fileName);
+        SDL_PixelFormat* getPixelFormat() { return &m_pixelFormat; }
         void clearFromBitmapMap(string id);
 
     private:
@@ -29,6 +31,7 @@ class BitmapManager {
         static BitmapManager* s_pInstance;
 
         map<string, Uint32*> m_bitmapMap;
+        SDL_PixelFormat m_pixelFormat;
 
         vector<Uint32> getPixelsFromSurface(SDL_Surface *pSurface);
         Uint32 convertPixel(Uint8* p, int bpp);

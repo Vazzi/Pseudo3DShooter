@@ -1,11 +1,12 @@
 #include "BitmapManager.hpp"
 
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
 BitmapManager* BitmapManager::s_pInstance = 0;
 
 BitmapManager::BitmapManager() {
-    // empty
+    setPixelFormat("resources/surfaceFormat.png");
 }
 
 bool BitmapManager::load(string fileName, string id) {
@@ -34,6 +35,18 @@ bool BitmapManager::load(string fileName, string id) {
 
 Uint32* BitmapManager::getBitmap(string id) {
     return m_bitmapMap[id];
+}
+
+void BitmapManager::setPixelFormat(string fileName) {
+    SDL_Surface* pSurface = IMG_Load(fileName.c_str());
+
+    if (pSurface == 0) {
+        std::cerr << "Format image has not been found.\n";
+        return;
+    }
+
+    m_pixelFormat = *pSurface->format;
+
 }
 
 void BitmapManager::clearFromBitmapMap(string id) {
