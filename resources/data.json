@@ -199,7 +199,7 @@
                 "sourceFile" : "resources/levels/level1.json"
             },
             {
-                "type": "AnimatedObject",
+                "type": "Gun",
                 "x": 196,
                 "y": 224,
                 "width": 64,

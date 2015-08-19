@@ -33,6 +33,7 @@ class AnimatedObject : public GameObject {
 
         int m_animTime;
         int m_animSpeed;
+        bool m_isAnimating;
 };
 
 class AnimatedObjectCreator : public BaseCreator {
