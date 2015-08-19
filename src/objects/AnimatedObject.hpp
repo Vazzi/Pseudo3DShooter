@@ -30,6 +30,9 @@ class AnimatedObject : public GameObject {
         int m_currentRow;
         int m_numFrames;
         float m_scale;
+
+        int m_animTime;
+        int m_animSpeed;
 };
 
 class AnimatedObjectCreator : public BaseCreator {
