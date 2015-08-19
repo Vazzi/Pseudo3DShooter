@@ -19,7 +19,6 @@ class TextObject : public GameObject {
         int getWidth() { return m_width; }
         int getHeight() { return m_height; }
         void setText(std::string text) { m_text = text; }
-        void setScale(int scale) { m_scale = scale; }
         void setSpacing(int spacing) { m_spacing = spacing; }
         void setColor(int r, int g, int b);
         void setColorFlash(int r, int g, int b, unsigned int rate);
@@ -30,7 +29,7 @@ class TextObject : public GameObject {
         std::string m_fontID;
         std::string m_text;
         Vector2D m_position;
-        int m_scale;
+        float m_scale;
         int m_spacing;
         FontColor m_color;
         FontColor m_flashColor;

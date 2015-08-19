@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
+#include "../utility/Vector2D.hpp"
 
 using std::string;
 using std::map;
@@ -18,8 +19,9 @@ class TextureManager {
         }
 
         bool load(string fileName, string id, SDL_Renderer* pRenderer);
-        void draw(string id, int x, int y, int width, int height,
-                SDL_Renderer* pRenderer, SDL_RendererFlip flip = SDL_FLIP_NONE);
+        void draw(string id, Vector2D pos, int width, int height,
+                SDL_Renderer* pRenderer, float scale = 1, int frame = 0, int row = 0,
+                SDL_RendererFlip flip = SDL_FLIP_NONE);
         void clearFromTextureMap(string id);
 
     private:

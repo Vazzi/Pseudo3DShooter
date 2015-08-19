@@ -6,7 +6,6 @@
 TextObject::TextObject() : GameObject(), m_position(Vector2D(0, 0)),
     m_color(FontColor(255, 255, 255)), m_flashColor(FontColor(255, 255, 255)),
     m_flashTime(0), m_flashRate(0), m_currentColorIndex(0) {
-    // empty
 }
 
 void TextObject::render() {
@@ -46,7 +45,7 @@ void TextObject::load(const LoaderParams* pParams) {
     m_height = pParams->getHeight();
     m_fontID = pParams->getTextureID();
     m_spacing = 1;
-    m_scale = 1;
+    m_scale = pParams->getScale();
 }
 
 void TextObject::setColor(int r, int g, int b) {

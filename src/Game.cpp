@@ -10,6 +10,7 @@
 #include "objects/Player.hpp"
 #include "objects/World.hpp"
 #include "objects/Sprite.hpp"
+#include "objects/AnimatedObject.hpp"
 
 Game* Game::s_pInstance = 0;
 
@@ -128,5 +129,7 @@ void Game::initGameObjects() {
             new WorldCreator());
     TheGameObjectFactory::Instance()->registerType("Sprite",
             new SpriteCreator());
+    TheGameObjectFactory::Instance()->registerType("AnimatedObject",
+            new AnimatedObjectCreator());
 }
 

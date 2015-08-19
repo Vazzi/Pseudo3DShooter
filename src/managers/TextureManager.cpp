@@ -28,15 +28,22 @@ bool TextureManager::load(string fileName, string id, SDL_Renderer* pRenderer) {
 
 }
 
-void TextureManager::draw(string id, int x, int y, int width, int height,
-        SDL_Renderer* pRenderer, SDL_RendererFlip flip) {
+void TextureManager::draw(string id, Vector2D pos, int width, int height,
+        SDL_Renderer* pRenderer, float scale, int frame, int row,
+        SDL_RendererFlip flip) {
+
+    double x = pos.getX();
+    double y = pos.getY();
+
     SDL_Rect srcRect;
     SDL_Rect destRect;
 
-    srcRect.x = 0;
-    srcRect.y = 0;
-    srcRect.w = destRect.w = width;
-    srcRect.h = destRect.h = height;
+    srcRect.x = width * frame;
+    srcRect.y = height * row;
+    srcRect.w = width;
+    destRect.w = width * scale;
+    srcRect.h = height;
+    destRect.h = height * scale;
     destRect.x = x;
     destRect.y = y;
 

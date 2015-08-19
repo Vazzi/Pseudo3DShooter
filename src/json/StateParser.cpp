@@ -54,10 +54,6 @@ void StateParser::setupTextObject(Json* pJsonObject, GameObject* pObject) {
     string text = (*pJsonObject)["text"].string_value();
     pTextObject->setText(text);
 
-    int scale = (*pJsonObject)["scale"].int_value();
-    if (scale) {
-        pTextObject->setScale(scale);
-    }
     int spacing = (*pJsonObject)["spacing"].int_value();
     if (spacing) {
         pTextObject->setSpacing(spacing);

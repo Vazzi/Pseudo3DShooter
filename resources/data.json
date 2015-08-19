@@ -182,7 +182,12 @@
     },
     {
         "stateId": "LEVEL",
-        "textures": [],
+        "textures": [
+            {
+                "id": "gun",
+                "fileName": "resources/textures/gun.png"
+            }
+        ],
         "fonts": [],
         "objects": [
             {
@@ -192,6 +197,16 @@
                 "width": 640,
                 "height": 480,
                 "sourceFile" : "resources/levels/level1.json"
+            },
+            {
+                "type": "AnimatedObject",
+                "x": 196,
+                "y": 224,
+                "width": 64,
+                "height": 64,
+                "textureId": "gun",
+                "numFrames": 5,
+                "scale": 4
             }
         ]
     }
