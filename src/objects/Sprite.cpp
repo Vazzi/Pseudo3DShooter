@@ -24,5 +24,6 @@ void Sprite::clean() {
 void Sprite::load(const LoaderParams *pParams) {
     m_position = Vector2D(pParams->getX(), pParams->getY());
     m_textureID = pParams->getTextureID();
+    m_isSolid = true;
 }
 

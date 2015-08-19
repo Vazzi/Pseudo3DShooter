@@ -2,14 +2,15 @@
 
 #include "../objects/Player.hpp"
 #include "../objects/Map.hpp"
+#include "../objects/Sprite.hpp"
 
-bool WorldParser::parseWorld(const char* file, vector<GameObject*>* pObjects,
+bool WorldParser::parseWorld(const char* file, vector<Sprite*>* pObjects,
         Map** pMap, Player** pPlayer, vector<string>* pSurfaces) {
     Json root = getRoot(file);
     if (root == nullptr) {
         return false;
     }
-    parseObjects(&root, pObjects);
+    parseSprites(&root, pObjects);
     parseMap(&root, pMap);
     parseTextures(&root, pSurfaces, true);
     Json playerData = root["player"].object_items();
@@ -24,6 +25,16 @@ void WorldParser::setupPlayer(Json* pJsonObject, GameObject* pObject) {
     double dirY = (*pJsonObject)["dirY"].number_value();
     pPlayer->setDirX(dirX);
     pPlayer->setDirY(dirY);
+}
+
+void WorldParser::parseSprites(Json* pRoot, vector<Sprite*> *pObjects) {
+    vector<Json> textures = (*pRoot)["objects"].array_items();
+
+    for (vector<Json>::iterator it = textures.begin(); it != textures.end(); ++it) {
+        Sprite* pObject = (Sprite*)createObjectFromJson(&(*it));
+        setupSprite(&(*it), pObject);
+        pObjects->push_back(pObject);
+    }
 }
 
 void WorldParser::parseMap(Json* pRoot, Map** pMap) {
@@ -53,6 +64,11 @@ void WorldParser::parseMap(Json* pRoot, Map** pMap) {
         (*pMap)->addWall(walls[i].string_value());
     }
 
+}
+
+void WorldParser::setupSprite(Json* pJsonObject, Sprite* pObject) {
+    int isSolid = (*pJsonObject)["solid"].int_value();
+    pObject->setSolid(isSolid);
 }
 
 void WorldParser::setupObject(Json* pJsonObject, GameObject* pObject) {

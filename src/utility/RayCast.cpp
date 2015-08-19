@@ -1,23 +1,23 @@
 #include "RayCast.hpp"
 #include "../objects/Map.hpp"
 #include "../objects/Player.hpp"
-#include "../objects/GameObject.hpp"
+#include "../objects/Sprite.hpp"
 #include "../objects/Sprite.hpp"
 #include "../managers/BitmapManager.hpp"
 #include "../utility/GameSurface.hpp"
 
-RayCast::RayCast(Map *pMap, Player* pPlayer, vector<GameObject*>* pGameObjects) {
+RayCast::RayCast(Map *pMap, Player* pPlayer, vector<Sprite*>* pSprites) {
     m_pMap = pMap;
     m_pPlayer = pPlayer;
-    m_pGameObjects = pGameObjects;
-    m_pSpriteOrder = new int[pGameObjects->size()];
-    m_pSpriteDistance = new double[pGameObjects->size()];
+    m_pSprites = pSprites;
+    m_pSpriteOrder = new int[pSprites->size()];
+    m_pSpriteDistance = new double[pSprites->size()];
 }
 
 RayCast::~RayCast() {
     m_pMap = NULL;
     m_pPlayer = NULL;
-    m_pGameObjects = NULL;
+    m_pSprites = NULL;
     delete m_pGameSurface;
     delete m_pZBuffer;
     delete m_pSpriteOrder;
@@ -147,12 +147,12 @@ void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
 
 void RayCast::drawSprites() {
 
-    int numSprites = int(m_pGameObjects->size());
+    int numSprites = int(m_pSprites->size());
 
     //sort sprites from far to close
     for(int i = 0; i < numSprites; i++) {
         m_pSpriteOrder[i] = i;
-        Sprite* pSprite = (Sprite*)(*m_pGameObjects)[i];
+        Sprite* pSprite = (Sprite*)(*m_pSprites)[i];
         m_pSpriteDistance[i] = ((m_pPlayer->getPosition().getX() - pSprite->getPosition().getX()) *
                 (m_pPlayer->getPosition().getX() - pSprite->getPosition().getX()) +
                 (m_pPlayer->getPosition().getY() - pSprite->getPosition().getY()) *
@@ -162,7 +162,7 @@ void RayCast::drawSprites() {
 
     //after sorting the sprites, do the projection and draw them
     for (int i = 0; i < numSprites; i++) {
-        Sprite* pSprite = (Sprite*)(*m_pGameObjects)[m_pSpriteOrder[i]];
+        Sprite* pSprite = (Sprite*)(*m_pSprites)[m_pSpriteOrder[i]];
         std::string textureID = pSprite->getTextureID();
         Uint32* pTexture = TheBitmapManager::Instance()->getBitmap(textureID);
         int texWidth = 64;

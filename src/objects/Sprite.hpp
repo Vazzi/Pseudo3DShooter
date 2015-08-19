@@ -15,11 +15,14 @@ class Sprite : public GameObject {
         virtual void load(const LoaderParams *pParams);
 
         Vector2D& getPosition() { return m_position; }
-        std::string getTextureID() const { return m_textureID; };
+        std::string getTextureID() const { return m_textureID; }
+        bool isSolid() const { return m_isSolid; }
+        void setSolid(bool isSolid) { m_isSolid = isSolid; }
 
     private:
         Vector2D m_position;
         std::string m_textureID;
+        bool m_isSolid;
 
 };
 

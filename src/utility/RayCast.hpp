@@ -7,21 +7,21 @@
 
 class Map;
 class Player;
-class GameObject;
+class Sprite;
 class GameSurface;
 
 using std::vector;
 
 class RayCast {
     public:
-        RayCast(Map* pMap, Player* pPlayer, vector<GameObject*>* pGameObjects);
+        RayCast(Map* pMap, Player* pPlayer, vector<Sprite*>* pSprites);
         ~RayCast();
         void setSurface(int width, int height, float scale);
         void drawWorld();
         void render(int x, int y, int width, int height);
 
     private:
-        vector<GameObject*>* m_pGameObjects;
+        vector<Sprite*>* m_pSprites;
         Map* m_pMap;
         Player* m_pPlayer;
         GameSurface* m_pGameSurface;

@@ -89,32 +89,37 @@
         {
             "type": "Sprite",
             "x": 17.5,
-            "y": 16.5,
-            "textureId": "statute"
+            "y": 17.5,
+            "textureId": "statute",
+            "solid": 1
         },
         {
             "type": "Sprite",
             "x": 16.5,
             "y": 17.5,
-            "textureId": "net"
+            "textureId": "net",
+            "solid": 0
         },
         {
             "type": "Sprite",
             "x": 16.5,
             "y": 16.5,
-            "textureId": "pillar"
+            "textureId": "pillar",
+            "solid": 1
         },
         {
             "type": "Sprite",
             "x": 15.5,
             "y": 16.5,
-            "textureId": "barrel"
+            "textureId": "barrel",
+            "solid": 1
         },
         {
             "type": "Sprite",
             "x": 18.5,
             "y": 16.5,
-            "textureId": "net2"
+            "textureId": "net2",
+            "solid": 0
         }
     ]
 }

@@ -1,7 +1,7 @@
 #ifndef __WORLD__
 #define __WORLD__
 
-#include "GameObject.hpp"
+#include "Sprite.hpp"
 #include "../utility/Vector2D.hpp"
 #include "../utility/RayCast.hpp"
 #include <vector>
@@ -27,8 +27,10 @@ class World : public GameObject {
         RayCast* m_pRayCast;
         Map* m_pMap;
         Player* m_pPlayer;
-        std::vector<GameObject*> m_gameObjects;
+        std::vector<Sprite*> m_sprites;
         std::vector<std::string> m_textureIDs;
+
+        void movePlayer();
 
 };
 
