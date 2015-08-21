@@ -232,7 +232,7 @@
                 "animSpeed": 40
             },
             {
-                "type": "TextObject",
+                "type": "HealthStatus",
                 "x": 70,
                 "y": 435,
                 "width": 100,

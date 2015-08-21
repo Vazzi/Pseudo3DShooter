@@ -6,6 +6,7 @@
 #include "states/MainMenuState.hpp"
 #include "objects/GameObjectFactory.hpp"
 #include "objects/TextObject.hpp"
+#include "objects/HealthStatus.hpp"
 #include "objects/MenuButton.hpp"
 #include "objects/World.hpp"
 #include "objects/Sprite.hpp"
@@ -134,5 +135,7 @@ void Game::initGameObjects() {
             new GunCreator());
     TheGameObjectFactory::Instance()->registerType("Heart",
             new HeartCreator());
+    TheGameObjectFactory::Instance()->registerType("HealthStatus",
+            new HealthStatusCreator());
 }
 
