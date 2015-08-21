@@ -6,8 +6,12 @@
 
 class Player : public GameObject {
     public:
-        Player();
-        ~Player();
+        static Player* Instance() {
+            if (s_pInstance == 0) {
+                s_pInstance = new Player();
+            }
+            return s_pInstance;
+        }
 
         virtual void render() {};
         virtual void update(unsigned int deltaTime);
@@ -27,24 +31,27 @@ class Player : public GameObject {
         double nextStepY(bool back = false);
         void rotateLeft();
         void rotateRight();
+        int getHealth() const { return m_health; };
 
     protected:
+        Player();
+        ~Player();
+
+        static Player* s_pInstance;
+
         double m_dirX;
         double m_dirY;
         double m_moveSpeed;
         double m_rotSpeed;
         double m_planeX;
         double m_planeY;
+        int m_health;
 
         Vector2D m_position;
 
         void rotate(int sign = 1);
 };
 
-class PlayerCreator : public BaseCreator {
-    GameObject* createGameObject() const {
-        return new Player();
-    }
-};
+typedef Player ThePlayer;
 
 #endif

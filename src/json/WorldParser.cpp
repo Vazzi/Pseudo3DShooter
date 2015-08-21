@@ -5,7 +5,7 @@
 #include "../objects/Sprite.hpp"
 
 bool WorldParser::parseWorld(const char* file, vector<Sprite*>* pObjects,
-        Map** pMap, Player** pPlayer, vector<string>* pSurfaces) {
+        Map** pMap, vector<string>* pSurfaces) {
     Json root = getRoot(file);
     if (root == nullptr) {
         return false;
@@ -14,17 +14,18 @@ bool WorldParser::parseWorld(const char* file, vector<Sprite*>* pObjects,
     parseMap(&root, pMap);
     parseTextures(&root, pSurfaces, true);
     Json playerData = root["player"].object_items();
-    *pPlayer = (Player*)createObjectFromJson(&playerData);
-    setupPlayer(&playerData, *pPlayer);
+    setupPlayer(&playerData);
     return true;
 }
 
-void WorldParser::setupPlayer(Json* pJsonObject, GameObject* pObject) {
-    Player* pPlayer = (Player *)pObject;
+void WorldParser::setupPlayer(Json* pJsonObject) {
+    double x = (*pJsonObject)["x"].number_value();
+    double y = (*pJsonObject)["y"].number_value();
     double dirX = (*pJsonObject)["dirX"].number_value();
     double dirY = (*pJsonObject)["dirY"].number_value();
-    pPlayer->setDirX(dirX);
-    pPlayer->setDirY(dirY);
+    ThePlayer::Instance()->load(new LoaderParams(x, y, 0, 0, ""));
+    ThePlayer::Instance()->setDirX(dirX);
+    ThePlayer::Instance()->setDirY(dirY);
 }
 
 void WorldParser::parseSprites(Json* pRoot, vector<Sprite*> *pObjects) {

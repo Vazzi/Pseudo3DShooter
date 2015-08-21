@@ -7,7 +7,6 @@
 #include "objects/GameObjectFactory.hpp"
 #include "objects/TextObject.hpp"
 #include "objects/MenuButton.hpp"
-#include "objects/Player.hpp"
 #include "objects/World.hpp"
 #include "objects/Sprite.hpp"
 #include "objects/AnimatedObject.hpp"
@@ -124,8 +123,6 @@ void Game::initGameObjects() {
             new TextObjectCreator());
     TheGameObjectFactory::Instance()->registerType("MenuButton",
             new MenuButtonCreator());
-    TheGameObjectFactory::Instance()->registerType("Player",
-            new PlayerCreator());
     TheGameObjectFactory::Instance()->registerType("World",
             new WorldCreator());
     TheGameObjectFactory::Instance()->registerType("Sprite",

@@ -6,9 +6,8 @@
 #include "../managers/BitmapManager.hpp"
 #include "../utility/GameSurface.hpp"
 
-RayCast::RayCast(Map *pMap, Player* pPlayer, vector<Sprite*>* pSprites) {
+RayCast::RayCast(Map *pMap, vector<Sprite*>* pSprites) {
     m_pMap = pMap;
-    m_pPlayer = pPlayer;
     m_pSprites = pSprites;
     m_pSpriteOrder = new int[pSprites->size()];
     m_pSpriteDistance = new double[pSprites->size()];
@@ -16,7 +15,6 @@ RayCast::RayCast(Map *pMap, Player* pPlayer, vector<Sprite*>* pSprites) {
 
 RayCast::~RayCast() {
     m_pMap = NULL;
-    m_pPlayer = NULL;
     m_pSprites = NULL;
     delete m_pGameSurface;
     delete m_pZBuffer;
@@ -37,7 +35,7 @@ void RayCast::render(int x, int y, int width, int height) {
 
 void RayCast::drawWorld() {
     for (int x = 0; x < m_pGameSurface->getWidth(); x++) {
-        Ray ray = Ray(x, m_pGameSurface->getWidth(), m_pPlayer);
+        Ray ray = Ray(x, m_pGameSurface->getWidth(), ThePlayer::Instance());
         ray.performDDA(m_pMap);
         drawWalls(x, ray);
         m_pZBuffer[x] = ray.getWallDist();
@@ -128,8 +126,8 @@ void RayCast::drawFloorAndCeiling(int x, Ray& ray) {
 
         double weight = (currentDist - distPlayer) / (distWall - distPlayer);
 
-        double currentFloorX = weight * floorXWall + (1.0 - weight) * m_pPlayer->getPosition().getX();
-        double currentFloorY = weight * floorYWall + (1.0 - weight) * m_pPlayer->getPosition().getY();
+        double currentFloorX = weight * floorXWall + (1.0 - weight) * ThePlayer::Instance()->getPosition().getX();
+        double currentFloorY = weight * floorYWall + (1.0 - weight) * ThePlayer::Instance()->getPosition().getY();
 
         int floorTexX, floorTexY;
         floorTexX = int(currentFloorX * texWidth) % texWidth;
@@ -153,10 +151,10 @@ void RayCast::drawSprites() {
     for(int i = 0; i < numSprites; i++) {
         m_pSpriteOrder[i] = i;
         Sprite* pSprite = (Sprite*)(*m_pSprites)[i];
-        m_pSpriteDistance[i] = ((m_pPlayer->getPosition().getX() - pSprite->getPosition().getX()) *
-                (m_pPlayer->getPosition().getX() - pSprite->getPosition().getX()) +
-                (m_pPlayer->getPosition().getY() - pSprite->getPosition().getY()) *
-                (m_pPlayer->getPosition().getY() - pSprite->getPosition().getY()));
+        m_pSpriteDistance[i] = ((ThePlayer::Instance()->getPosition().getX() - pSprite->getPosition().getX()) *
+                (ThePlayer::Instance()->getPosition().getX() - pSprite->getPosition().getX()) +
+                (ThePlayer::Instance()->getPosition().getY() - pSprite->getPosition().getY()) *
+                (ThePlayer::Instance()->getPosition().getY() - pSprite->getPosition().getY()));
     }
     combSort(m_pSpriteOrder, m_pSpriteDistance, numSprites);
 
@@ -169,16 +167,16 @@ void RayCast::drawSprites() {
         int texHeight = 64;
 
         //translate sprite position to relative to camera
-        double spriteX = pSprite->getPosition().getX() - m_pPlayer->getPosition().getX();
-        double spriteY = pSprite->getPosition().getY() - m_pPlayer->getPosition().getY();
+        double spriteX = pSprite->getPosition().getX() - ThePlayer::Instance()->getPosition().getX();
+        double spriteY = pSprite->getPosition().getY() - ThePlayer::Instance()->getPosition().getY();
 
-        double invDet = 1.0 / (m_pPlayer->getPlaneX() * m_pPlayer->getDirY() -
-                m_pPlayer->getDirX() * m_pPlayer->getPlaneY());
+        double invDet = 1.0 / (ThePlayer::Instance()->getPlaneX() * ThePlayer::Instance()->getDirY() -
+                ThePlayer::Instance()->getDirX() * ThePlayer::Instance()->getPlaneY());
 
-        double transformX = invDet * (m_pPlayer->getDirY() * spriteX -
-                m_pPlayer->getDirX() * spriteY);
-        double transformY = invDet * (-(m_pPlayer->getPlaneY()) * spriteX +
-                m_pPlayer->getPlaneX() * spriteY);
+        double transformX = invDet * (ThePlayer::Instance()->getDirY() * spriteX -
+                ThePlayer::Instance()->getDirX() * spriteY);
+        double transformY = invDet * (-(ThePlayer::Instance()->getPlaneY()) * spriteX +
+                ThePlayer::Instance()->getPlaneX() * spriteY);
 
         int w = m_pGameSurface->getWidth();
         int h = m_pGameSurface->getHeight();

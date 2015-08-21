@@ -1,8 +1,14 @@
 #include "Player.hpp"
 #include "../InputHandler.hpp"
 
+Player* Player::s_pInstance = 0;
+
 Player::Player() : m_position(Vector2D(0, 0)) {
-    // empty
+    m_health = 100;
+    m_dirX = 1;
+    m_dirY = 1;
+    m_planeX = 0;
+    m_planeY = 0.66;
 }
 
 Player::~Player() {
@@ -26,12 +32,8 @@ void Player::clean() {
 
 void Player::load(const LoaderParams* pParams) {
     m_position = Vector2D(pParams->getX(), pParams->getY());
-    m_dirX = 1;
-    m_dirY = 1;
     m_moveSpeed = 0;
     m_rotSpeed = 0;
-    m_planeX = 0;
-    m_planeY = 0.66;
 }
 
 void Player::alterPosition(const double x, const double y) {

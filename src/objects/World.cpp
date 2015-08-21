@@ -17,42 +17,41 @@ void World::render() {
 
 void World::update(unsigned int deltaTime) {
     movePlayer();
-    m_pPlayer->update(deltaTime);
+    ThePlayer::Instance()->update(deltaTime);
 }
 
 void World::movePlayer() {
-    double posX = m_pPlayer->getPosition().getX();
-    double posY = m_pPlayer->getPosition().getY();
+    double posX = ThePlayer::Instance()->getPosition().getX();
+    double posY = ThePlayer::Instance()->getPosition().getY();
 
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP)) {
-        double nextStepX = m_pPlayer->nextStepX(false);
+        double nextStepX = ThePlayer::Instance()->nextStepX(false);
         if (m_pMap->isEmpty(nextStepX, posY) &&
                 !CollisionManager::collide(nextStepX, posY, m_sprites)) {
-            m_pPlayer->moveSteps(1,0);
+            ThePlayer::Instance()->moveSteps(1,0);
         }
-        double nextStepY = m_pPlayer->nextStepY(false);
+        double nextStepY = ThePlayer::Instance()->nextStepY(false);
         if(m_pMap->isEmpty(posX, nextStepY) &&
                 !CollisionManager::collide(posX, nextStepY, m_sprites)) {
-            m_pPlayer->moveSteps(0,1);
+            ThePlayer::Instance()->moveSteps(0,1);
         }
     }
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN)) {
-        double nextStepX = m_pPlayer->nextStepX(true);
+        double nextStepX = ThePlayer::Instance()->nextStepX(true);
         if (m_pMap->isEmpty(nextStepX, posY) &&
                 !CollisionManager::collide(nextStepX, posY, m_sprites)) {
-            m_pPlayer->moveSteps(-1,0);
+            ThePlayer::Instance()->moveSteps(-1,0);
         }
-        double nextStepY = m_pPlayer->nextStepY(true);
+        double nextStepY = ThePlayer::Instance()->nextStepY(true);
         if(m_pMap->isEmpty(posX, nextStepY) &&
                 !CollisionManager::collide(posX, nextStepY, m_sprites)) {
-            m_pPlayer->moveSteps(0,-1);
+            ThePlayer::Instance()->moveSteps(0,-1);
         }
     }
 }
 
 void World::clean() {
-    m_pPlayer->clean();
-    delete m_pPlayer;
+    ThePlayer::Instance()->clean();
     delete m_pMap;
 
     for (unsigned long i = 0; i < m_sprites.size(); i++) {
@@ -74,9 +73,8 @@ void World::load(const LoaderParams* pParams) {
 
 void World::loadLevelData(std::string fileName) {
     WorldParser parser;
-    parser.parseWorld(fileName.c_str(), &m_sprites, &m_pMap, &m_pPlayer,
-            &m_textureIDs);
-    m_pRayCast = new RayCast(m_pMap, m_pPlayer, &m_sprites);
+    parser.parseWorld(fileName.c_str(), &m_sprites, &m_pMap, &m_textureIDs);
+    m_pRayCast = new RayCast(m_pMap, &m_sprites);
 
     m_pRayCast->setSurface(m_width, m_height, 0.5);
 }

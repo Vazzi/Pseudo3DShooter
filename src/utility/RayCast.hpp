@@ -6,7 +6,6 @@
 #include <SDL2/SDL.h>
 
 class Map;
-class Player;
 class Sprite;
 class GameSurface;
 
@@ -14,7 +13,7 @@ using std::vector;
 
 class RayCast {
     public:
-        RayCast(Map* pMap, Player* pPlayer, vector<Sprite*>* pSprites);
+        RayCast(Map* pMap, vector<Sprite*>* pSprites);
         ~RayCast();
         void setSurface(int width, int height, float scale);
         void drawWorld();
@@ -23,7 +22,6 @@ class RayCast {
     private:
         vector<Sprite*>* m_pSprites;
         Map* m_pMap;
-        Player* m_pPlayer;
         GameSurface* m_pGameSurface;
         int m_drawEnd;
         double* m_pZBuffer;

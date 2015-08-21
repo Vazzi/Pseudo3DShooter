@@ -7,7 +7,6 @@
 #include <vector>
 
 class Map;
-class Player;
 class GameSurface;
 
 class World : public GameObject {
@@ -26,7 +25,6 @@ class World : public GameObject {
         int m_width;
         RayCast* m_pRayCast;
         Map* m_pMap;
-        Player* m_pPlayer;
         std::vector<Sprite*> m_sprites;
         std::vector<std::string> m_textureIDs;
 
