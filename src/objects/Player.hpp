@@ -32,6 +32,7 @@ class Player : public GameObject {
         void rotateLeft();
         void rotateRight();
         int getHealth() const { return m_health; };
+        void hit(int damage);
 
     protected:
         Player();

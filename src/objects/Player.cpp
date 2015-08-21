@@ -65,6 +65,10 @@ void Player::rotateRight() {
     rotate(1);
 }
 
+void Player::hit(int damage) {
+    m_health -= damage;
+}
+
 void Player::rotate(int sign) {
     double oldm_dirX = m_dirX;
     m_dirX = m_dirX * cos(sign * m_rotSpeed) - m_dirY * sin(sign * m_rotSpeed);
