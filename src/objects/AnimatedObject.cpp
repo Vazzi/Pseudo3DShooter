@@ -37,4 +37,5 @@ void AnimatedObject::load(const LoaderParams* pParams) {
     m_textureID = pParams->getTextureID();
     m_numFrames = pParams->getNumFrames();
     m_scale = pParams->getScale();
+    m_animSpeed = pParams->getAnimSpeed();
 }

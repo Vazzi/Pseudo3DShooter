@@ -217,7 +217,8 @@
                 "height": 64,
                 "textureId": "gun",
                 "numFrames": 5,
-                "scale": 4
+                "scale": 4,
+                "animSpeed": 20
             },
             {
                 "type": "Heart",
@@ -227,7 +228,8 @@
                 "height": 16,
                 "textureId": "heart",
                 "numFrames": 2,
-                "scale": 3
+                "scale": 3,
+                "animSpeed": 40
             },
             {
                 "type": "TextObject",

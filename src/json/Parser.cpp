@@ -79,10 +79,11 @@ GameObject* Parser::createObjectFromJson(Json* pJsonObject) {
     string type = (*pJsonObject)["type"].string_value();
     int numFrames = (*pJsonObject)["numFrames"].int_value();
     double scale = (*pJsonObject)["scale"].number_value();
+    int animSpeed = (*pJsonObject)["animSpeed"].int_value();
 
     GameObject* pGameObject = TheGameObjectFactory::Instance()->create(type);
     pGameObject->load(new LoaderParams(x, y, width, height, textureId, callbackId,
-                scale, numFrames));
+                scale, numFrames, animSpeed));
 
     return pGameObject;
 }
