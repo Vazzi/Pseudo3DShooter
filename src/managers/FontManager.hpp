@@ -4,7 +4,7 @@
 #include <SDL2/SDL.h>
 #include <map>
 #include <string>
-#include "utility/Vector2D.hpp"
+#include "../utility/Vector2D.hpp"
 
 using std::string;
 using std::map;
