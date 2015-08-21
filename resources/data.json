@@ -220,7 +220,7 @@
                 "scale": 4
             },
             {
-                "type": "AnimatedObject",
+                "type": "Heart",
                 "x": 10,
                 "y": 425,
                 "width": 16,

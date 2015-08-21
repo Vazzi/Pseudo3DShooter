@@ -10,6 +10,7 @@
 #include "objects/World.hpp"
 #include "objects/Sprite.hpp"
 #include "objects/AnimatedObject.hpp"
+#include "objects/Heart.hpp"
 #include "objects/Gun.hpp"
 
 Game* Game::s_pInstance = 0;
@@ -131,5 +132,7 @@ void Game::initGameObjects() {
             new AnimatedObjectCreator());
     TheGameObjectFactory::Instance()->registerType("Gun",
             new GunCreator());
+    TheGameObjectFactory::Instance()->registerType("Heart",
+            new HeartCreator());
 }
 
