@@ -186,9 +186,20 @@
             {
                 "id": "gun",
                 "fileName": "resources/textures/gun.png"
+            },
+            {
+                "id": "heart",
+                "fileName": "resources/textures/heart.png"
             }
         ],
-        "fonts": [],
+        "fonts": [
+            {
+                "id": "basicFont",
+                "fileName": "resources/font.png",
+                "letterWidth": 5,
+                "letterHeight": 8
+            }
+        ],
         "objects": [
             {
                 "type": "World",
@@ -206,6 +217,26 @@
                 "height": 64,
                 "textureId": "gun",
                 "numFrames": 5,
+                "scale": 4
+            },
+            {
+                "type": "AnimatedObject",
+                "x": 10,
+                "y": 425,
+                "width": 16,
+                "height": 16,
+                "textureId": "heart",
+                "numFrames": 2,
+                "scale": 3
+            },
+            {
+                "type": "TextObject",
+                "x": 70,
+                "y": 435,
+                "width": 100,
+                "height": 0,
+                "textureId": "basicFont",
+                "text": "100",
                 "scale": 4
             }
         ]
