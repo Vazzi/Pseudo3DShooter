@@ -10,7 +10,7 @@ public:
     void update(unsigned int deltaTime);
 
 private:
-    int m_isShooting;
+    bool m_isShooting;
 
 };
 

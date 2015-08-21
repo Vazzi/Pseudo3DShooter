@@ -2,8 +2,9 @@
 
 #include "../InputHandler.hpp"
 
-Gun::Gun() {
-    m_isShooting = 0;
+Gun::Gun() : AnimatedObject(){
+    m_isShooting = false;
+    m_isAnimating = false;
 }
 
 void Gun::update(unsigned int deltaTime) {
@@ -20,7 +21,7 @@ void Gun::update(unsigned int deltaTime) {
         m_currentRow = 1;
         m_currentFrame = 0;
         m_isShooting = true;
-    } else if (!m_isShooting && 
+    } else if (!m_isShooting &&
             (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP) ||
             TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_DOWN))) {
         // Moving and not shooting > moving

@@ -7,7 +7,7 @@ AnimatedObject::AnimatedObject() : GameObject(), m_position(Vector2D(0,0)) {
     m_currentRow = m_currentFrame = m_numFrames = 0;
     m_animTime = 0;
     m_animSpeed = 20;
-    m_isAnimating = false;
+    m_isAnimating = true;
 }
 
 void AnimatedObject::render() {
