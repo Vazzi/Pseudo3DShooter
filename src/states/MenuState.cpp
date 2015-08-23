@@ -1,6 +1,7 @@
 #include "MenuState.hpp"
 #include "../InputHandler.hpp"
 #include "../objects/MenuButton.hpp"
+#include "../managers/SoundManager.hpp"
 
 const int KEY_WAIT_TIME = 150;
 
@@ -38,6 +39,7 @@ void MenuState::update(unsigned int deltaTime) {
             resetKeyTime();
             updateButtons();
         } else if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RETURN)) {
+            TheSoundManager::Instance()->playSound("click", 0);
             resetKeyTime();
             m_menuButtons[m_activeButton]->click();
         }

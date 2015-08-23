@@ -44,7 +44,7 @@ class Game {
         bool initRenderer();
         void initStateMachine();
         void initGameObjects();
-
+        void initSound();
 
 };
 

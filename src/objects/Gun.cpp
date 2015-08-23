@@ -1,6 +1,7 @@
 #include "Gun.hpp"
 
 #include "../InputHandler.hpp"
+#include "../managers/SoundManager.hpp"
 
 Gun::Gun() : AnimatedObject(){
     m_isShooting = false;
@@ -17,6 +18,7 @@ void Gun::update(unsigned int deltaTime) {
     } else if (!m_isShooting &&
             TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_SPACE)) {
         // Not shooting and space > start shooting
+        TheSoundManager::Instance()->playSound("shot", 0);
         m_isAnimating = true;
         m_currentRow = 1;
         m_currentFrame = 0;

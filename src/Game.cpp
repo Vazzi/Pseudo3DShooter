@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include "InputHandler.hpp"
+#include "managers/SoundManager.hpp"
 #include "states/GameStateMachine.hpp"
 #include "states/MainMenuState.hpp"
 #include "objects/GameObjectFactory.hpp"
@@ -36,6 +37,7 @@ bool Game::init() {
 
     initGameObjects();
     initStateMachine();
+    initSound();
 
     m_isRunning = true;
 
@@ -137,5 +139,12 @@ void Game::initGameObjects() {
             new HeartCreator());
     TheGameObjectFactory::Instance()->registerType("HealthStatus",
             new HealthStatusCreator());
+}
+
+void Game::initSound() {
+    TheSoundManager::Instance()->load("resources/sound/shot.wav", "shot", SOUND_SFX);
+    TheSoundManager::Instance()->load("resources/sound/gasp.wav", "gasp", SOUND_SFX);
+    TheSoundManager::Instance()->load("resources/sound/floop.wav", "click", SOUND_SFX);
+
 }
 

@@ -7,6 +7,7 @@
 #include "../Game.hpp"
 #include "../objects/World.hpp"
 #include "../objects/Player.hpp"
+#include "../managers/SoundManager.hpp"
 
 const std::string LevelState::s_playID = "LEVEL";
 
@@ -15,6 +16,7 @@ void LevelState::update(unsigned int deltaTime) {
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
         TheGame::Instance()->getStateMachine()->pushState(new PauseState());
     } else if (ThePlayer::Instance()->getHealth() <= 0) {
+        TheSoundManager::Instance()->playSound("gasp", 0);
         TheGame::Instance()->getStateMachine()->changeState(new GameOverState());
     }
 }
