@@ -3,16 +3,20 @@
 #include "../InputHandler.hpp"
 #include "GameStateMachine.hpp"
 #include "PauseState.hpp"
+#include "GameOverState.hpp"
 #include "../Game.hpp"
 #include "../objects/World.hpp"
+#include "../objects/Player.hpp"
 
 const std::string LevelState::s_playID = "LEVEL";
 
 void LevelState::update(unsigned int deltaTime) {
+    GameState::update(deltaTime);
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_ESCAPE)) {
         TheGame::Instance()->getStateMachine()->pushState(new PauseState());
+    } else if (ThePlayer::Instance()->getHealth() <= 0) {
+        TheGame::Instance()->getStateMachine()->changeState(new GameOverState());
     }
-    GameState::update(deltaTime);
 }
 
 void LevelState::render() {
