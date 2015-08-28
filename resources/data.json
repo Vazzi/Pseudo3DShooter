@@ -111,9 +111,19 @@
                 "scale": 3
             },
             {
+                "type": "TextObject",
+                "x": 80,
+                "y": 200,
+                "width": 500,
+                "height": 0,
+                "textureId": "basicFont",
+                "text": "Powered by SDL2",
+                "scale": 3
+            },
+            {
                 "type": "MenuButton",
                 "x": 100,
-                "y": 250,
+                "y": 300,
                 "width": 500,
                 "height": 0,
                 "textureId": "basicFont",
