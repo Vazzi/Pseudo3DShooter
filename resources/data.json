@@ -264,7 +264,7 @@
                 "textureId": "gun",
                 "numFrames": 5,
                 "scale": 4,
-                "animSpeed": 20
+                "animSpeed": 15
             },
             {
                 "type": "Heart",
