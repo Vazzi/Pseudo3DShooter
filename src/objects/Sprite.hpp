@@ -19,7 +19,7 @@ class Sprite : public GameObject {
         bool isSolid() const { return m_isSolid; }
         void setSolid(bool isSolid) { m_isSolid = isSolid; }
 
-    private:
+    protected:
         Vector2D m_position;
         std::string m_textureID;
         bool m_isSolid;
